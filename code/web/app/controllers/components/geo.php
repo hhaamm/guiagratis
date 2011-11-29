@@ -72,6 +72,8 @@ class GeoComponent extends Object {
     //This function make two calls so it slower than localizeFromIp but is more accurate
     //If cache is enabled, this function is really fast
     function localizeFromIpTwo() {
+        //TODO: revisar este método
+        return Configure::read('GoogleMaps.DefaultPoint');
         $ip = $this->findIp();
 
         if (Cache::read($this->ipCacheKey($ip))) {
@@ -122,7 +124,7 @@ class GeoComponent extends Object {
         return $ip == "127.0.0.1" ? Configure::read('GeoTestIpAddress') : $ip;
     }
 
-        function getJSON($url) {
+    function getJSON($url) {
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_HEADER, 0);
         curl_setopt($ch, CURLOPT_URL, $url);
@@ -135,5 +137,3 @@ class GeoComponent extends Object {
         return $obj;
     }
 }
-
-?>
