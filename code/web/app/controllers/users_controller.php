@@ -81,10 +81,12 @@ class UsersController extends AppController {
 				$this->sendMail($user['User']['mail'],'¡Bienvenido!','welcome');
 
 				$this->Session->setFlash('La cuenta fue activada. ¡Ya podés loguearte!');
-				$this->redirect('/');
+				
 			}
-		}
-		$this->Session->setFlash('Información equivocada');
+		} else {
+            $this->Session->setFlash('Información equivocada');
+        }
+        $this->redirect('/');
 	}
 
 	function account() {
