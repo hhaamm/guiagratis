@@ -1,0 +1,1 @@
+Bienvenido a <?= Configure::read('Host.siteName')?>!

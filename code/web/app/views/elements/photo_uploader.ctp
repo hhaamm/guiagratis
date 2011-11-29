@@ -1,0 +1,69 @@
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('#filename').change(function() {
+			ajaxUpload(this.form,'/exchanges/add_photo',
+				'upload_area',
+				'File Uploading Please Wait...&lt;br /&gt;&lt;img src=\'img/loader_light_blue.gif\' width=\'128\' height=\'15\' border=\'0\' /&gt;',
+				'&lt;img src=\'images/error.gif\' width=\'16\' height=\'16\' border=\'0\' /&gt; Error in Upload, check settings and path info in source code.');
+			return false;
+		});
+	});
+
+	/*
+	 * Adds an image to exchange-photo-list when added
+	 */
+	function ajax_upload_callback(html) {
+		add_photo($('#uploaded_image_url').html(), $('#uploaded_image_id').html());
+	}
+
+	function add_photo(img_src, photo_id) {
+		var html = "<li id=''>";
+		html += "<input type='hidden' name='photo[]' value='"+img_src+"'>";
+		html += "<img src='"+img_src+"'>";
+		html += "";
+		html += "<a href='/exchanges/set_default_photo/<?= $eid?>/"+photo_id+"'>Setear como predeterminada</a>"
+		html += " | ";
+		html += "<a href='/exchanges/delete_photo/<?= $eid?>/"+photo_id+"'>Borrar foto</a>"
+		html += "</li>";
+
+		$('#exchange-photo-list').append(html);
+	}
+</script>
+
+<?php
+echo $this->Form->create('Photo',array('action'=>'/images/upload','enctype'=>'multipart/form-data'));
+echo $this->Form->input('photo',array(
+	'type'=>'file',
+	'id'=>'filename',
+	'value'=>'filename',
+	'label'=>'Agregar foto',
+	'name'=>'photo'
+));
+echo $this->Form->hidden('prefix',array('default'=>$prefix));
+echo $this->Form->hidden('eid',array('default'=>$eid));
+echo $this->Form->end();
+
+?>
+<div id="upload_area"></div>
+
+<?php
+	echo $this->Form->create('Photo',array('action'=>'/images/upload','enctype'=>'multipart/form-data'));
+?>
+<ul id="exchange-photo-list" class="exchange-photo-list">
+	<?php
+	if (isset($e['Exchange']['photos'])) {
+	foreach ($e['Exchange']['photos'] as $photo) { ?>
+	<li>
+		<img alt="exchange_photo" src='<?= $photo['square']['url']?>'>
+		<?php if (@!$photo['default']) { ?>
+			<a href="/exchanges/set_default_photo/<?= $eid?>/<?=$photo['id']?>">Setear como predeterminada</a> |
+		<?php } else {
+			echo "Foto predeterminada";
+		} ?>
+		<a href="/exchanges/delete_photo/<?= $eid?>/<?=$photo['id']?>">Borrar foto</a>
+	</li>
+	<?php }} ?>
+</ul>
+<?php
+	echo $this->Form->end();
+?>

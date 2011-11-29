@@ -1,0 +1,341 @@
+# LANGUAGE translation of CakePHP Application
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2010-12-08 13:45-0300\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: /controllers/components/image.php:32
+msgid "Couldn't find valid file in '%s'"
+msgstr ""
+
+#: /controllers/components/upload.php:41
+msgid "%s is not an allowed type"
+msgstr ""
+
+#: /plugins/mongodb/samples/controllers/posts_controller.php:54
+msgid "Post saved."
+msgstr ""
+
+#: /plugins/mongodb/samples/controllers/posts_controller.php:69;93
+msgid "Invalid Post"
+msgstr ""
+
+#: /plugins/mongodb/samples/controllers/posts_controller.php:74
+msgid "The Post has been saved."
+msgstr ""
+
+#: /plugins/mongodb/samples/controllers/posts_controller.php:96
+msgid "Post deleted"
+msgstr ""
+
+#: /plugins/mongodb/samples/controllers/posts_controller.php:98
+msgid "Post deleted Fail"
+msgstr ""
+
+#: /plugins/mongodb/samples/controllers/posts_controller.php:111
+msgid "Post deleteAll success"
+msgstr ""
+
+#: /plugins/mongodb/samples/controllers/posts_controller.php:114
+msgid "Post deleteAll Fail"
+msgstr ""
+
+#: /plugins/mongodb/samples/controllers/posts_controller.php:130
+msgid "Post updateAll success"
+msgstr ""
+
+#: /plugins/mongodb/samples/controllers/posts_controller.php:133
+msgid "Post updateAll Fail"
+msgstr ""
+
+#: /plugins/mongodb/samples/controllers/subdocuments_controller.php:45
+msgid "Subdocument saved."
+msgstr ""
+
+#: /plugins/mongodb/samples/controllers/subdocuments_controller.php:60;83
+msgid "Invalid Subdocument"
+msgstr ""
+
+#: /plugins/mongodb/samples/controllers/subdocuments_controller.php:65
+msgid "The Subdocument has been saved."
+msgstr ""
+
+#: /plugins/mongodb/samples/controllers/subdocuments_controller.php:86
+msgid "Subdocument deleted"
+msgstr ""
+
+#: /plugins/mongodb/samples/controllers/subdocuments_controller.php:88
+msgid "Subdocument deleted Fail"
+msgstr ""
+
+#: /plugins/mongodb/samples/views/posts/add.ctp:4
+msgid "Add Post"
+msgstr ""
+
+#: /plugins/mongodb/samples/views/posts/add.ctp:15
+#: /plugins/mongodb/samples/views/posts/edit.ctp:16
+msgid "List Posts"
+msgstr ""
+
+#: /plugins/mongodb/samples/views/posts/edit.ctp:4
+msgid "Edit Post"
+msgstr ""
+
+#: /plugins/mongodb/samples/views/subdocuments/add.ctp:4
+msgid "Add Subdocument"
+msgstr ""
+
+#: /plugins/mongodb/samples/views/subdocuments/add.ctp:20;30
+#: /plugins/mongodb/samples/views/subdocuments/edit.ctp:19
+msgid "List Subdocuments"
+msgstr ""
+
+#: /plugins/mongodb/samples/views/subdocuments/edit.ctp:4
+msgid "Edit Subdocument"
+msgstr ""
+
+#: /views/elements/set_exchange_location.ctp:5
+msgid "Seleccioná el punto de encuentro para realizar el intercambio"
+msgstr ""
+
+#: /views/exchanges/set_location.ctp:7
+msgid "Search your address or dragg your commerce to your real location"
+msgstr ""
+
+#: /views/helpers/time.php:230
+msgid "Today, %s"
+msgstr ""
+
+#: /views/helpers/time.php:232
+msgid "Yesterday, %s"
+msgstr ""
+
+#: /views/helpers/time.php:579
+msgid "on %s"
+msgstr ""
+
+#: /views/helpers/time.php:613
+msgid "%s ago"
+msgstr ""
+
+#: /views/helpers/time.php:649
+msgid "days"
+msgstr ""
+
+#: /views/helpers/time.php:583
+msgid "year"
+msgid_plural "years"
+msgstr[0] ""
+msgstr[1] ""
+
+#: /views/helpers/time.php:584;589
+msgid "month"
+msgid_plural "months"
+msgstr[0] ""
+msgstr[1] ""
+
+#: /views/helpers/time.php:585;590;594
+msgid "week"
+msgid_plural "weeks"
+msgstr[0] ""
+msgstr[1] ""
+
+#: /views/helpers/time.php:586;591;595;598
+msgid "day"
+msgid_plural "days"
+msgstr[0] ""
+msgstr[1] ""
+
+#: /views/helpers/time.php:599;602
+msgid "hour"
+msgid_plural "hours"
+msgstr[0] ""
+msgstr[1] ""
+
+#: /views/helpers/time.php:603;606
+msgid "minute"
+msgid_plural "minutes"
+msgstr[0] ""
+msgstr[1] ""
+
+#: /views/helpers/time.php:609
+msgid "second"
+msgid_plural "seconds"
+msgstr[0] ""
+msgstr[1] ""
+
+#: /views/helpers/time.php:61
+msgid "abday"
+msgstr ""
+
+#: /views/helpers/time.php:73
+msgid "d_t_fmt"
+msgstr ""
+
+#: /views/helpers/time.php:86
+msgid "abmon"
+msgstr ""
+
+#: /views/helpers/time.php:92
+msgid "mon"
+msgstr ""
+
+#: /views/helpers/time.php:103
+msgid "am_pm"
+msgstr ""
+
+#: /views/helpers/time.php:110
+msgid "t_fmt_ampm"
+msgstr ""
+
+#: /views/helpers/time.php:124
+msgid "d_fmt"
+msgstr ""
+
+#: /views/helpers/time.php:130
+msgid "t_fmt"
+msgstr ""
+
+#: /views/users/account.ctp:2
+msgid "Picture"
+msgstr ""
+
+#: /views/users/account.ctp:2
+msgid "Change your avatar"
+msgstr ""
+
+#: /views/users/account.ctp:6
+msgid "Nickname"
+msgstr ""
+
+#: /views/users/account.ctp:6
+msgid "Short access to your refrigerator from everywhere"
+msgstr ""
+
+#: /views/users/account.ctp:8
+msgid "New nickname"
+msgstr ""
+
+#: /views/users/account.ctp:10
+msgid "Change nickname"
+msgstr ""
+
+#: /views/users/account.ctp:14
+msgid "Password"
+msgstr ""
+
+#: /views/users/account.ctp:14
+msgid "What you use to log in"
+msgstr ""
+
+#: /views/users/account.ctp:16
+msgid "Old password"
+msgstr ""
+
+#: /views/users/account.ctp:17
+msgid "New password"
+msgstr ""
+
+#: /views/users/account.ctp:18
+msgid "Confirm password"
+msgstr ""
+
+#: /views/users/account.ctp:19
+msgid "Change password"
+msgstr ""
+
+#: /views/users/account.ctp:23
+msgid "Contributions"
+msgstr ""
+
+#: /views/users/account.ctp:23
+msgid "See all your contributions"
+msgstr ""
+
+#: /views/users/account.ctp:24
+msgid "See my contributions"
+msgstr ""
+
+#: /views/users/account.ctp:27
+msgid "Account level"
+msgstr ""
+
+#: /views/users/account.ctp:27
+msgid "Your current user level"
+msgstr ""
+
+#: /views/users/account.ctp:28
+msgid "Current level"
+msgstr ""
+
+#: /views/users/account.ctp:34
+msgid "I want to be a moderator and contribute for this wiki"
+msgstr ""
+
+#: /views/users/account.ctp:38
+msgid "Moderator dashboard"
+msgstr ""
+
+#: /views/users/account.ctp:43
+msgid "Delete account"
+msgstr ""
+
+#: /views/users/account.ctp:44
+msgid "Are you shure you want to delete your account?"
+msgstr ""
+
+#: /views/users/account.ctp:46
+msgid "Once an account is deleted, you will not be able to get your data back."
+msgstr ""
+
+#: /views/users/account.ctp:50
+msgid "Delete my account"
+msgstr ""
+
+#: /views/users/forgot_password.ctp:1
+msgid "Enter your mail and we will send you a new password to your mailbox."
+msgstr ""
+
+#: /views/users/forgot_password.ctp:6
+#: /views/users/reset.ctp:9
+msgid "Send"
+msgstr ""
+
+#: /views/users/login.ctp:13
+msgid "Olvidé mi contraseña"
+msgstr ""
+
+#: /views/users/profile.ctp:1
+msgid "%s 's profile"
+msgstr ""
+
+#: /views/users/reset.ctp:1
+msgid "Enter the code that was sent to your mailbox and the new password you want to have."
+msgstr ""
+
+#: /views/users/verify.ctp:2
+msgid "Verify your account! enter your cellphopne"
+msgstr ""
+
+#: /views/users/verify.ctp:6;13
+msgid "Verify"
+msgstr ""
+
+#: /views/users/verify.ctp:9
+msgid "A token was just sent to %s . Please enter your code here and your account will be verified."
+msgstr ""
+
+#: /webroot/test.php:88
+msgid "Debug setting does not allow access to this url."
+msgstr ""
+

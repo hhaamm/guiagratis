@@ -1,0 +1,44 @@
+<?php
+	$javascript->link("http://maps.google.com/maps?file=api&v=2&key=".Configure::read('GoogleMaps.ApiKey'), false);
+	echo $this->element('gmap_default_values', array('start_point' => $start_point));
+	$javascript->link('jquery.jec-1.2.5', false);
+	$javascript->link('maps.google.polygon.containsLatLng', false);
+	$javascript->link('gmap', false);
+	$javascript->link('exchanges_index', false);
+	$javascript->link('google_maps_circle_overlay', false);
+	?>
+
+<div class="left-menu">
+	<p>
+		¡Buscá cosas gratis que necesites! ¡Regalá cosas que te sobren!
+	</p>
+	<fieldset>
+		<legend>Ir a</legend>
+		<?php
+		echo $this->Form->create(array('onsubmit'=>'change_location(); return false;'));
+		echo $this->Form->input('location',array('label'=>'Dirección', 'id' => 'location'));
+		echo $this->Form->input('save_as_default',array('type'=>'checkbox','label'=>'Guardar ubicación como predeterminada'));
+		echo $this->Form->end('Cambiar ubicación');
+		?>
+	</fieldset>
+	<fieldset>
+		<legend>Búsqueda</legend>
+		<?php
+		echo $this->Form->create('Search');
+		echo $this->Form->input('exchange_type_id',array('options'=>array(
+			Configure::read('ExchangeType.Request')=>'Pedidos',
+			Configure::read('ExchangeType.Offer')=>'Ofertas',
+			Configure::read('ExchangeType.All')=>'Todos'
+		),
+			'id'=>'exchange_type_id',
+			'label'=>'Ver'));
+		echo $this->Form->hidden('lat',array('id'=>'lat'));
+		echo $this->Form->hidden('lng',array('id'=>'lng'));
+		echo $this->Form->end();
+		?>
+	</fieldset>
+</div>
+<div class="content">
+	<div id="map"></div>
+</div>
+<div class="br"></div>

@@ -1,0 +1,1 @@
+<? echo sprintf(__("%s 's profile", true), $user['User']['username']); ?>
