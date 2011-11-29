@@ -59,7 +59,7 @@ function get_location(address) {
     geocoder.getLocations(address, get_location_callback);
 }
 
-function get_location_callback(answer) {
+function get_location_callback(answer, callback) {
     debug([answer.Placemark[0]['Point'].coordinates[0], answer.Placemark[0]['Point'].coordinates[1]]);
     var latitude = answer.Placemark[0]['Point'].coordinates[1];
     var longitude = answer.Placemark[0]['Point'].coordinates[0];
@@ -67,6 +67,7 @@ function get_location_callback(answer) {
     $('#status').val('Dirección encontrada!');
     var point = new GLatLng(latitude, longitude);
     set_user_location(point);
+    get_exchanges();
 }
 
 function refreshCenter() {

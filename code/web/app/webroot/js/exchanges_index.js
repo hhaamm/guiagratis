@@ -31,12 +31,6 @@ $(document).ready(function() {
 	youMarkerConfig = null;
     init_gmap(start_point.latitude, start_point.longitude);
     init_geocoder();
-    
-    //Editable combos
-    //See why this is not working (options)    
-    $("#location").keyup(function(event) {
-    	change_location();
-	});
 
 	$('#exchange_type_id').change(function() {
 		get_exchanges();
@@ -58,7 +52,6 @@ $(document).ready(function() {
 function change_location() {
 	var address = $('#location').val();
 	get_location(address);
-	get_exchanges();
 }
 
 function showAdvancedSearch() {
