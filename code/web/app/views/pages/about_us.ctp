@@ -61,11 +61,11 @@
 <p>
 	<b>GuiaGratis</b> no persigue fines de lucro en el sentido en que una gran empresa lo hace (¡aunque no
 	nos molestaría recibir dinero! Si tenés mucho y querés compartirlo, ¡no nos ofenderemos!). Sin embargo
-	ponemos publicidad para mantener el sitio y poder mantener el sitio al aire y seguir agregando funcionalidad
-	a la página.
+	es posible que en algún momento pongamos publicidad para poder mantener el sitio al aire y seguir agregando
+    funcionalidad a la página.
 </p>
 <br/>
 <h3>Dudas, propuestas, opiniones</h3>
 <p>
-	Mandános un mail: <a href="mailto:<?=Configure::read('Mail.to')?>"><?=Configure::read('Mail.to')?></a>
+	Mandános un <a href="mailto:<?=Configure::read('Mail.to')?>">mail</a>.
 </p>
