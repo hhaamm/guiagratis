@@ -51,7 +51,8 @@
 			Configure::read('ExchangeType.All')=>'Todos'
 		),
 			'id'=>'exchange_type_id',
-			'label'=>'Ver'));
+			'label'=>'Ver',
+            'default'=>Configure::read('ExchangeType.All')));
 		echo $this->Form->hidden('lat',array('id'=>'lat'));
 		echo $this->Form->hidden('lng',array('id'=>'lng'));
 		echo $this->Form->end();
