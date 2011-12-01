@@ -29,4 +29,5 @@ echo $this->Form->input('confirm_password', array('type'=>'password','label'=>'C
 echo $this->Form->input('terms',array('type'=>'checkbox','label'=>"Acepto haber leído y entendido los <a href='/pages/tys' target='_blank'>términos y condiciones</a>"));
 echo $this->Form->end('¡Registrame!');
 ?>
+<p>* es posible que el mail de confirmación llegue a SPAM. Por favor después de registrarte, si no encontrás el mail revisá en tu carpeta de SPAM / CORREO NO DESEADO!</p>
 </fieldset>

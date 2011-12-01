@@ -62,7 +62,7 @@ class UsersController extends AppController {
 
 					//Register user
 					$this->User->save($this->data);
-					$this->Session->setFlash('Enviamos un mail a tu casilla de correo para terminar el registro.');
+					$this->Session->setFlash('Enviamos un mail a tu casilla de correo para terminar el registro. Si no te llegó, es posible que haya quedado en la carpeta de SPAM / CORREO NO DESEADO.');
 					$this->redirect('/');
 				}
 			} else {
