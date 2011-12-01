@@ -259,4 +259,27 @@ class UsersController extends AppController {
 		unset($this->data['User']['password']);
 		unset($this->data['User']['confirm_password']);
 	}
+    
+    // admin methods
+    function admin_index() {
+        $count = $this->User->find('count');
+        $countActive = $this->User->find('count', array(
+            'conditions'=>array(
+                'active'=>1
+            )
+        ));
+        $countInactive = $this->User->find('count', array(
+            'conditions'=>array(
+                'active'=>0
+            )
+        ));
+        $countAdmin = $this->User->find('count', array(
+            'conditions'=>array(
+                'active'=>1,
+                'admin'=>1
+            )
+        ));
+        $users = $this->User->find('all', array('limit'=>500));
+        $this->set(compact('users', 'count', 'countActive', 'countInactive', 'countAdmin'));
+    }
 }

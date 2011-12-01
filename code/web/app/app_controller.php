@@ -30,6 +30,15 @@ class AppController extends Controller {
         
         $this->uid = $this->Auth->user('_id');
         
+        //check if the user is an admin and an admin route was requested 
+        if(isset($this->params['admin']) && $this->params['admin']) {  
+            // check user is logged in  
+            if(!$this->Auth->user('admin')) { 
+                //TODO: log warning. Attempt to enter to admin section.
+                $this->redirect('/');  
+            }   
+        }  
+        
 		$this->set('current_user', $this->Auth->user());
     }
 

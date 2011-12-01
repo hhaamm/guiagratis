@@ -213,4 +213,9 @@ class ExchangesController extends AppController {
 		} 
 		mail($mail,'Guia gratis', 'This is a test message', 'From:mensaje@guiagratis.com.ar');
 	}
+    
+    // admin sections
+    function admin_index() {
+        
+    }
 }

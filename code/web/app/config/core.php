@@ -33,7 +33,7 @@
  * In production mode, flash messages redirect after a time interval.
  * In development mode, you need to click the flash message to continue.
  */
-Configure::write('debug', 1);
+Configure::write('debug', 0);
 
 /**
  * CakePHP Log Level:
@@ -85,7 +85,7 @@ Configure::write('App.encoding', 'UTF-8');
  *
  * [Note Routing.admin is deprecated in 1.3.  Use Routing.prefixes instead]
  */
-//Configure::write('Routing.prefixes', array('admin'));
+Configure::write('Routing.prefixes', array('admin'));
 
 /**
  * Turn off all caching application-wide.
@@ -314,7 +314,7 @@ Configure::write('Mail.complaint', 'guiagratis+complaint@gmail.com');
 Configure::write('Host.siteName', 'http://www.guia-gratis.com.ar/');
 Configure::write('Host.url', 'http://www.guia-gratis.com.ar/');
 Configure::write('GoogleMaps.ApiKey', 'ABQIAAAAPrtla-ndOoj6pz4-TGPBIBQHqtUwmOxIrQpfA9GcndCmxwRB-xQX138woM1g5KOzT7KiL4MVxIAOEQ');
-//Configure::write('GoogleMaps.ApiKey', 'ABQIAAAAL5ipN0irlc15pFzKVc9FiRQS_YLdkJsGLfFzNKwuhgcxR1PrFBT9CydadM00WXdnflPuFeh_8QDj9g');
+//Configure::write('GoogleMaps.ApiKey', 'ABQIAAAAL5ipN0irlc15pFzKVc9FiRQUfmgIMsvleOZ8b8HWIXBdLX_oMhQECpsVEeVmzmMMc5JBMohRaGjaTQ');
 
 Configure::write('CookieName.LastPointSearched', 'dondepedimos_lastpointsearched');
 //Point used when all geolocalization, cookie system and user preferences fails.
