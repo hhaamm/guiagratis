@@ -1,1 +1,3 @@
-code/web/nbproject/**/*
+code/web/nbproject/*
+code/web/app/webroot/uploads/*
+
