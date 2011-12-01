@@ -16,3 +16,10 @@ chmod -R 777 $BASEDIR/../web/app/tmp
 chmod 777 $BASEDIR/../web/app/webroot/uploads
 
 echo "Installation finished"
+
+echo <<<EOF
+After registering, set your user as an admin running this command in your mongodb:
+
+db.users.update( { username:"yourusername" }, { $set: {admin:1} } );
+
+EOF
