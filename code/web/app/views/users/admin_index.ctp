@@ -6,7 +6,7 @@
 <p>Número de usuarios administradores: <?php echo $countAdmin ?></p>
 <br/>
 <h3>Listado</h3>
-<table>
+<table class="users">
     <thead>
         <tr>
             <td>Nombre de usuario</td>
@@ -32,4 +32,3 @@
         <?php } ?>
     </tbody>
 </table>
-

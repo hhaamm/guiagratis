@@ -455,3 +455,7 @@ ul.exchanges li {
 .exchange-photo-list {
 	list-style-type: none;
 }
+
+table.users {
+    width:740px;    
+}
