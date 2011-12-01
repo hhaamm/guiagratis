@@ -59,6 +59,14 @@
 						<li><a href="/users/logout">Salir</a></li>
 					</ul>
 				</li>
+                <?php if ($is_admin) { ?>
+                <li>
+					<a href="#">Administración</a>
+					<ul class="subnav">
+						<li><a href="/admin/users">Usuarios</a></li>
+					</ul>
+				</li>
+                <?php } ?>
 					<?php } else { ?>
 				<li><a href="/users/login">Entrar</a></li>
 				<li><a href="/users/register">Registrarse</a></li>

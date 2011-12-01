@@ -38,7 +38,7 @@ class AppController extends Controller {
                 $this->redirect('/');  
             }   
         }  
-        
+        $this->set('is_admin', $this->Auth->user('admin'));
 		$this->set('current_user', $this->Auth->user());
     }
 
