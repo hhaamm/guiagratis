@@ -32,6 +32,7 @@ class Exchange extends AppModel {
 		'exchange_state_id'=>array('type'=>'integer'),
 		'modified'=>array('type'=>'timestamp'),
 		'user_id'=>'string',
+        'username'=>'string',
 		'created'=>'integer',
 		'state'=>'string',
 		'finalize_time'=>'integer',

@@ -43,6 +43,7 @@ class ExchangesController extends AppController {
 			$this->data['Exchange']['modified']=time();
 			$this->data['Exchange']['state'] = EXCHANGE_PUBLISHED;
 			$this->data['Exchange']['photos'] = array();
+            $this->data['Exchange']['username'] = $this->Auth->user('username');
 			$this->Exchange->save($this->data);
 			$this->Session->setFlash('¡El pedido fue publicado!');
 			$this->redirect(array('controller'=>'exchanges','action'=>'edit_photos',$this->Exchange->id));
@@ -62,6 +63,7 @@ class ExchangesController extends AppController {
 			$this->data['Exchange']['modified']=time();
 			$this->data['Exchange']['state'] = EXCHANGE_PUBLISHED;
 			$this->data['Exchange']['photos'] = array();
+            $this->data['Exchange']['username'] = $this->Auth->user('username');
 			$this->Exchange->save($this->data);
 			$this->Session->setFlash('¡La oferta fue publicada!');
 			$this->redirect(array('controller'=>'exchanges','action'=>'edit_photos',$this->Exchange->id));
@@ -216,6 +218,20 @@ class ExchangesController extends AppController {
     
     // admin sections
     function admin_index() {
-        
+        $exchanges = $this->Exchange->find('all', array(
+            'limit'=>500
+        ));
+        $count = $this->Exchange->find('count');
+        $countOffer = $this->Exchange->find('count', array(
+            'conditions'=>array(
+                'exchange_type_id'=>Configure::read('ExchangeType.Offer')
+            )
+        ));
+        $countRequest = $this->Exchange->find('count', array(
+            'conditions'=>array(
+                'exchange_type_id'=>Configure::read('ExchangeType.Request')
+            )
+        ));
+        $this->set(compact('exchanges', 'count', 'countOffer', 'countRequest'));
     }
 }

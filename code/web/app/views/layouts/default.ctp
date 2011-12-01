@@ -64,6 +64,7 @@
 					<a href="#">Administración</a>
 					<ul class="subnav">
 						<li><a href="/admin/users">Usuarios</a></li>
+                        <li><a href="/admin/exchanges">Ofertas y pedidos</a></li>
 					</ul>
 				</li>
                 <?php } ?>
