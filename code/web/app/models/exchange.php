@@ -33,7 +33,7 @@ class Exchange extends AppModel {
 		'modified'=>array('type'=>'timestamp'),
 		'user_id'=>'string',
         'username'=>'string',
-		'created'=>'integer',
+		'created'=>'timestamp',
 		'state'=>'string',
 		'finalize_time'=>'integer',
 		'photos'=>array(
