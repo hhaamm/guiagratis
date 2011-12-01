@@ -61,7 +61,7 @@ class UploadComponent extends Object {
 		
 		foreach ($options['images'] as $imgName => $imageOpt) {
 			$new_file_name = uniqid().'.'.$ext;
-			$new_file_path = $options['dest_path'].$new_file_name;
+			$new_file_path = $options['dest_path'].DS.$new_file_name;
 
 			copy($file['file_path'],$new_file_path);
 			$this->resizeImage($new_file_path, $imageOpt);

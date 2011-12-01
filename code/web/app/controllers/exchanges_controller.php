@@ -177,7 +177,7 @@ class ExchangesController extends AppController {
 			'square' => array('width' => 50, 'height' => 50, 'keep_aspect_ratio' => true),
 			'small' => array('width' => 500, 'keep_aspect_ratio' => true)
 		),
-			'dest_path' => WWW_ROOT.'uploads'.DS,
+			'dest_path' => WWW_ROOT.'uploads',
 			'file_field'=>'photo'));
 		$img_id = uniqid(null, true);
 		$this->Exchange->addPhoto($this->data['Photo']['eid'],array('id'=>$img_id,'square'=>$result['square'],'small'=>$result['small']),$this->uid);
