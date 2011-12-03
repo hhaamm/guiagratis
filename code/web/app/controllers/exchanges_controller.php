@@ -18,6 +18,7 @@
  * 
  */
 class ExchangesController extends AppController {
+    var $uses = array('Exchange','User');
 	var $components = array('Geo','Email','Upload');
 	var $helpers = array('Exchange');
 
@@ -117,6 +118,10 @@ class ExchangesController extends AppController {
 		if (empty($exchange)) {
 			debug("Exchange is null");
 		}
+        $owner = $this->User->findById($exchange['Exchange']['user_id']);
+        $user =  $this->User->findById($this->Auth->user('_id'));
+        $this->set(compact('owner'));
+        $this->set(compact('user'));
 		$this->set(compact('exchange'));
 	}
 
