@@ -20,8 +20,10 @@
 ?>
 <div>
 	<h2><?php echo $exchange['Exchange']['title']?></h2>
+    <p>por <?php echo $owner['User']['username'] ?> </p>
 
 	<!-- SHOW ONLY WHEN IS OWNER -->
+    <?php if( !empty($user) && $user['User']['_id'] == $owner['User']['_id'] ){ ?>
 	<div class="admin edit-exchange-menu">
 	<?php
 		echo $this->Html->link('Editar',array('controller'=>'exchanges','action'=>'edit',$exchange['Exchange']['_id']));
@@ -30,6 +32,7 @@
 		echo $this->Html->link('Editar fotos',array('controller'=>'exchanges','action'=>'edit_photos',$exchange['Exchange']['_id']));
 	?>
 	</div>
+    <?php } ?>
 	<br>
 
 	<p class="exchange-description"><?php echo $exchange['Exchange']['detail']?></p>
