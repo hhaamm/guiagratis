@@ -34,12 +34,45 @@ class Exchange extends AppModel {
 		'user_id'=>'string',
         'username'=>'string',
 		'created'=>'timestamp',
+        //TODO: ver si este campo state es necesario
 		'state'=>'string',
+        //TODO: cambiar a timestamp
 		'finalize_time'=>'integer',
 		'photos'=>array(
 			'default', 'id', 'small', 'square'
 		)
 	);
+    
+    var $validate = array(
+        'title'=>array(
+            'notEmpty'=>array(
+                'rule'=>'notEmpty',
+                'required'=>true,
+                'El título es obligatorio'
+            ),
+            'between' => array(
+                'rule' => array('between', 10, 50),
+                'message' => 'Entre 10 y 50 caracteres'
+            )
+        ),
+        'detail'=>array(
+            'notEmpty'=>array(
+                'rule'=>'notEmpty',
+                'required'=>true,
+                'La descripción es obligatoria'
+            ),
+            'between' => array(
+                'rule' => array('between', 20, 1000),
+                'message' => 'Entre 20 y 1000 caracteres'
+            )
+        ),
+        'user_id'=>'notEmpty',
+        'username'=>'notEmpty',
+        'exchange_type_id'=>'notEmpty',
+        'exchange_state_id'=>'notEmpty',
+        'lat'=>'notEmpty',
+        'lng'=>'notEmpty'
+    );
 
 	function addComment($eid, $comment) {
 		$comment = json_encode($comment);

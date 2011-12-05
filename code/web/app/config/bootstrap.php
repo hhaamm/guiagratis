@@ -62,3 +62,13 @@ function file_extension($filename)
 define('EXCHANGE_PUBLISHED','published');
 define('EXCHANGE_FINALIZED','finalized');
 define('DEFAULT_EXCHANGE_PHOTO','/img/default_exchange_photo.jpg');
+
+define('EXCHANGE_REQUEST', 1);
+define('EXCHANGE_OFEER', 2);
+//this is an special value when searching. Not used in database.
+define('EXCHANGE_ALL', 0);
+
+//variables that will be used in the bitmask field 'admin' of users database.
+define('ADMIN', 1);
+define('SUPERADMIN', 2);
+define('MODERATOR', 4);

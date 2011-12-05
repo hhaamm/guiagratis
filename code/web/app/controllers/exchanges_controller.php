@@ -44,9 +44,10 @@ class ExchangesController extends AppController {
 			$this->data['Exchange']['state'] = EXCHANGE_PUBLISHED;
 			$this->data['Exchange']['photos'] = array();
             $this->data['Exchange']['username'] = $this->Auth->user('username');
-			$this->Exchange->save($this->data);
-			$this->Session->setFlash('¡El pedido fue publicado!');
-			$this->redirect(array('controller'=>'exchanges','action'=>'edit_photos',$this->Exchange->id));
+            if ($this->Exchange->save($this->data)) {
+                $this->Session->setFlash('¡El pedido fue publicado!');
+                $this->redirect(array('controller'=>'exchanges','action'=>'edit_photos',$this->Exchange->id));
+            }
 		}
 
 		$this->set_start_point();
@@ -64,9 +65,10 @@ class ExchangesController extends AppController {
 			$this->data['Exchange']['state'] = EXCHANGE_PUBLISHED;
 			$this->data['Exchange']['photos'] = array();
             $this->data['Exchange']['username'] = $this->Auth->user('username');
-			$this->Exchange->save($this->data);
-			$this->Session->setFlash('¡La oferta fue publicada!');
-			$this->redirect(array('controller'=>'exchanges','action'=>'edit_photos',$this->Exchange->id));
+			if ($this->Exchange->save($this->data)) {
+                $this->Session->setFlash('¡La oferta fue publicada!');
+                $this->redirect(array('controller'=>'exchanges','action'=>'edit_photos',$this->Exchange->id));
+            }
 		}
 
 		$this->set_start_point();
