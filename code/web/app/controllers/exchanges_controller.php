@@ -18,6 +18,7 @@
  * 
  */
 class ExchangesController extends AppController {
+    var $uses = array('Exchange','User');
 	var $components = array('Geo','Email','Upload');
 	var $helpers = array('Exchange');
 
@@ -119,12 +120,23 @@ class ExchangesController extends AppController {
 		if (empty($exchange)) {
 			debug("Exchange is null");
 		}
+        $owner = $this->User->findById($exchange['Exchange']['user_id']);
+        $user =  $this->User->findById($this->Auth->user('_id'));
+        $this->set(compact('owner'));
+        $this->set(compact('user'));
 		$this->set(compact('exchange'));
 	}
 
 	function edit($eid) {
+        $exchange = $this->Exchange->read(null, $eid);
+        $owner = $this->User->findById($exchange['Exchange']['user_id']);
+        $user =  $this->User->findById($this->Auth->user('_id'));
+        if($owner['User']['_id'] !=  $user['User']['_id'] ){
+            $this->Session->setFlash('No tiene permisos para realizar esta acción',true);
+            $this->redirect(array('action' => 'view',$eid));
+            return;
+        }
 		if (!$this->data) {
-			$exchange = $this->Exchange->read(null, $eid);
 			$this->data = $exchange;
 		} else {
 			$this->data['Exchange']['lng'] = (float)$this->data['Exchange']['lng'];
@@ -133,7 +145,7 @@ class ExchangesController extends AppController {
 			if ($result) {
 				$this->Session->setFlash('Cambios guardados');
 			} else {
-				$this->Session->setFlash('Un error ha ocurrido');
+				$this->Session->setFlash('Un error ha ocurrido',true);
 			}
 		}
 		$this->set('start_point',array('latitude'=>$this->data['Exchange']['lat'],'longitude'=>$this->data['Exchange']['lng']));
@@ -168,10 +180,19 @@ class ExchangesController extends AppController {
 	}
 
 	function edit_photos($exchange_id = null) {
-		if (!$exchange_id) {
+        if (!$exchange_id) {
 			$this->getBack("URL inválida");
 		}
-		$e = $this->Exchange->findById($exchange_id);
+        $e = $this->Exchange->read(null, $exchange_id);
+
+        $owner = $this->User->findById($e['Exchange']['user_id']);
+        $user =  $this->User->findById($this->Auth->user('_id'));
+        if($owner['User']['_id'] !=  $user['User']['_id'] ){
+            $this->Session->setFlash('No tiene permisos para realizar esta acción',true);
+            $this->redirect(array('action' => 'view',$exchange_id));
+            return;
+        }
+
 		$this->set(compact('exchange_id','e'));
 	}
 
