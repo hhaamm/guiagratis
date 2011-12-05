@@ -32,6 +32,36 @@ class Conversation extends AppModel {
 		'to_new_message'=>'integer',
 		'title'=>'string'
 	);
+    
+    var $validate = array(
+        'title'=>array(
+            'notEmpty'=>array(
+                'rule'=>'notEmpty',
+                'message'=>'Campo requerido',
+                'required'=>true
+            ),
+            'between' => array(
+                'rule' => array('between', 8, 50),
+                'message' => 'Entre 8 y 50 caracteres'
+            )
+        ),
+        'to'=>'notEmpty',
+        'from'=>'notEmpty',
+        'messages'=>array(
+            'rule'=>'validateMessage',
+            'message'=>'No se puede mandar un mensaje vacío',
+            'on'=>'create',
+            'required'=>true
+        )
+    );
+
+    //valida, al crear una conversación, que el mensaje no esté vacío
+    function validateMessage($check) {
+        $message = $check['messages'][0]['text'];
+        
+        return !empty($message);
+    }
+    
 	
 	/*
 	 * Returns current user's conversations

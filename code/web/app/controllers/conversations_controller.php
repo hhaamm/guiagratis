@@ -26,15 +26,12 @@ class ConversationsController extends AppController {
 			$this->data['Conversation']['messages'][0]['created'] = time();
 			$this->data['Conversation']['messages'][0]['from'] = $this->Auth->user('_id');
 
-			$this->Conversation->save($this->data);
-			$this->Session->setFlash('Mensaje enviado');
-			$this->redirect('/conversations/view/'.$this->Conversation->id);
+			if ($this->Conversation->save($this->data)) {
+                $this->Session->setFlash('Mensaje enviado');
+                $this->redirect('/conversations/view/'.$this->Conversation->id);
+            }
 		}
 
-		if (!$to) {
-			debug("Missing to parameter");
-			$this->getBack();
-		}
 		$this->data['Conversation']['to']=$to;
 	}
 
