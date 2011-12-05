@@ -229,15 +229,6 @@ class ExchangesController extends AppController {
 		$this->Session->setFlash('El intercambio ha finalizado');
 		$this->redirect('/exchanges/own');
 	}
-
-	function mailtest($mail=null) {
-		echo "Bla";
-		$this->autoRender = false;
-		if ($mail == null) {
-			$mail = 'ham1988@gmail.com';
-		} 
-		mail($mail,'Guia gratis', 'This is a test message', 'From:mensaje@guiagratis.com.ar');
-	}
     
     // admin sections
     function admin_index() {
