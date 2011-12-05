@@ -72,3 +72,8 @@ define('EXCHANGE_ALL', 0);
 define('ADMIN', 1);
 define('SUPERADMIN', 2);
 define('MODERATOR', 4);
+
+//include all php files from app/config/override
+foreach(glob(APP."config/override/*.php") as $configFile) {
+    include($configFile);
+}
