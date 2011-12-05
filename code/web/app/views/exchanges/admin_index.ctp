@@ -22,7 +22,7 @@
             <tr>
                 <td><?php echo $exchange['Exchange']['title'] ?></td>
                 <td><?php echo $exchange['Exchange']['username'] ?></td>
-                <td><?php echo $exchange['Exchange']['exchange_type_id'] == Configure::read('ExchangeType.Request') ? 'Oferta' : 'Pedido' ?></td>
+                <td><?php echo $exchange['Exchange']['exchange_type_id'] == Configure::read('ExchangeType.Request') ? 'Pedido' : 'Oferta' ?></td>
                 <td><?php echo $exchange['Exchange']['state'] ?></td>
                 <td><?php echo isset($exchange['Exchange']['comments']) ? count($exchange['Exchange']['comments']) : 0 ?></td>
                 <td><?php echo date('Y-m-d', $exchange['Exchange']['created']); ?></td>
