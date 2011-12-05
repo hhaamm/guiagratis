@@ -57,19 +57,21 @@ class UsersController extends AppController {
 					$this->data['User']['active'] = 0;
 					$this->data['User']['admin'] = 0;
 
-					//Sending mail
-					$this->sendMail($this->data['User']['mail'],"Confirmá tu registración",'activate_account');
-
 					//Register user
-					$this->User->save($this->data);
-					$this->Session->setFlash('Enviamos un mail a tu casilla de correo para terminar el registro. Si no te llegó, es posible que haya quedado en la carpeta de SPAM / CORREO NO DESEADO.');
-					$this->redirect('/');
+					if ($this->User->save($this->data)) {
+                        //Sending mail
+                        $this->sendMail($this->data['User']['mail'],"Confirmá tu registración",'activate_account');
+                        $this->Session->setFlash('Enviamos un mail a tu casilla de correo para terminar el registro. Si no te llegó, es posible que haya quedado en la carpeta de SPAM / CORREO NO DESEADO.');
+                        $this->redirect('/');
+                    }
 				}
 			} else {
 				$this->Session->setFlash('Tenés que aceptar los Términos y Condiciones para registrarte');
 				$this->data['User']['password'] = '';
 				$this->data['User']['confirm_password'] = '';
 			}
+            //si falló el registro ponemos de vuelta la password original del usuario (no la convertida por CakePHP)
+            $this->data['User']['password'] = $this->data['User']['confirm_password'];
 		}
 	}
 

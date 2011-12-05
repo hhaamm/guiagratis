@@ -33,6 +33,41 @@ class User extends AppModel {
 		'admin'=>array('type'=>'integer'),
 		'reset_password_token'=>array('type'=>'integer')
 	);
+    
+    var $validate = array(
+        'mail'=>array(
+            'notEmpty'=>array(
+                'rule'=>'notEmpty',
+                'required'=>true,
+                'Campo obligatorio'
+            ),
+            'email' => array(
+                'rule' => 'email',
+                'message' => 'Email inválido'
+            )
+        ),
+        'username'=>array(
+            'notEmpty'=>array(
+                'rule'=>'notEmpty',
+                'required'=>true,
+                'Campo obligatorio'
+            ),
+            'alphaNumeric'=>array(
+                'rule'=>'alphaNumeric',
+                'message'=>'Sólo letras y números están permitidos'
+            ),
+            'minLenght' => array(
+                'rule' => array('minLength', 6),
+                'message' => '6 caracteres mínimo'
+            )
+        ),
+        'password'=>array(
+            'minLenght' => array(
+                'rule' => array('minLength', 8),
+                'message' => '8 caracteres mínimo'
+            )
+        )
+    );
 
 	function mail_already_registered($mail) {
 		$user = $this->find('first',array('conditions'=>compact('mail')));
