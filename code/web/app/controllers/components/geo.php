@@ -62,7 +62,8 @@ class GeoComponent extends Object {
     //TODO: make a donation to this site.
     function localizeFromIp() {
         $ip = $this->findIp();
-        $url = "http://ipinfodb.com/ip_query.php?ip=$ip&output=json&timezone=false";
+        $key = Configure::read('');
+        $url = "http://api.ipinfodb.com/v3/ip-city/?key=$key&ip=$ip&format=json&timezone=false";
         $obj = $this->getJSON($url);
         $lat = $obj->Latitude;
         $lng = $obj->Longitude;
