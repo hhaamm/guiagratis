@@ -45,10 +45,12 @@ class ConversationsController extends AppController {
 
                 $this->Session->setFlash('Mensaje enviado');
                 $this->redirect('/conversations/view/' . $this->Conversation->id);
+            } else {
+                $this->Session->setFlash('No se pudo enviar el mensaje');
             }
+        } else {
+            $this->data['Conversation']['to'] = $to;
         }
-
-        $this->data['Conversation']['to'] = $to;
     }
 
     function index() {
