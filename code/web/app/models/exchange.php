@@ -62,8 +62,8 @@ class Exchange extends AppModel {
                 'La descripción es obligatoria'
             ),
             'between' => array(
-                'rule' => array('between', 20, 1000),
-                'message' => 'Entre 20 y 1000 caracteres'
+                'rule' => array('between', 20, 3000),
+                'message' => 'Entre 20 y 3000 caracteres'
             )
         ),
         'user_id'=>'notEmpty',
