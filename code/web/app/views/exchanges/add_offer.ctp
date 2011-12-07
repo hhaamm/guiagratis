@@ -19,14 +19,25 @@
  */
 ?>
 <?php
-	$javascript->link("http://maps.google.com/maps?file=api&v=2&key=".Configure::read('GoogleMaps.ApiKey'), false);
+	$this->Javascript->link("http://maps.google.com/maps?file=api&v=2&key=".Configure::read('GoogleMaps.ApiKey'), false);
+    $this->Javascript->link('tinymce/tiny_mce.js', false);
 ?>
+<!-- TinyMCE -->
+<script type="text/javascript">
+    $(function() {
+        tinyMCE.init({
+            mode : "textareas",
+            theme : "simple"
+        });
+    });
+</script>
+<!-- /TinyMCE -->
 <fieldset>
 	<legend>Agregar una oferta</legend>
 	<?php
 	echo $this->Form->create();
 	echo $this->Form->input('title',array('label'=>'Título'));
-	echo $this->Form->input('detail',array('label'=>'descripción'));
+	echo $this->Form->input('detail',array('label'=>'descripción', 'type'=>'textarea'));
 	echo $this->element('set_exchange_location');
 	echo $this->Form->end('Agregar oferta');
 	?>

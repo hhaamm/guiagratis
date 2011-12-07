@@ -18,7 +18,19 @@
  * 
  */
 ?>
-<?php echo $javascript->link("http://maps.google.com/maps?file=api&v=2&key=".Configure::read('GoogleMaps.ApiKey'), false); ?>
+<?php 
+    $this->Javascript->link("http://maps.google.com/maps?file=api&v=2&key=".Configure::read('GoogleMaps.ApiKey'), false);
+    $this->Javascript->link('tinymce/tiny_mce.js', false);
+?>
+<!-- TinyMCE -->
+<script type="text/javascript">
+    $(function() {
+        tinyMCE.init({
+            mode : "textareas",
+            theme : "simple"
+        });
+    });
+</script>
 <fieldset>
 	<legend>Agregar un pedido</legend>
 	<?php
