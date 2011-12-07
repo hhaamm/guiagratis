@@ -52,10 +52,14 @@ class UsersController extends AppController {
 					}
 
 					$hash = sha1($this->data['User']['username'].rand(0,100));
-					$this->data['User']['register_token'] = $hash;
 					$this->set('registration_link', Configure::read('Host.url')."users/activate/$hash");
-					$this->data['User']['active'] = 0;
-					$this->data['User']['admin'] = 0;
+                    $this->data['User'] = array_merge( $this->data['User'], array(
+                        'active'=>0,
+                        'admin'=>0,
+                        'register_token'=>$hash,
+                        'notify_on_message'=>true,
+                        'notify_on_answer'=>true
+                    ));
 
 					//Register user
 					if ($this->User->save($this->data)) {
@@ -92,10 +96,18 @@ class UsersController extends AppController {
 	}
 
 	function account() {
-		$this->set('user', $this->User->findById($this->Auth->user('id')));
-		$currentModReq = $this->ModeratorshipRequest->find('first', array('conditions' => array('ModeratorshipRequest.user_id' => $this->uid, 'closed' => 0)));
-		$currentModReq= empty($currentModReq) ? 1 : 0;
-		$this->set('currentModReq',$currentModReq);
+        if ($this->data) {
+            //TODO: forma bastante fea de hacer un update. Mejorar?
+            $user = $this->User->findById($this->Auth->user('_id'));
+            $user = array_merge($user['User'], $this->data['User']);
+            if ($this->User->save($user)) {
+                $this->Session->setFlash('Configuración guardada');
+            } else {
+                $this->Session->setFlash('Hubo un problema al guardar la configuración');
+            }       
+        }
+        //trae la información del usuario mas actualizada de la base de datos
+        $this->data = $this->User->findById($this->Auth->user('_id'));
 	}
 
 	function change_password() {

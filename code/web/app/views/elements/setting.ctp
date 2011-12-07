@@ -15,10 +15,13 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- * 
  */
+if (!isset($footer)) {
 ?>
-<p>Te registraste en Guia-Gratis. Hacé click en este link para completar el registro y poder usar
-tu cuenta de Guia Gratis!</p>
-<br>
-<a href="<?=$registration_link?>">Terminar registro</a>
+<fieldset class="user-config">
+    <label><?php echo $title; ?></label>
+<?php 
+} else {
+?>
+</fieldset>
+<?php } ?>

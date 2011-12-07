@@ -76,9 +76,11 @@ class Exchange extends AppModel {
 
 	function addComment($eid, $comment) {
 		$comment = json_encode($comment);
-		return $this->execute(new MongoCode(
+		$this->execute(new MongoCode(
 				"db.exchanges.update({_id:ObjectId('$eid')},{\$push:{comments:$comment}},true,false)"
 		));
+        //TODO: ver cómo hacer para verificar si la ejecución fue correcta.
+        return true;
 	}
 
 	function addPhoto($eid, $data, $current_user) {

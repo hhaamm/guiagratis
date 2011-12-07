@@ -43,6 +43,10 @@ class ConversationsController extends AppController {
 
 	function view($cid) {
 		$conversation = $this->Conversation->view($cid, $this->uid);
+        
+        if (!$conversation) {
+            $this->getBack('Conversación no encontrada');
+        }
 		$this->set(compact('conversation'));
 	}
 

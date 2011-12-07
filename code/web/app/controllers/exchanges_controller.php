@@ -121,6 +121,8 @@ class ExchangesController extends AppController {
 			debug("Exchange is null");
 		}
         $owner = $this->User->findById($exchange['Exchange']['user_id']);
+        //TODO: ver si esto se puede cambiar por los datos del usuario en sesión
+        //(menos llamadas a la base)
         $user =  $this->User->findById($this->Auth->user('_id'));
         $this->set(compact('owner'));
         $this->set(compact('user'));
@@ -130,6 +132,8 @@ class ExchangesController extends AppController {
 	function edit($eid) {
         $exchange = $this->Exchange->read(null, $eid);
         $owner = $this->User->findById($exchange['Exchange']['user_id']);
+        //TODO: ver si esto se puede cambiar por los datos del usuario en sesión
+        //(menos llamadas a la base)
         $user =  $this->User->findById($this->Auth->user('_id'));
         if($owner['User']['_id'] !=  $user['User']['_id'] ){
             $this->Session->setFlash('No tiene permisos para realizar esta acción',true);
@@ -155,12 +159,24 @@ class ExchangesController extends AppController {
 		$eid = $this->data['Exchange']['_id'];
 		$comment = array(
 			'text'=>$this->data['Exchange']['comment'],
-			'user_id'=>$this->Auth->user('id'),
+			'user_id'=>$this->Auth->user('_id'),
 			'username'=>$this->Auth->user('username'),
 			'created'=>time()
 		);
-		$this->Exchange->addComment($eid,$comment);
-		$this->getBack("Tu comentario ha sido añadido");
+		if ($this->Exchange->addComment($eid,$comment)) {
+            $exchange = $this->Exchange->findById($eid);
+            $creator = $this->User->findById($exchange['Exchange']['user_id']);
+            //checkeamos que no sea el mismo usuario el que se auto-responde y que quiera notificaciones.
+            if ($creator['User']['_id'] != $this->Auth->user('_id') && $creator['User']['notify_on_answer']) {
+                $this->set($comment);
+                $this->set(compact('eid'));
+                $this->sendMail($creator['User']['mail'], 'Alguien comentó tu artículo en Guia Gratis', 'comment_notification');
+            }
+            $this->getBack("Tu comentario ha sido añadido");
+        } else {
+            $this->getBack("Hubo un error al agregar el comentario");
+        }
+		
 	}
 
 	/*

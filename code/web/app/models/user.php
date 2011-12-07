@@ -31,7 +31,9 @@ class User extends AppModel {
 		'active'=>array('type'=>'integer'),
 		'register_token'=>array('type'=>'string'),
 		'admin'=>array('type'=>'integer'),
-		'reset_password_token'=>array('type'=>'integer')
+		'reset_password_token'=>array('type'=>'integer'),
+        'notify_on_message'=>array('type'=>'integer'),
+        'notify_on_answer'=>array('type'=>'integer')
 	);
     
     var $validate = array(

@@ -18,7 +18,10 @@
  * 
  */
 ?>
-<p>Te registraste en Guia-Gratis. Hacé click en este link para completar el registro y poder usar
-tu cuenta de Guia Gratis!</p>
-<br>
-<a href="<?=$registration_link?>">Terminar registro</a>
+<h4><?php echo $username ?> comentó en tu artículo en Guia Gratis!</h4>
+
+<p>
+    <i><?php echo $text; ?></i>
+</p>
+
+<p>Mirá tu artículo <?php echo $this->Html->link('acá', Configure::read('Host.url').'exchanges/view/'.$eid); ?>.</p>
