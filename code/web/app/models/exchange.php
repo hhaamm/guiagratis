@@ -40,7 +40,8 @@ class Exchange extends AppModel {
 		'finalize_time'=>'integer',
 		'photos'=>array(
 			'default', 'id', 'small', 'square'
-		)
+		),
+        'tags'=>'string'
 	);
     
     var $validate = array(
@@ -156,4 +157,19 @@ class Exchange extends AppModel {
 		$exchange['Exchange']['finalize_time'] = time();
 		return $this->save($exchange);
 	}
+    
+    function beforeSave() {
+        $this->data['Exchange']['tags'] = explode(',', $this->data['Exchange']['tags']);
+        foreach ($this->data['Exchange']['tags'] as &$tag) {
+            $tag = trim($tag);  
+        }
+        return true;
+    }
+    
+    function afterFind($results, $primary) {
+        foreach($results as &$result) {
+            $result['Exchange']['tags'] = implode(', ', $result['Exchange']['tags']);
+        }
+        return $results;
+    }
 }

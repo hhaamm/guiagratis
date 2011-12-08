@@ -79,7 +79,7 @@ class ExchangesController extends AppController {
 	 * Ajax function that returns exchanges with some parameters
 	 */
 	function get() {
-		$fields_validation = $this->require_fields($_REQUEST,array('north','west','south','east','exchange_type_id'));
+		$fields_validation = $this->require_fields($_REQUEST,array('north','west','south','east','exchange_type_id', 'query'));
 		if ($fields_validation !== true) {
 			$this->result(false, $fields_validation);
 		}
@@ -97,6 +97,10 @@ class ExchangesController extends AppController {
 		if ($_REQUEST['exchange_type_id'] != Configure::read('ExchangeType.All')) {
 			$options['conditions']['exchange_type_id']=(int)$_REQUEST['exchange_type_id'];
 		}
+        if (!empty($_REQUEST['query'])) {
+            $options['conditions']['tags'] = array('$in' => explode(',', $_REQUEST['query']));
+        }
+        
 		$exchanges = $this->Exchange->find('all',$options);
 		$this->result(true,'',compact('exchanges'));
 	}

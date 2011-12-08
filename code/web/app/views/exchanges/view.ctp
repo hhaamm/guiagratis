@@ -36,6 +36,7 @@
 	<br>
 
 	<p class="exchange-description"><?php echo $exchange['Exchange']['detail']?></p>
+    <p class="exchange-comment-tags">Tags: <?php echo $exchange['Exchange']['tags'];?></p>
 	<div class="exchange-photos">
 	<?php foreach ($exchange['Exchange']['photos'] as $photo) {
 		echo $this->Html->image($photo['small']['url']);

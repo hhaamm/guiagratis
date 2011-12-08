@@ -1,0 +1,2 @@
+//2011-12-08
+db.exchanges.update({}, {$set:{tags:[]}}, false, true);

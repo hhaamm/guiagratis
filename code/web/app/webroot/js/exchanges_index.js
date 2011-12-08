@@ -35,6 +35,10 @@ $(document).ready(function() {
 	$('#exchange_type_id').change(function() {
 		get_exchanges();
 	});
+    
+    $('#text_tags').focusout(function() {
+        get_exchanges();
+    });
 
 	//Adding map events
 	GEvent.addListener(map, 'zoomend', function() {
@@ -77,12 +81,14 @@ function get_exchanges() {
     refreshCenter();
     debug('get exchanges');
     var exchange_type_id = $('#exchange_type_id').val();
+    var text_tags = $('#text_tags').val();
     $.getJSON('/exchanges/get', {
 			south:sw.y,
 			west:sw.x,
 			east:ne.x,
 			north:ne.y,
-			exchange_type_id:exchange_type_id
+			exchange_type_id:exchange_type_id,
+            query:text_tags
 	}, get_exchanges_callback);
 }
 

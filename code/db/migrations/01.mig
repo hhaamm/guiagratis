@@ -1,3 +1,4 @@
+//2011-12-07
 //agregamos dos campos que no estaban en la tabla de usuarios.
 db.users.update({}, {$set:{notify_on_answer:1}}, false, true);
 db.users.update({}, {$set:{notify_on_message:1}}, false, true);

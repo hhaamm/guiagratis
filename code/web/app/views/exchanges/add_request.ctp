@@ -37,6 +37,7 @@
 	echo $this->Form->create();
 	echo $this->Form->input('title',array('label'=>'Título'));
 	echo $this->Form->input('detail',array('label'=>'descripción'));
+    echo $this->Form->input('tags', array('label'=>'Tags (separados por coma)'));
 	echo $this->element('set_exchange_location');
 	echo $this->Form->end('Agregar pedido');
 	?>

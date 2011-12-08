@@ -44,6 +44,7 @@
 		<legend>Búsqueda</legend>
 		<?php
 		echo $this->Form->create('Search');
+        echo $this->Form->input('text', array('label'=>'Tags', 'id'=>'text_tags'));
 		echo $this->Form->input('exchange_type_id',array('options'=>array(
 			Configure::read('ExchangeType.Request')=>'Pedidos',
 			Configure::read('ExchangeType.Offer')=>'Ofertas',
