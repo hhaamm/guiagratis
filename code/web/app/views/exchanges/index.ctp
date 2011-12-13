@@ -36,6 +36,7 @@
 		<?php
 		echo $this->Form->create(array('onsubmit'=>'change_location(); return false;'));
 		echo $this->Form->input('location',array('label'=>'Dirección', 'id' => 'location'));
+        //TODO: volver a hacer funcionar
 		//echo $this->Form->input('save_as_default',array('type'=>'checkbox','label'=>'Guardar ubicación como predeterminada'));
 		echo $this->Form->end('Cambiar ubicación');
 		?>
