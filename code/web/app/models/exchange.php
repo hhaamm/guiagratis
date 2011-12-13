@@ -34,18 +34,54 @@ class Exchange extends AppModel {
 		'user_id'=>'string',
         'username'=>'string',
 		'created'=>'timestamp',
+        //TODO: ver si este campo state es necesario
 		'state'=>'string',
+        //TODO: cambiar a timestamp
 		'finalize_time'=>'integer',
 		'photos'=>array(
 			'default', 'id', 'small', 'square'
-		)
+		),
+        'tags'=>'string'
 	);
+    
+    var $validate = array(
+        'title'=>array(
+            'notEmpty'=>array(
+                'rule'=>'notEmpty',
+                'required'=>true,
+                'El título es obligatorio'
+            ),
+            'between' => array(
+                'rule' => array('between', 10, 50),
+                'message' => 'Entre 10 y 50 caracteres'
+            )
+        ),
+        'detail'=>array(
+            'notEmpty'=>array(
+                'rule'=>'notEmpty',
+                'required'=>true,
+                'La descripción es obligatoria'
+            ),
+            'between' => array(
+                'rule' => array('between', 20, 3000),
+                'message' => 'Entre 20 y 3000 caracteres'
+            )
+        ),
+        'user_id'=>'notEmpty',
+        'username'=>'notEmpty',
+        'exchange_type_id'=>'notEmpty',
+        'exchange_state_id'=>'notEmpty',
+        'lat'=>'notEmpty',
+        'lng'=>'notEmpty'
+    );
 
 	function addComment($eid, $comment) {
 		$comment = json_encode($comment);
-		return $this->execute(new MongoCode(
+		$this->execute(new MongoCode(
 				"db.exchanges.update({_id:ObjectId('$eid')},{\$push:{comments:$comment}},true,false)"
 		));
+        //TODO: ver cómo hacer para verificar si la ejecución fue correcta.
+        return true;
 	}
 
 	function addPhoto($eid, $data, $current_user) {
@@ -121,4 +157,19 @@ class Exchange extends AppModel {
 		$exchange['Exchange']['finalize_time'] = time();
 		return $this->save($exchange);
 	}
+    
+    function beforeSave() {
+        $this->data['Exchange']['tags'] = explode(',', $this->data['Exchange']['tags']);
+        foreach ($this->data['Exchange']['tags'] as &$tag) {
+            $tag = trim($tag);  
+        }
+        return true;
+    }
+    
+    function afterFind($results, $primary) {
+        foreach($results as &$result) {
+            $result['Exchange']['tags'] = implode(', ', $result['Exchange']['tags']);
+        }
+        return $results;
+    }
 }

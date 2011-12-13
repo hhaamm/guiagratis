@@ -62,7 +62,8 @@ class GeoComponent extends Object {
     //TODO: make a donation to this site.
     function localizeFromIp() {
         $ip = $this->findIp();
-        $url = "http://ipinfodb.com/ip_query.php?ip=$ip&output=json&timezone=false";
+        $key = Configure::read('IPInfoDB.ApiKey');
+        $url = "http://api.ipinfodb.com/v3/ip-city/?key=$key&ip=$ip&format=json&timezone=false";
         $obj = $this->getJSON($url);
         $lat = $obj->Latitude;
         $lng = $obj->Longitude;
@@ -73,19 +74,19 @@ class GeoComponent extends Object {
     //If cache is enabled, this function is really fast
     function localizeFromIpTwo() {
         //TODO: revisar este método
-        return Configure::read('GoogleMaps.DefaultPoint');
+        //return Configure::read('GoogleMaps.DefaultPoint');
         $ip = $this->findIp();
 
         if (Cache::read($this->ipCacheKey($ip))) {
             $obj = Cache::read($this->ipCacheKey($ip));
         } else {
 			$api_key = Configure::read('IPInfoDB.ApiKey');
-			$url = "http://api.ipinfodb.com/v2/ip_query.php?key=$api_key&ip=$ip&timezone=false&output=json";
+			$url = "http://api.ipinfodb.com/v3/ip-city/?key=$api_key&ip=$ip&timezone=false&format=json";
             $obj = $this->getJSON($url);
             Cache::write($this->ipCacheKey($ip), $obj);
         } 
 
-        $gmap_query = $obj->City.", ".$obj->RegionName.", ".$obj->CountryName;
+        $gmap_query = $obj->cityName.", ".$obj->regionName.", ".$obj->countryName;
         if (Cache::read($this->locationCacheKey($gmap_query))) {
             $obj = Cache::read($this->locationCacheKey($gmap_query));
         } else {

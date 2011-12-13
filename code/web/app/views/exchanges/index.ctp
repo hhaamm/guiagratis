@@ -36,7 +36,7 @@
 		<?php
 		echo $this->Form->create(array('onsubmit'=>'change_location(); return false;'));
 		echo $this->Form->input('location',array('label'=>'Dirección', 'id' => 'location'));
-		echo $this->Form->input('save_as_default',array('type'=>'checkbox','label'=>'Guardar ubicación como predeterminada'));
+		//echo $this->Form->input('save_as_default',array('type'=>'checkbox','label'=>'Guardar ubicación como predeterminada'));
 		echo $this->Form->end('Cambiar ubicación');
 		?>
 	</fieldset>
@@ -44,6 +44,7 @@
 		<legend>Búsqueda</legend>
 		<?php
 		echo $this->Form->create('Search');
+        echo $this->Form->input('text', array('label'=>'Tags', 'id'=>'text_tags'));
 		echo $this->Form->input('exchange_type_id',array('options'=>array(
 			Configure::read('ExchangeType.Request')=>'Pedidos',
 			Configure::read('ExchangeType.Offer')=>'Ofertas',

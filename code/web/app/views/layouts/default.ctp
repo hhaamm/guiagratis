@@ -56,6 +56,7 @@
 					<ul class="subnav">
 						<li><a href="/conversations">Mis conversaciones</a></li>
 						<li><a href="/exchanges/own">Mis ofertas/pedidos</a></li>
+                        <li><a href="/users/account">Configuración</a></li>
 						<li><a href="/users/logout">Salir</a></li>
 					</ul>
 				</li>

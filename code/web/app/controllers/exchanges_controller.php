@@ -45,9 +45,10 @@ class ExchangesController extends AppController {
 			$this->data['Exchange']['state'] = EXCHANGE_PUBLISHED;
 			$this->data['Exchange']['photos'] = array();
             $this->data['Exchange']['username'] = $this->Auth->user('username');
-			$this->Exchange->save($this->data);
-			$this->Session->setFlash('¡El pedido fue publicado!');
-			$this->redirect(array('controller'=>'exchanges','action'=>'edit_photos',$this->Exchange->id));
+            if ($this->Exchange->save($this->data)) {
+                $this->Session->setFlash('¡El pedido fue publicado!');
+                $this->redirect(array('controller'=>'exchanges','action'=>'edit_photos',$this->Exchange->id));
+            }
 		}
 
 		$this->set_start_point();
@@ -65,9 +66,10 @@ class ExchangesController extends AppController {
 			$this->data['Exchange']['state'] = EXCHANGE_PUBLISHED;
 			$this->data['Exchange']['photos'] = array();
             $this->data['Exchange']['username'] = $this->Auth->user('username');
-			$this->Exchange->save($this->data);
-			$this->Session->setFlash('¡La oferta fue publicada!');
-			$this->redirect(array('controller'=>'exchanges','action'=>'edit_photos',$this->Exchange->id));
+			if ($this->Exchange->save($this->data)) {
+                $this->Session->setFlash('¡La oferta fue publicada!');
+                $this->redirect(array('controller'=>'exchanges','action'=>'edit_photos',$this->Exchange->id));
+            }
 		}
 
 		$this->set_start_point();
@@ -77,7 +79,7 @@ class ExchangesController extends AppController {
 	 * Ajax function that returns exchanges with some parameters
 	 */
 	function get() {
-		$fields_validation = $this->require_fields($_REQUEST,array('north','west','south','east','exchange_type_id'));
+		$fields_validation = $this->require_fields($_REQUEST,array('north','west','south','east','exchange_type_id', 'query'));
 		if ($fields_validation !== true) {
 			$this->result(false, $fields_validation);
 		}
@@ -95,6 +97,10 @@ class ExchangesController extends AppController {
 		if ($_REQUEST['exchange_type_id'] != Configure::read('ExchangeType.All')) {
 			$options['conditions']['exchange_type_id']=(int)$_REQUEST['exchange_type_id'];
 		}
+        if (!empty($_REQUEST['query'])) {
+            $options['conditions']['tags'] = array('$in' => explode(',', $_REQUEST['query']));
+        }
+        
 		$exchanges = $this->Exchange->find('all',$options);
 		$this->result(true,'',compact('exchanges'));
 	}
@@ -119,6 +125,8 @@ class ExchangesController extends AppController {
 			debug("Exchange is null");
 		}
         $owner = $this->User->findById($exchange['Exchange']['user_id']);
+        //TODO: ver si esto se puede cambiar por los datos del usuario en sesión
+        //(menos llamadas a la base)
         $user =  $this->User->findById($this->Auth->user('_id'));
         $this->set(compact('owner'));
         $this->set(compact('user'));
@@ -126,8 +134,17 @@ class ExchangesController extends AppController {
 	}
 
 	function edit($eid) {
+        $exchange = $this->Exchange->read(null, $eid);
+        $owner = $this->User->findById($exchange['Exchange']['user_id']);
+        //TODO: ver si esto se puede cambiar por los datos del usuario en sesión
+        //(menos llamadas a la base)
+        $user =  $this->User->findById($this->Auth->user('_id'));
+        if($owner['User']['_id'] !=  $user['User']['_id'] ){
+            $this->Session->setFlash('No tiene permisos para realizar esta acción',true);
+            $this->redirect(array('action' => 'view',$eid));
+            return;
+        }
 		if (!$this->data) {
-			$exchange = $this->Exchange->read(null, $eid);
 			$this->data = $exchange;
 		} else {
 			$this->data['Exchange']['lng'] = (float)$this->data['Exchange']['lng'];
@@ -136,7 +153,7 @@ class ExchangesController extends AppController {
 			if ($result) {
 				$this->Session->setFlash('Cambios guardados');
 			} else {
-				$this->Session->setFlash('Un error ha ocurrido');
+				$this->Session->setFlash('Un error ha ocurrido',true);
 			}
 		}
 		$this->set('start_point',array('latitude'=>$this->data['Exchange']['lat'],'longitude'=>$this->data['Exchange']['lng']));
@@ -146,15 +163,27 @@ class ExchangesController extends AppController {
 		$eid = $this->data['Exchange']['_id'];
 		$comment = array(
 			'text'=>$this->data['Exchange']['comment'],
-			'user_id'=>$this->Auth->user('id'),
+			'user_id'=>$this->Auth->user('_id'),
 			'username'=>$this->Auth->user('username'),
 			'created'=>time()
 		);
-		$this->Exchange->addComment($eid,$comment);
-		$this->getBack("Tu comentario ha sido añadido");
+		if ($this->Exchange->addComment($eid,$comment)) {
+            $exchange = $this->Exchange->findById($eid);
+            $creator = $this->User->findById($exchange['Exchange']['user_id']);
+            //checkeamos que no sea el mismo usuario el que se auto-responde y que quiera notificaciones.
+            if ($creator['User']['_id'] != $this->Auth->user('_id') && $creator['User']['notify_on_answer']) {
+                $this->set($comment);
+                $this->set(compact('eid'));
+                $this->sendMail($creator['User']['mail'], 'Alguien comentó tu artículo en Guia Gratis', 'comment_notification');
+            }
+            $this->getBack("Tu comentario ha sido añadido");
+        } else {
+            $this->getBack("Hubo un error al agregar el comentario");
+        }
+		
 	}
 
-	/*
+	/*http://www.mercadolibre.com.ar/seguro_prohibidos.html
 	 * Lists all exchanges related with the current user
 	 */
 	function own() {
@@ -171,10 +200,19 @@ class ExchangesController extends AppController {
 	}
 
 	function edit_photos($exchange_id = null) {
-		if (!$exchange_id) {
+        if (!$exchange_id) {
 			$this->getBack("URL inválida");
 		}
-		$e = $this->Exchange->findById($exchange_id);
+        $e = $this->Exchange->read(null, $exchange_id);
+
+        $owner = $this->User->findById($e['Exchange']['user_id']);
+        $user =  $this->User->findById($this->Auth->user('_id'));
+        if($owner['User']['_id'] !=  $user['User']['_id'] ){
+            $this->Session->setFlash('No tiene permisos para realizar esta acción',true);
+            $this->redirect(array('action' => 'view',$exchange_id));
+            return;
+        }
+
 		$this->set(compact('exchange_id','e'));
 	}
 
@@ -210,15 +248,6 @@ class ExchangesController extends AppController {
 		debug($result);
 		$this->Session->setFlash('El intercambio ha finalizado');
 		$this->redirect('/exchanges/own');
-	}
-
-	function mailtest($mail=null) {
-		echo "Bla";
-		$this->autoRender = false;
-		if ($mail == null) {
-			$mail = 'ham1988@gmail.com';
-		} 
-		mail($mail,'Guia gratis', 'This is a test message', 'From:mensaje@guiagratis.com.ar');
 	}
     
     // admin sections

@@ -26,7 +26,7 @@
 </p>
 
 <?php
-    echo $form->label('Location: ');
+    echo $form->label('Ubicación: ');
     echo $form->text('address-field', array('id' => 'location'));
     echo $form->button('Go', array('type' => 'button', 'id' => 'go_button'));
 ?>

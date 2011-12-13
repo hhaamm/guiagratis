@@ -20,6 +20,17 @@
  * @since         CakePHP(tm) v 0.2.9
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
+
+/*
+ * Estos parámetros de configuración son los default para guia-gratis.com.ar.
+ * si querés cambiarlos, para que sea mas cómodo desarrollar, podés copiar el archivo
+ * specific_host_config.php.default a specific_host_config.php y ahí overraidear
+ * todos los valores de configuración que quieras.
+ * 
+ * Los valores de configuración para Guia Gratis en el archivo core.php sólo deben 
+ * cambiarse si se espera cambiarlos también en el host oficial.
+ */
+
 /**
  * CakePHP Debug Level:
  *
@@ -314,7 +325,6 @@ Configure::write('Mail.complaint', 'guiagratis+complaint@gmail.com');
 Configure::write('Host.siteName', 'http://www.guia-gratis.com.ar/');
 Configure::write('Host.url', 'http://www.guia-gratis.com.ar/');
 Configure::write('GoogleMaps.ApiKey', 'ABQIAAAAPrtla-ndOoj6pz4-TGPBIBQHqtUwmOxIrQpfA9GcndCmxwRB-xQX138woM1g5KOzT7KiL4MVxIAOEQ');
-//Configure::write('GoogleMaps.ApiKey', 'ABQIAAAAL5ipN0irlc15pFzKVc9FiRQUfmgIMsvleOZ8b8HWIXBdLX_oMhQECpsVEeVmzmMMc5JBMohRaGjaTQ');
 
 Configure::write('CookieName.LastPointSearched', 'dondepedimos_lastpointsearched');
 //Point used when all geolocalization, cookie system and user preferences fails.
