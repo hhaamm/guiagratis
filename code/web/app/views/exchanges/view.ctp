@@ -60,7 +60,10 @@
 	</ul>
 	
 	<fieldset>
-		<legend>¿Necesitás este artículo?</legend>
+		<legend><?php if ($exchange['Exchange']['exchange_type_id'] == Configure::read('ExchangeType.Offer'))
+                echo "¿Necesitás este artículo?";
+                else
+                    echo "¿Querés donar este artículo?"; ?></legend>
 
 		<?php
 		if ($current_user) {
