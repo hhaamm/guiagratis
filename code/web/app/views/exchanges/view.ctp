@@ -69,7 +69,7 @@
          </td>
          <td>
           <!-- Facebook -->
-          <div class="fb-like" data-href="<?php echo Configure::Read('Host.url') ?>" data-send="false" data-layout="button_count" data-width="130" data-show-faces="true" data-font="lucida grande"></div>
+          <div class="fb-like" data-href="<?php echo Router::url($this->here, true); ?>" data-send="false" data-layout="button_count" data-width="130" data-show-faces="true" data-font="lucida grande"></div>
          </td>
        </tr>
        <tr>
