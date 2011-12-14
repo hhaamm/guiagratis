@@ -16,7 +16,9 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * 
- */
+ */    
+
+    echo $this->element('social_buttons');
 ?>
 <div>
 	<h2><?php echo $exchange['Exchange']['title']?></h2>
@@ -58,6 +60,29 @@
 			</li>
 		<?php }} ?>
 	</ul>
+    
+    <table style="margin: 5px" cellspacing="5">
+       <tr>
+         <td>
+          <!-- Google  -->
+          <g:plusone size="medium"></g:plusone>
+         </td>
+         <td>
+          <!-- Facebook -->
+          <div class="fb-like" data-href="<?php echo Configure::Read('Host.url') ?>" data-send="false" data-layout="button_count" data-width="130" data-show-faces="true" data-font="lucida grande"></div>
+         </td>
+       </tr>
+       <tr>
+         <td>
+          <!-- Twitter -->
+          <a href="https://twitter.com/share" class="twitter-share-button" data-lang="es">Tweet</a>
+         </td>
+         <td>
+          <!-- Taringa -->
+          <t:sharer data-layout="medium_counter"></t:sharer>
+         </td>
+       </tr>
+    </table>
 	
 	<fieldset>
 		<legend><?php if ($exchange['Exchange']['exchange_type_id'] == Configure::read('ExchangeType.Offer'))

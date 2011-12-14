@@ -128,9 +128,8 @@ class ExchangesController extends AppController {
         //TODO: ver si esto se puede cambiar por los datos del usuario en sesión
         //(menos llamadas a la base)
         $user =  $this->User->findById($this->Auth->user('_id'));
-        $this->set(compact('owner'));
-        $this->set(compact('user'));
-		$this->set(compact('exchange'));
+        $title_for_layout = $exchange['Exchange']['title'];
+        $this->set(compact('owner','user','exchange','title_for_layout'));
 	}
 
 	function edit($eid) {
