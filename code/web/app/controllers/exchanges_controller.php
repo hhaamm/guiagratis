@@ -265,6 +265,14 @@ class ExchangesController extends AppController {
                 'exchange_type_id'=>Configure::read('ExchangeType.Request')
             )
         ));
-        $this->set(compact('exchanges', 'count', 'countOffer', 'countRequest'));
+        $usersActive = $this->User->find('count', array(
+            'conditions'=>array(
+                'active'=>1
+            )
+        ));
+        $exchangesByUser = round($count / $usersActive, 2);
+        $offersByUser = round($countOffer / $usersActive, 2);
+        $requestsByUser = round($countRequest / $usersActive, 2);
+        $this->set(compact('exchanges', 'count', 'countOffer', 'countRequest', 'exchangesByUser', 'offersByUser', 'requestsByUser'));
     }
 }
