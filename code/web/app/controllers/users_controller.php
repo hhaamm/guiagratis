@@ -293,7 +293,9 @@ class UsersController extends AppController {
                 'admin'=>1
             )
         ));
+        $inactivePercentage = round($countInactive/$count*100, 2);
+        $activePercentage = 100 - $inactivePercentage;
         $users = $this->User->find('all', array('limit'=>500));
-        $this->set(compact('users', 'count', 'countActive', 'countInactive', 'countAdmin'));
+        $this->set(compact('users', 'count', 'countActive', 'countInactive', 'countAdmin', 'inactivePercentage', 'activePercentage'));
     }
 }
