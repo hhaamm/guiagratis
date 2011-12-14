@@ -20,7 +20,7 @@
 <html>
 	<head>
 		<?php echo $this->Html->charset(); ?>
-		<title>¿Necesitás algo? Conseguilo en guia-gratis.com.ar</title>
+		<title><?php echo $title_for_layout ?></title>
 		<?php
 		echo $javascript->link('debug');
 		echo $javascript->link('jquery');

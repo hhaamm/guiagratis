@@ -40,6 +40,7 @@ class AppController extends Controller {
         }  
         $this->set('is_admin', $this->Auth->user('admin'));
 		$this->set('current_user', $this->Auth->user());
+        $this->set('title_for_layout', '¿Necesitás algo? Conseguilo en guia-gratis.com.ar');
     }
 
 	protected function sendMail($to, $subject, $template, $opts = array()) {
