@@ -106,10 +106,16 @@ p {
 	margin: 0;
 	float: left;
 	width: 760px;
-	height:10px;
+	height:20px;
 	background: #222;
 	-moz-border-radius: 0px 0px 15px 15px;
 	border-radius: 0px 0px 15px 15px;
+    color: white;
+    text-align:center;
+}
+
+.footer a {
+    color:white;
 }
 
 /* Index page */

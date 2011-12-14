@@ -82,7 +82,9 @@
 				<?php echo $content_for_layout; ?>
 			</div>
 			<?php echo $this->element('sql_dump'); ?>
-			<div class="footer"></div>
+			<div class="footer">
+                Al usar Guia Gratis aceptás estar de acuerdo con sus <a href="/pages/tys">Términos y Condiciones</a>.
+            </div>
 		</div>
 	</body>
 </html>
