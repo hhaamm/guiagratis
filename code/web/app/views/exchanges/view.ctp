@@ -54,7 +54,7 @@
 					<p class="exchange_comment_text"><?php echo $comment['text'];?></p>
 				</div>
 				<div class="exchange_comment_user_info">
-					<?php echo $this->Html->link('PM','/conversations/add/'.$current_user['User']['_id']);?>
+					<?php echo $this->Html->link('PM','/conversations/add/'.$comment['user_id']);?>
 				</div>
 				<div class="clear"></div>
 			</li>
