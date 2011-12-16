@@ -32,6 +32,9 @@
 	?> 
 	<?php
 		echo $this->Html->link('Editar fotos',array('controller'=>'exchanges','action'=>'edit_photos',$exchange['Exchange']['_id']));
+    ?>
+    <?php
+        echo $this->Html->link('Finalizar','/exchanges/finalize/'.$exchange['Exchange']['_id'], null, "Una vez que finalizes el intercambio dejará de estar publicado. ¿Estás seguro?");
 	?>
 	</div>
     <?php } ?>
