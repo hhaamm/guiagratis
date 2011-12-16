@@ -127,7 +127,6 @@ class ExchangesController extends AppController {
         $owner = $this->User->findById($exchange['Exchange']['user_id']);
         //TODO: ver si esto se puede cambiar por los datos del usuario en sesión
         //(menos llamadas a la base)
-        $user =  $this->User->findById($this->Auth->user('_id'));
         $title_for_layout = $exchange['Exchange']['title'];
         $this->set(compact('owner','user','exchange','title_for_layout'));
 	}
