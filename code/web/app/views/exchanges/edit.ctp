@@ -31,6 +31,11 @@
         });
     });
 </script>
+
+<?php
+    echo $this->Html->link('Editar fotos',array('controller'=>'exchanges','action'=>'edit_photos',$this->data['Exchange']['_id'] ));
+?>
+        
 <?php
 
 echo $this->Form->create('Exchange');

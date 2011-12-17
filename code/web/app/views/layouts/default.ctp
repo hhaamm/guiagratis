@@ -26,6 +26,7 @@
 		echo $javascript->link('jquery');
 		echo $javascript->link('common');
 		echo $javascript->link('jquery-ui-1.8.2.custom.min');
+        echo $javascript->link('jquery.carousel.min');
 		echo $javascript->link('sexy_dropdown_menu');
 
 		echo $scripts_for_layout;
