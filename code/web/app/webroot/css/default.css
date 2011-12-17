@@ -469,3 +469,9 @@ table.users {
 table.exchanges {
     width:740px;    
 }
+
+
+/*carousel*/
+.exchange-photos{ float:left;margin:10px; }
+.carousel_view{float: left;border: 1px solid black;}
+.carousel_slider{float: left;text-align: center;height: 332px;overflow: hidden;border: 1px solid black;}
