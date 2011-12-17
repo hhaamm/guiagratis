@@ -20,7 +20,7 @@
 class ExchangesController extends AppController {
     var $uses = array('Exchange','User');
 	var $components = array('Geo','Email','Upload');
-	var $helpers = array('Exchange');
+	var $helpers = array('Exchange', 'User');
 
 	function beforeFilter() {
 		parent::beforeFilter();
@@ -133,17 +133,15 @@ class ExchangesController extends AppController {
 	}
 
 	function edit($eid) {
+        Configure::write('debug',1);
         $exchange = $this->Exchange->read(null, $eid);
-        $owner = $this->User->findById($exchange['Exchange']['user_id']);
-        //TODO: ver si esto se puede cambiar por los datos del usuario en sesión
-        //(menos llamadas a la base)
-        $user =  $this->User->findById($this->Auth->user('_id'));
-        if($owner['User']['_id'] !=  $user['User']['_id'] ){
+        if(!$this->Auth->user('admin') && $exchange['Exchange']['user_id'] !=  $this->Auth->user('_id')){
             $this->Session->setFlash('No tiene permisos para realizar esta acción',true);
             $this->redirect(array('action' => 'view',$eid));
             return;
         }
 		if (!$this->data) {
+            $this->set('creator', $this->User->findById($exchange['Exchange']['user_id']));
 			$this->data = $exchange;
 		} else {
 			$this->data['Exchange']['lng'] = (float)$this->data['Exchange']['lng'];

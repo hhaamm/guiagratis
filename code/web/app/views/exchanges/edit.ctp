@@ -33,6 +33,11 @@
 </script>
 <?php
 
+if ($current_user['User']['admin']) { ?>
+<p>Creado por <?php echo $this->User->link($creator); ?></p>
+<?php 
+}
+
 echo $this->Form->create('Exchange');
 echo $this->Form->hidden('_id');
 echo $this->Form->input('title',array('label'=>'Título'));

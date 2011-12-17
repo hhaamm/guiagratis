@@ -28,7 +28,7 @@
     <p>por <?php echo $owner['User']['username'] ?> </p>
 
 	<!-- SHOW ONLY WHEN IS OWNER -->
-    <?php if( !empty($user) && $user['User']['_id'] == $owner['User']['_id'] ){ ?>
+    <?php if( !empty($user) && ($user['User']['_id'] == $owner['User']['_id'] || $user['User']['admin']) ){ ?>
 	<div class="admin edit-exchange-menu">
 	<?php
 		echo $this->Html->link('Editar',array('controller'=>'exchanges','action'=>'edit',$exchange['Exchange']['_id']));
