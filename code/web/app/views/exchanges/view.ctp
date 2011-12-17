@@ -21,6 +21,9 @@
     echo $this->element('social_buttons');
 ?>
 <div>
+    <div class="exchange-type <?php echo $this->Exchange->cssClass($exchange); ?>">
+    <?php echo $this->Exchange->type($exchange); ?>
+    </div>
 	<h2><?php echo $exchange['Exchange']['title']?></h2>
     <p>por <?php echo $this->Html->link($owner['User']['username'] ,'/users/view/'.$owner['User']['_id'], array('style'=> 'text-decoration: none;' ));  ?> </p>
 

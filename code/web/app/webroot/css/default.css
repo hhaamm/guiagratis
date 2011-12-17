@@ -470,6 +470,22 @@ table.exchanges {
     width:740px;    
 }
 
+div.exchange-type {
+    width:100%;
+    color:white;
+}
+
+div.event {
+    background:#44E;
+}
+
+div.offer {
+    background:chocolate;
+}
+
+div.request {
+    background:#0a0;
+}
 
 /*carousel*/
 .exchange-photos{ float:left;margin:10px; }
