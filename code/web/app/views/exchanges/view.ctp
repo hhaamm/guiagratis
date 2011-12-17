@@ -25,10 +25,10 @@
     <?php echo $this->Exchange->type($exchange); ?>
     </div>
 	<h2><?php echo $exchange['Exchange']['title']?></h2>
-    <p>por <?php echo $owner['User']['username'] ?> </p>
+    <p>por <?php echo $this->Html->link($owner['User']['username'] ,'/users/view/'.$owner['User']['_id'], array('style'=> 'text-decoration: none;' ));  ?> </p>
 
 	<!-- SHOW ONLY WHEN IS OWNER -->
-    <?php if( !empty($user) && $user['User']['_id'] == $owner['User']['_id'] ){ ?>
+    <?php if( !empty($current_user) && $current_user['User']['_id'] == $owner['User']['_id'] ){ ?>
 	<div class="admin edit-exchange-menu">
 	<?php
 		echo $this->Html->link('Editar',array('controller'=>'exchanges','action'=>'edit',$exchange['Exchange']['_id']));
