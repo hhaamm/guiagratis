@@ -25,9 +25,7 @@
     <?php echo $this->Exchange->type($exchange); ?>
     </div>
 	<h2><?php echo $exchange['Exchange']['title']?></h2>
-    
     <p>por <?php echo $owner['User']['username'] ?> </p>
-    
 
 	<!-- SHOW ONLY WHEN IS OWNER -->
     <?php if( !empty($user) && $user['User']['_id'] == $owner['User']['_id'] ){ ?>
