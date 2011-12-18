@@ -35,6 +35,9 @@
 	?> 
 	<?php
 		echo $this->Html->link('Editar fotos',array('controller'=>'exchanges','action'=>'edit_photos',$exchange['Exchange']['_id']));
+    ?>
+    <?php
+        echo $this->Html->link('Finalizar','/exchanges/finalize/'.$exchange['Exchange']['_id'], null, "Una vez que finalizes el intercambio dejará de estar publicado. ¿Estás seguro?");
 	?>
 	</div>
     <?php } ?>
@@ -42,11 +45,63 @@
 
 	<p class="exchange-description"><?php echo $exchange['Exchange']['detail']?></p>
     <p class="exchange-comment-tags">Tags: <?php echo $exchange['Exchange']['tags'];?></p>
-	<div class="exchange-photos">
-	<?php foreach ($exchange['Exchange']['photos'] as $photo) {
-		echo $this->Html->image($photo['small']['url']);
-	} ?>
+
+
+
+
+    <?php if(!empty($exchange['Exchange']['photos'])){ ?>
+	<div class="exchange-photos" >
+        <div id="carousel_view_1" class="carousel_view">
+            <?php
+              if(!empty($exchange['Exchange']['photos'])){
+                $photo = $exchange['Exchange']['photos'][0];
+                echo $this->Html->image($photo['small']['url'],array('id'=>"carousel_image_1"));
+              }
+            ?>
+        </div>
+        <div id="carousel_slider_1" class="carousel_slider" >
+                <ul>
+                <?php
+                  foreach ($exchange['Exchange']['photos'] as $photo) {
+                    echo $this->Html->tag('li',$this->Html->image($photo['square']['url'],array('id'=>$photo['id'],'width'=>100,'height'=>100, 'style'=>'margin:18px','onclick'=> 'showImage(this.id)')));
+                  }
+                ?>
+                </ul>
+        </div>
 	</div>
+    <div class="clear"></div>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $("#carousel_slider_1").carousel( {
+                direction: "vertical" ,
+                dispItems: 2 ,
+                prevBtn: '<?php  echo  $this->Html->image('carousel/arrow_up.jpg',array('id' => 'carousel_prev','onmouseover'=>"this.src='/img/carousel/arrow_up_pressed.jpg'", 'onmouseout'=>"this.src='/img/carousel/arrow_up.jpg'")); ?>',
+                nextBtn: '<?php  echo  $this->Html->image('carousel/arrow_down.jpg',array('id' => 'carousel_next','onmouseover'=>"this.src='/img/carousel/arrow_down_pressed.jpg'", 'onmouseout'=>"this.src='/img/carousel/arrow_down.jpg'",'style'=>'margin-top: 2px;'));?>'
+            } );
+        });
+
+        images =  <?php echo json_encode($exchange['Exchange']['photos']) ?>
+
+
+        function showImage(id){
+            url = null;
+            for(var i in images){
+               aImage = images[i];
+               if(aImage.id == id){
+                   url = aImage.small.url;
+               }
+            }
+            if(url != null){
+             $("#carousel_image_1").attr('src',url);
+            }
+
+        }
+
+    </script>
+
+    <?php } ?>
+
 	<ul class="exchange-comment-list">
 		<?php
 		if (isset($exchange['Exchange']['comments'])) { 
