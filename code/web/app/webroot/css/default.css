@@ -491,3 +491,6 @@ div.request {
 .exchange-photos{ float:left;margin:10px; }
 .carousel_view{float: left;border: 1px solid black;}
 .carousel_slider{float: left;text-align: center;height: 332px;overflow: hidden;border: 1px solid black;}
+
+
+.link-button{vertical-align: super;float: left;margin:3px; padding: 5px 10px;border-radius: 7px 7px 7px 8px;border-color: #CCCCCC #C6C6C6 #AAAAAA; border-style: solid;border-width: 1px;text-decoration: none;background-color: #FCFCFC}

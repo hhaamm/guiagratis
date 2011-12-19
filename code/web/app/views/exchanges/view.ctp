@@ -29,17 +29,22 @@
 
 	<!-- SHOW ONLY WHEN IS OWNER -->
     <?php if( !empty($current_user) && $current_user['User']['_id'] == $owner['User']['_id'] ){ ?>
-	<div class="admin edit-exchange-menu">
+	<div class="admin edit-exchange-menu" style="float: right;">
+        <?php
+            $icon =  $this->Html->image('/img/icons/modify.png');
+            echo $this->Html->link($icon.' Editar',array('controller'=>'exchanges','action'=>'edit',$exchange['Exchange']['_id']),array('class'=>"link-button", 'escape' => false));
+        ?>
+
 	<?php
-		echo $this->Html->link('Editar',array('controller'=>'exchanges','action'=>'edit',$exchange['Exchange']['_id']));
-	?> 
-	<?php
-		echo $this->Html->link('Editar fotos',array('controller'=>'exchanges','action'=>'edit_photos',$exchange['Exchange']['_id']));
+        $icon =  $this->Html->image('/img/icons/photo.png');
+		echo $this->Html->link($icon.' Editar fotos',array('controller'=>'exchanges','action'=>'edit_photos',$exchange['Exchange']['_id']),array('class'=>"link-button", 'escape' => false));
     ?>
     <?php
-        echo $this->Html->link('Finalizar','/exchanges/finalize/'.$exchange['Exchange']['_id'], null, "Una vez que finalizes el intercambio dejará de estar publicado. ¿Estás seguro?");
+        $icon =  $this->Html->image('/img/icons/terminate.png');
+        echo $this->Html->link($icon.' Finalizar','/exchanges/finalize/'.$exchange['Exchange']['_id'], array('class'=>"link-button", 'escape' => false) , "Una vez que finalizes el intercambio dejará de estar publicado. ¿Estás seguro?");
 	?>
 	</div>
+    <div class="clear"></div>
     <?php } ?>
 	<br>
 
