@@ -40,8 +40,15 @@
 		echo $this->Html->link($icon.' Editar fotos',array('controller'=>'exchanges','action'=>'edit_photos',$exchange['Exchange']['_id']),array('class'=>"link-button", 'escape' => false));
     ?>
     <?php
-        $icon =  $this->Html->image('/img/icons/terminate.png');
-        echo $this->Html->link($icon.' Finalizar','/exchanges/finalize/'.$exchange['Exchange']['_id'], array('class'=>"link-button", 'escape' => false) , "Una vez que finalizes el intercambio dejará de estar publicado. ¿Estás seguro?");
+        if ($exchange['Exchange']['state'] != EXCHANGE_FINALIZED) {
+         $icon =  $this->Html->image('/img/icons/terminate.png');
+         echo $this->Html->link($icon.' Finalizar','/exchanges/finalize/'.$exchange['Exchange']['_id'], array('class'=>"link-button", 'escape' => false) , "Una vez que finalizes el intercambio dejará de estar publicado. ¿Estás seguro?");
+        }else{
+         echo $this->Html->div('link-button',
+                $this->Html->image('/img/icons/abort.png').
+                " Finalizado",
+                array('style'=>'background-color:#DDDDDD'));
+        }
 	?>
 	</div>
     <div class="clear"></div>
@@ -117,7 +124,8 @@
 					<p class="exchange_comment_text"><?php echo $comment['text'];?></p>
 				</div>
 				<div class="exchange_comment_user_info">
-					<?php echo $this->Html->link('PM','/conversations/add/'.$comment['user_id']);?>
+					<?php
+                        echo $this->Html->link($this->Html->image('/img/icons/mail.png'),'/conversations/add/'.$comment['user_id'],array('escape'=>false,'title'=>"Enviar mensaje personal"));?>
 				</div>
 				<div class="clear"></div>
 			</li>
