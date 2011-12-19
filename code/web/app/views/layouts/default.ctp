@@ -46,14 +46,14 @@
 				<li><a href="/">Home</a></li>
 				<?php if ($current_user) { ?>
 				<li>
-					<a href="#">Acciones</a>
+					<a href="#" onclick="$(this).next().next().click();return false;">Acciones</a>
 					<ul class="subnav">
 						<li><a href="/exchanges/add_offer">Agregar oferta</a></li>
 						<li><a href="/exchanges/add_request">Agregar pedido</a></li>
 					</ul>
 				</li>
 				<li>
-					<a href="#">Cuenta</a>
+					<a href="#" onclick="$(this).next().next().click();return false;">Cuenta</a>
 					<ul class="subnav">
 						<li><a href="/conversations">Mis conversaciones</a></li>
 						<li><a href="/exchanges/own">Mis ofertas/pedidos</a></li>
@@ -63,7 +63,7 @@
 				</li>
                 <?php if ($is_admin) { ?>
                 <li>
-					<a href="#">Administración</a>
+					<a href="#" onclick="$(this).next().click();return false;" >Administración</a>
 					<ul class="subnav">
 						<li><a href="/admin/users">Usuarios</a></li>
                         <li><a href="/admin/exchanges">Ofertas y pedidos</a></li>

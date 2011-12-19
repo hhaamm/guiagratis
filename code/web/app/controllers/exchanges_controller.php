@@ -243,7 +243,6 @@ class ExchangesController extends AppController {
 
 	function finalize($eid) {
 		$result = $this->Exchange->finalize($eid, $this->uid);
-		debug($result);
 		$this->Session->setFlash('El intercambio ha finalizado');
 		$this->redirect('/exchanges/own');
 	}

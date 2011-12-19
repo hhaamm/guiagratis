@@ -41,7 +41,7 @@
 		html += "<input type='hidden' name='photo[]' value='"+img_src+"'>";
 		html += "<img src='"+img_src+"'>";
 		html += "";
-		html += "<a href='/exchanges/set_default_photo/<?= $eid?>/"+photo_id+"'>Setear como predeterminada</a>"
+		html += "<a href='/exchanges/set_default_photo/<?= $eid?>/"+photo_id+"'>Marcar como predeterminada</a>"
 		html += " | ";
 		html += "<a href='/exchanges/delete_photo/<?= $eid?>/"+photo_id+"'>Borrar foto</a>"
 		html += "</li>";
@@ -76,7 +76,7 @@ echo $this->Form->end();
 	<li>
 		<img alt="exchange_photo" src='<?= $photo['square']['url']?>'>
 		<?php if (@!$photo['default']) { ?>
-			<a href="/exchanges/set_default_photo/<?= $eid?>/<?=$photo['id']?>">Setear como predeterminada</a> |
+			<a href="/exchanges/set_default_photo/<?= $eid?>/<?=$photo['id']?>">Marcar como predeterminada</a> |
 		<?php } else {
 			echo "Foto predeterminada";
 		} ?>
