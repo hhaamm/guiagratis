@@ -167,9 +167,11 @@ class Exchange extends AppModel {
     }
     
     function afterFind($results, $primary) {
+       if($results!=null){
         foreach($results as &$result) {
             $result['Exchange']['tags'] = implode(', ', $result['Exchange']['tags']);
         }
-        return $results;
+       }
+       return $results;
     }
 }

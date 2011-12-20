@@ -24,7 +24,7 @@ class ExchangesController extends AppController {
 
 	function beforeFilter() {
 		parent::beforeFilter();
-		$this->Auth->allow('index','get','view');
+		$this->Auth->allow('index','get','view','search');
 	}
 
 	function index() {
@@ -32,6 +32,20 @@ class ExchangesController extends AppController {
         $this->set_start_point();
         $this->set('start_address', Configure::read('GoogleMaps.DefaultAddress'));
 	}
+
+    function search(){
+       $options = array(
+			'limit'=>35,
+			'page'=>1,
+            'conditions' => array('state'=>EXCHANGE_PUBLISHED)
+       );
+
+       if(isSet($this->params['url']['tags'])){
+        $options['conditions']['tags'] = array('$in' => explode(',', $this->params['url']['tags']));
+       }
+       $exchanges = $this->Exchange->find('all',$options);
+       $this->set(compact('exchanges'));
+    }
 
 	function add_request() {
 		if ($this->data) {
