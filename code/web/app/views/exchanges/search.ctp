@@ -1,4 +1,13 @@
+<?php
+ $types = array(
+     Configure::read('ExchangeType.Request') => "Pedidos",
+     Configure::read('ExchangeType.Offer') => "Oferta",
+     Configure::read('ExchangeType.All') => "Todos"
+ )
+?>
+
 Busqueda: <br/>
+
 
 
 <form id="search-form" method="GET" action="<?php echo $this->Html->url($this->here);?>">
@@ -7,15 +16,21 @@ Busqueda: <br/>
          <div style="float: left;float: left; padding-top: 0px;">
             <label for="type" >Tipo</label>
             <select id="type" name="type" style=" width: 88px; height: 40px; text-align: center; padding-top: 7px;">
-                <option value="<?php echo Configure::read('ExchangeType.Request')?>">Pedidos</option>
-                <option value="<?php echo Configure::read('ExchangeType.Offer')?>">Ofertas</option>
-                <option value="<?php echo Configure::read('ExchangeType.All')?>" selected="selected">Todos</option>
+                <?
+                 foreach($types as $tid => $label){
+                    $options= array('value'=>$tid,);
+                    if($tid == $_GET['type']){
+                        $options['selected'] = "selected";
+                    }
+                    echo $this->Html->tag('option',$label,$options);
+                 }
+                ?>
             </select>
         </div>
 
         <label for="tags" >Tags separados por comas</label>
         <input id="tags" name="tags" value="<?php echo $_GET['tags']?>" style="width: 510px;"/>
-        <a href="#" class="link-button" onclick="return false;" style="float: right; height: 30px; margin-top: 0px;">
+        <a href="#" class="link-button" onclick="$('#search-form').submit();return false;" style="float: right; height: 30px; margin-top: 0px;">
             <?php echo $this->Html->image('icons/search.png')?>
             Buscar
         </a>

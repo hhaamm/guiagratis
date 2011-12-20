@@ -43,7 +43,7 @@ class ExchangesController extends AppController {
        if(isSet($this->params['url']['tags'])){
         $options['conditions']['tags'] = array('$in' => explode(',', $this->params['url']['tags']));
        }
-       if(isSet($this->params['url']['type'])){
+       if(isSet($this->params['url']['type']) && !empty($this->params['url']['type'])){
         $options['conditions']['exchange_type_id']=(int)$this->params['url']['type'];
        }
        $exchanges = $this->Exchange->find('all',$options);
