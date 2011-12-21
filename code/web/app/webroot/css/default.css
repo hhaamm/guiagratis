@@ -494,3 +494,5 @@ div.request {
 
 
 .link-button{vertical-align: super;float: left;margin:3px; padding: 5px 10px;border-radius: 7px 7px 7px 8px;border-color: #CCCCCC #C6C6C6 #AAAAAA; border-style: solid;border-width: 1px;text-decoration: none;background-color: #FCFCFC}
+
+a.exchange-view-link{color: #993;font-family:'Gill Sans','lucida grande', helvetica, arial, sans-serif;font-size: 140%;}
