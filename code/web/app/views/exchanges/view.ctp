@@ -19,6 +19,8 @@
  */    
 
     echo $this->element('social_buttons');
+    $this->Javascript->link('agile_carousel.alpha', false);
+    $this->Html->css('agile_carousel.css', null, array('inline'=>false));
 ?>
 <div>
     <div class="exchange-type <?php echo $this->Exchange->cssClass($exchange); ?>">
@@ -57,61 +59,55 @@
 
 	<p class="exchange-description"><?php echo $exchange['Exchange']['detail']?></p>
     <p class="exchange-comment-tags">Tags: <?php echo $exchange['Exchange']['tags'];?></p>
-
-
-
-
+    
     <?php if(!empty($exchange['Exchange']['photos'])){ ?>
-	<div class="exchange-photos" >
-        <div id="carousel_view_1" class="carousel_view">
-            <?php
-              if(!empty($exchange['Exchange']['photos'])){
-                $photo = $exchange['Exchange']['photos'][0];
-                echo $this->Html->image($photo['small']['url'],array('id'=>"carousel_image_1"));
-              }
-            ?>
-        </div>
-        <div id="carousel_slider_1" class="carousel_slider" >
-                <ul>
+     <script type="text/javascript">
+         $(document).ready(function(){
+            var data = [
+                // Creamos un div exterior para poder extraerle el HTML. Por eso hay dos divs, pero el resultado devuelve sólo uno!
+                // Generé el HTML con JQuery porque me pareció mas prolijo que poner texto todo escapado.
+                <?php foreach ($exchange['Exchange']['photos'] as $photo) { ?>
+                    {
+                        content: $('<div>').append(
+                            $('<div>').attr('class', 'slide_inner').append(
+                                $('<a>').attr('class','photo_link').attr('href','#').append(
+                                    $('<img>').attr('src', '<?php echo $photo['small']['url'] ?>').attr('class','photo')
+                            )).append(
+                                $('<a>').attr('href', '#').attr('class', 'caption').text('descripcion')
+                            )
+                        ).html(),
+                        content_button: $('<div>').append(
+                            $('<div>').attr('class', 'thumb').append(
+                                $('<img>').attr('src', '<?php echo $photo['square']['url'] ?>').attr('alt', 'thumb'))
+                            .append(
+                                $('<p>').text('Agile carousel place holder')
+                            )
+                        ).html()
+                    },
                 <?php
-                  foreach ($exchange['Exchange']['photos'] as $photo) {
-                    echo $this->Html->tag('li',$this->Html->image($photo['square']['url'],array('id'=>$photo['id'],'width'=>100,'height'=>100, 'style'=>'margin:18px','onclick'=> 'showImage(this.id)')));
-                  }
-                ?>
-                </ul>
-        </div>
-	</div>
-    <div class="clear"></div>
-
-    <script type="text/javascript">
-        $(document).ready(function() {
-            $("#carousel_slider_1").carousel( {
-                direction: "vertical" ,
-                dispItems: 2 ,
-                prevBtn: '<?php  echo  $this->Html->image('carousel/arrow_up.jpg',array('id' => 'carousel_prev','onmouseover'=>"this.src='/img/carousel/arrow_up_pressed.jpg'", 'onmouseout'=>"this.src='/img/carousel/arrow_up.jpg'")); ?>',
-                nextBtn: '<?php  echo  $this->Html->image('carousel/arrow_down.jpg',array('id' => 'carousel_next','onmouseover'=>"this.src='/img/carousel/arrow_down_pressed.jpg'", 'onmouseout'=>"this.src='/img/carousel/arrow_down.jpg'",'style'=>'margin-top: 2px;'));?>'
-            } );
+                } ?>
+            ];
+             
+            $("#exchange-photos").agile_carousel({
+                carousel_data: data,
+                carousel_outer_height: 330,
+                carousel_height: 230,
+                slide_height: 230,
+                carousel_outer_width: 480,
+                slide_width: 480,
+                transition_type: "fade",
+                transition_time: 600,
+                timer: 3000,
+                continuous_scrolling: true,
+                control_set_1: "numbered_buttons,previous_button,pause_button,next_button",
+                control_set_2: "content_buttons",
+                change_on_hover: "content_buttons"
+            });
         });
-
-        images =  <?php echo json_encode($exchange['Exchange']['photos']) ?>
-
-
-        function showImage(id){
-            url = null;
-            for(var i in images){
-               aImage = images[i];
-               if(aImage.id == id){
-                   url = aImage.small.url;
-               }
-            }
-            if(url != null){
-             $("#carousel_image_1").attr('src',url);
-            }
-
-        }
-
     </script>
-
+    
+	<div id="exchange-photos" class="exchange-photos" ></div>
+    <div class="clear"></div>
     <?php } ?>
 
 	<ul class="exchange-comment-list">
