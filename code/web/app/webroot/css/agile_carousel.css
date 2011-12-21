@@ -256,7 +256,7 @@ width: 16px;
 height: 16px;
 overflow: hidden;
 text-indent: 1000px;
-background-image: url(../images/sprite_ac_normal.png);
+background-image: url(../img/agile_carousel/sprite_ac_normal.png);
 background-color: #ccc;
 border: 1px solid #cfcece;
 -webkit-border-radius: 5px;
@@ -277,13 +277,13 @@ background-position: -44px 3px;
 background-color: #f7f7f7;
 }
 #multiple_slides_visible .previous_button:hover {
-background-image: url(../images/sprite_ac_hover.png);
+background-image: url(../img/agile_carousel/sprite_ac_hover.png);
 }
 #multiple_slides_visible .next_button:hover {
-background-image: url(../images/sprite_ac_hover.png);
+background-image: url(../img/agile_carousel/sprite_ac_hover.png);
 }
 #multiple_slides_visible .control_set_1 .ac_disabled {
-background-image: url(../images/sprite_ac_disabled.png);
+background-image: url(../img/agile_carousel/sprite_ac_disabled.png);
 }
 		
 /*-- .control_set_2 - includes: group_numbered_buttons --*/
@@ -305,7 +305,7 @@ color: #000;
 padding: 0 2px;
 font-size: 12px;
 margin-right: 2px;
-background-image: url(../images/sprite_ac_normal.png);
+background-image: url(../img/agile_carousel/sprite_ac_normal.png);
 background-position: -95px 0;
 width: 10px;
 height: 10px;
@@ -314,7 +314,7 @@ text-indent: 1000px;
 background-color: transparent;
 }
 #multiple_slides_visible .group_numbered_button:hover, #multiple_slides_visible .group_numbered_buttons_container .ac_selected {
-background-image: url(../images/sprite_ac_hover.png);
+background-image: url(../img/agile_carousel/sprite_ac_hover.png);
 }
 
 
@@ -381,7 +381,7 @@ height: 35px;
 display: block;
 overflow: hidden;
 text-indent: 1000px;
-background-image: url(../images/sprite_ac_normal.png);
+background-image: url(../img/agile_carousel/sprite_ac_normal.png);
 background-repeat: no-repeat;
 }
 .hover_previous_button {
@@ -472,7 +472,7 @@ width: 10px;
 height: 18px;
 overflow: hidden;
 text-indent: 1000px;
-background-image: url(../images/sprite_ac_normal.png);
+background-image: url(../img/agile_carousel/sprite_ac_normal.png);
 }
 #exchange-photos .previous_button {
 background-position: 0 3px;
@@ -504,7 +504,7 @@ width: 96px;
 text-align: center;
 }
 #exchange-photos .content_buttons_container .ac_selected {
-background-image: url(../images/sprite_ac_normal.png);
+background-image: url(../img/agile_carousel/sprite_ac_normal.png);
 background-position: -124px 0;
 }
 #exchange-photos .content_button_inner {
@@ -582,7 +582,7 @@ height: 44px;
 float: left;
 }
 #flavor_3 .content_buttons_container .ac_selected {
-background-image: url(../images/sprite_ac_normal.png);
+background-image: url(../img/agile_carousel/sprite_ac_normal.png);
 background-position: -244px 0;
 }
 #flavor_3 .content_button p {

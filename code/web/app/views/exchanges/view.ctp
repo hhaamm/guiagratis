@@ -66,7 +66,8 @@
             var data = [
                 // Creamos un div exterior para poder extraerle el HTML. Por eso hay dos divs, pero el resultado devuelve sólo uno!
                 // Generé el HTML con JQuery porque me pareció mas prolijo que poner texto todo escapado.
-                <?php foreach ($exchange['Exchange']['photos'] as $photo) { ?>
+                <?php $i = 1;  
+                foreach ($exchange['Exchange']['photos'] as $photo) { ?>
                     {
                         content: $('<div>').append(
                             $('<div>').attr('class', 'slide_inner').append(
@@ -80,12 +81,11 @@
                             $('<div>').attr('class', 'thumb').append(
                                 $('<img>').attr('src', '<?php echo $photo['square']['url'] ?>').attr('alt', 'thumb'))
                             .append(
-                                $('<p>').text('Agile carousel place holder')
+                                $('<p>').text('Foto <?php echo $i ?>')
                             )
                         ).html()
                     },
-                <?php
-                } ?>
+                <?php $i++; } ?>
             ];
              
             $("#exchange-photos").agile_carousel({
