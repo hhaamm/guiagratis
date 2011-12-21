@@ -44,7 +44,7 @@
 	<fieldset>
 		<legend>Búsqueda</legend>
 		<?php
-		echo $this->Form->create('Search', array('onsubmit'=>'return false;'));
+		echo $this->Form->create('Search', array('onsubmit'=>'get_exchanges();return false;'));
         echo $this->Form->input('text', array('label'=>'Tags', 'id'=>'text_tags'));
 		echo $this->Form->input('exchange_type_id',array('options'=>array(
 			Configure::read('ExchangeType.Request')=>'Pedidos',
