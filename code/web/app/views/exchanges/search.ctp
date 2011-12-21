@@ -1,5 +1,6 @@
 <?php
- $types = array(
+//TODO pasar los estilos al css
+$types = array(
      Configure::read('ExchangeType.Request') => "Pedidos",
      Configure::read('ExchangeType.Offer') => "Oferta",
      Configure::read('ExchangeType.All') => "Todos"
@@ -19,7 +20,7 @@ Busqueda: <br/>
                 <?
                  foreach($types as $tid => $label){
                     $options= array('value'=>$tid,);
-                    if($tid == $_GET['type']){
+                    if(isSet($_GET['type']) && $tid == $_GET['type']){
                         $options['selected'] = "selected";
                     }
                     echo $this->Html->tag('option',$label,$options);
@@ -28,8 +29,13 @@ Busqueda: <br/>
             </select>
         </div>
 
-        <label for="tags" >Tags separados por comas</label>
-        <input id="tags" name="tags" value="<?php echo $_GET['tags']?>" style="width: 510px;"/>
+
+
+         <label for="mode-tags" style="float: left;margin-bottom: 0px;"><input id="mode-tags" type="radio" name="mode" value="0" <?php echo $mode!=1 ? 'checked="checked"' :'' ?> /> Tags separados por comas</label>
+         <label for="mode-title" style="float: left; margin-bottom: 0px; margin-left: 10px;;"><input id="mode-title" type="radio"  <?php echo $mode!=0 ? 'checked="checked"' :'' ?> name="mode" value="1" />  Titulo</label>
+
+
+        <input id="query" name="query" value="<?php echo isSet($_GET['query']) ? $_GET['query'] : ''?>" style="width: 510px;"/>
         <a href="#" class="link-button" onclick="$('#search-form').submit();return false;" style="float: right; height: 30px; margin-top: 0px;">
             <?php echo $this->Html->image('icons/search.png')?>
             Buscar
