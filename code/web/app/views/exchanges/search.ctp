@@ -47,7 +47,8 @@ Busqueda: <br/>
 
 
 <?php
-   if(!empty($exchanges))
+if(isSet($_GET['query'])){
+ if(!empty($exchanges))
     foreach($exchanges as $e) { ?>
         <div  style="margin: 10px 0px;">
             <?php echo   $this->Html->link($this->Exchange->defaultPhoto($e),array('action'=>'view','controller'=>'exchanges',$e['Exchange']['_id']),array('escape'=>false , 'style' => 'float:left;margin-right: 10px;')) ?>
@@ -65,4 +66,5 @@ Busqueda: <br/>
       </div>
 <?php
     }
+  }
 ?>

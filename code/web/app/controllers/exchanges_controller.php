@@ -54,14 +54,13 @@ class ExchangesController extends AppController {
           $options['conditions']['title'] = array('$regex' => new MongoRegex('/'.$query.'/i'));
           $mode = 1;
         }
+        if(isSet($this->params['url']['type']) && !empty($this->params['url']['type'])){
+         $options['conditions']['exchange_type_id']=(int)$this->params['url']['type'];
+        }
+        $exchanges = $this->Exchange->find('all',$options);
+        $this->set(compact('exchanges'));
        }
-
-       if(isSet($this->params['url']['type']) && !empty($this->params['url']['type'])){
-        $options['conditions']['exchange_type_id']=(int)$this->params['url']['type'];
-       }
-       $exchanges = $this->Exchange->find('all',$options);
-       $this->set(compact('exchanges'));
-       $this->set(compact('mode'));
+       $this->set(compact('mode'));                   
     }
 
 	function add_request() {
