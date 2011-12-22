@@ -58,7 +58,18 @@
 	<br>
 
 	<p class="exchange-description"><?php echo $exchange['Exchange']['detail']?></p>
-    <p class="exchange-comment-tags">Tags: <?php echo $exchange['Exchange']['tags'];?></p>
+
+    <p class="exchange-comment-tags">
+        <?php echo $this->Html->image('/img/icons/blue_tag.png') ?>
+        Tags:
+        <?php
+            $tags = explode(',',$exchange['Exchange']['tags']);
+            $tag_links = array();
+            foreach($tags as $tag){
+              $tag_links[] = $this->Html->link($tag,'/exchanges/search?type=0&mode=0&query='.trim($tag));
+            }
+            echo implode(' , ',$tag_links);
+    ?></p>
     
     <?php if(!empty($exchange['Exchange']['photos'])){ ?>
      <script type="text/javascript">
