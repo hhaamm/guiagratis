@@ -39,6 +39,9 @@
 
 		echo $this->Html->meta('icon', '/favicon2.ico');
 		?>
+        <!--[if IE]>
+ 		<?php echo $this->Html->css('ie-hacks.css'); ?>
+        <![endif]-->
 	</head>
 	<body>
 		<div id="content">
