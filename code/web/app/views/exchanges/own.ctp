@@ -23,7 +23,7 @@
 	<li>
 		<h3><?php echo $e['Exchange']['title']?> (publicado <?php echo $this->Time->timeAgoInWords($e['Exchange']['created'])?>)</h3>
 		<?php echo $this->Exchange->defaultPhoto($e) ?>
-        <div style="float: right;">
+        <div style="float: right;" class="own-buttons-containter">
             <?php
              $icon = $this->Html->image('/img/icons/eye.png');
              echo $this->Html->link($icon.' Ver','/exchanges/view/'.$e['Exchange']['_id'],array('class'=>"link-button", 'escape' => false))?>

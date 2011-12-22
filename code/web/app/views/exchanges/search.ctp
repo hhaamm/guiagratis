@@ -31,8 +31,8 @@ Busqueda: <br/>
 
 
 
-         <label for="mode-tags" style="float: left;margin-bottom: 0px;"><input id="mode-tags" type="radio" name="mode" value="0" <?php echo $mode!=1 ? 'checked="checked"' :'' ?> /> Tags separados por comas</label>
-         <label for="mode-title" style="float: left; margin-bottom: 0px; margin-left: 10px;;"><input id="mode-title" type="radio"  <?php echo $mode!=0 ? 'checked="checked"' :'' ?> name="mode" value="1" />  Titulo</label>
+         <label for="mode-tags" style="float: left;margin-bottom: 0px;"><input id="mode-tags" type="radio" name="mode" value="0" <?php echo $mode!=1 ? 'checked="checked"' :'' ?> style="width: 14px;" /> Tags separados por comas</label>
+         <label for="mode-title" style="float: left; margin-bottom: 0px; margin-left: 10px;;"><input id="mode-title" type="radio"  <?php echo $mode!=0 ? 'checked="checked"' :'' ?> name="mode" value="1" style="width: 14px;" />  Titulo</label>
 
 
         <input id="query" name="query" value="<?php echo isSet($_GET['query']) ? $_GET['query'] : ''?>" style="width: 510px;"/>
