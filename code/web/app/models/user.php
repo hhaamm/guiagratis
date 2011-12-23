@@ -33,7 +33,15 @@ class User extends AppModel {
 		'admin'=>array('type'=>'integer'),
 		'reset_password_token'=>array('type'=>'integer'),
         'notify_on_message'=>array('type'=>'integer'),
-        'notify_on_answer'=>array('type'=>'integer')
+        'notify_on_answer'=>array('type'=>'integer'),
+        //-- personal data
+        'firstname'=>array('type'=>'string'),
+        'lastname'=>array('type'=>'string'),
+        'country'=>array('type'=>'string'),
+        'region'=>array('type'=>'string'),
+        'city'=>array('type'=>'string'),
+        'description'=>array('type'=>'string')
+
 	);
     
     var $validate = array(

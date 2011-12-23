@@ -93,6 +93,23 @@ class UsersController extends AppController {
 		}
 	}
 
+    function edit_profile(){
+
+        $user = $this->User->read(null, $this->Auth->user('_id'));
+
+        if ($this->data) {
+            $this->User->set($user);
+            if($this->User->save($this->data)){
+                $this->redirect(array('action'=>'view',$this->Auth->user('_id')));
+            }else{
+                //var_dump($this->User->invalidFields());
+				$this->Session->setFlash('Hubo un error al guardar tus datos');
+            }
+        }else{
+            $this->data = $user;
+        }
+    }
+
 	function activate($token) {
 		if ($this->User->updateAll(array('active' => 1), array('User.register_token' => $token))) {
 			$user = $this->User->find('first', array('conditions'=>array('register_token'=>$token)));
