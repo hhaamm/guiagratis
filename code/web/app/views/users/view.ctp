@@ -1,4 +1,16 @@
 
+<div style="">
+<?php
+  if(isset($current_user) && $user['User']['_id']==$current_user['User']['_id']){
+    $icon =  $this->Html->image('/img/icons/modify.png');
+    echo $this->Html->div(null,
+       $this->Html->link($icon.' Editar perfil',array('controller'=>'users','action'=>'edit_profile',),array('class'=>"link-button", 'escape' => false)),
+       array('style'=> 'float: right;')
+    );
+  }
+?>
+</div>
+    
 <h3> Perfil de usuario </h3>
 
 <br/>
@@ -46,10 +58,22 @@
         echo "<p>".$this->Html->link(" Logueate",'/users/login/'). " o ". $this->Html->link("Registrate",'/users/register/')." para <br/> contactar a este usuario</p>" ;
      }
     ?>
-
 </div>
 
+<br/><br/>
 <div class="clear"></div>
+
+<?php
+ if(isset($user['User']['description']) && !empty($user['User']['description'])){
+?>
+ <div style="margin-top: 26px;" >
+  <h2> Sobre <?php echo $user['User']['username'] ?> </h2>
+  <p><?php echo $user['User']['description'] ?></p>
+ </div>
+<?php
+}
+?>
+
 
 <br/>
 <br/>
