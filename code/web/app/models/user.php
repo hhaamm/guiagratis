@@ -37,10 +37,12 @@ class User extends AppModel {
         //-- personal data
         'firstname'=>array('type'=>'string'),
         'lastname'=>array('type'=>'string'),
+        'telephone'=>array('type'=>'string'),
         'country'=>array('type'=>'string'),
         'region'=>array('type'=>'string'),
         'city'=>array('type'=>'string'),
-        'description'=>array('type'=>'string')
+        'description'=>array('type'=>'string'),
+        'show_email' => array('type'=>'integer'),
 
 	);
     

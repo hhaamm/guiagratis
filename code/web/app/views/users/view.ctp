@@ -1,20 +1,56 @@
 
-<p>
-    Perfil de usuario:  <?php echo $user['User']['username'] ?> (<?php echo $this->Html->link('PM','/conversations/add/'.$user['User']['_id']);?>)
-</p>
+<h3> Perfil de usuario </h3>
 
-<br/>
-<br/>
 <br/>
 
 
+ <div style="float: left;margin-left: 30px;">
+     <?php echo $this->Html->image('/img/default_avatar.png') ?> <br/>
+     <?php echo $user['User']['username'] ?>
+ </div>
+
+ <div style="float: left;margin-left: 70px;">
+   <h2> Datos personales </h2>
+    
   <?php
-    if(isset($user['User']['firstname'])){
-         echo $user['User']['firstname'];
+    $shared = false;
+    $personal_data = array('Nombre'=>'firstname', 'Apellido'=>'lastname','Localidad'=>'city','Región'=> 'region' , 'Pais'=>'country');
+    foreach($personal_data as $label => $value){
+        if(isset($user['User'][$value]) && !empty($user['User'][$value])){
+            $shared = true;
+            echo $this->Html->tag('b',$label).": ".$user['User'][$value];
+            echo "<br/>";
+        }
     }
+    if(!$shared){
+      echo "<p>El usuario no ha compartido<br/>  datos personales</p>";
+    }
+  ?>
+ </div>
+
+<div style="float: left; margin-left: 70px;">
+ <h2> Contacto </h2>
+    <?php
+     if(isset($current_user)){
+          echo $this->Html->image('/img/icons/mail.png',array('style'=>'margin-bottom: -8px;'));
+          echo $this->Html->link(" Enviar mensaje privado",'/conversations/add/'.$user['User']['_id'],array('style'=>'text-decoration:none;','title'=>"Enviar mensaje personal"));
+          echo "<br/>";
+          if(isset($user['User']['telephone']) && !empty($user['User']['telephone'])){
+                  echo $this->Html->tag('b',"Telefono").": ".$user['User']['telephone'];
+          }
+          echo "<br/>";
+          if(isset($user['User']['show_email']) && !empty($user['User']['show_email'])){
+                  echo $this->Html->tag('b',"Email").": ".$user['User']['mail'];
+          }
+      }else{
+        echo "<p>".$this->Html->link(" Logueate",'/users/login/'). " o ". $this->Html->link("Registrate",'/users/register/')." para <br/> contactar a este usuario</p>" ;
+     }
     ?>
 
-<br/>
+</div>
+
+<div class="clear"></div>
+
 <br/>
 <br/>
 
