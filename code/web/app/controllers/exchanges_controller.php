@@ -154,9 +154,11 @@ class ExchangesController extends AppController {
 		if (empty($exchange)) {
 			debug("Exchange is null");
 		}
+        foreach($exchange['Exchange']['comments'] as $i => $comment){
+            $comment_owner = $this->User->findById($comment['user_id']);
+            $exchange['Exchange']['comments'][$i]['user'] = $comment_owner['User'];
+        }
         $owner = $this->User->findById($exchange['Exchange']['user_id']);
-        //TODO: ver si esto se puede cambiar por los datos del usuario en sesión
-        //(menos llamadas a la base)
         $title_for_layout = $exchange['Exchange']['title'];
         $this->set(compact('owner','user','exchange','title_for_layout'));
 	}
