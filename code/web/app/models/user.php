@@ -43,6 +43,8 @@ class User extends AppModel {
         'city'=>array('type'=>'string'),
         'description'=>array('type'=>'string'),
         'show_email' => array('type'=>'integer'),
+         //avatar
+         'avatar'=>array('type'=>'hash')
 
 	);
     
@@ -90,4 +92,14 @@ class User extends AppModel {
 		$user = $this->find('first',array('conditions'=>compact('username')));
 		return !empty($user);
 	}
+
+    function setAvatar($image,$uid){
+        //$user = $this->findById($uid);
+        //if(isset())
+		$image = json_encode($image);
+		return $this->execute(new MongoCode(
+				"db.users.update({_id:ObjectId('$uid')},{\$set:{avatar:$image}},true,false)"
+		));
+    }
+
 }

@@ -17,7 +17,12 @@
 
 
  <div style="float: left;margin-left: 30px;">
-     <?php echo $this->Html->image('/img/default_avatar.png') ?> <br/>
+     <?php
+     $avatar_url = '/img/default_avatar.png';
+     if(isset($user['User']['avatar']) && !empty($user['User']['avatar']) ){
+      $avatar_url =  $current_user['User']['avatar']['large']['url'];
+     }
+     echo $this->Html->image($avatar_url) ?> <br/>
      <?php echo $user['User']['username'] ?>
  </div>
 
