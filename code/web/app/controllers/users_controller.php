@@ -96,7 +96,6 @@ class UsersController extends AppController {
 	}
 
     function edit_profile(){
-
         $user = $this->User->read(null, $this->Auth->user('_id'));
 
         if ($this->data) {
@@ -128,6 +127,8 @@ class UsersController extends AppController {
         $image =  array('id'=>uniqid(null, true),'small'=>$result['small'],'medium'=>$result['medium'],'large'=>$result['large']);
         $this->User->setAvatar($image,$uid);
         $img_url = $result['medium']['url'];
+        $user =  $this->User->read(null, $this->Auth->user('_id'));
+        $_SESSION['Auth']['User'] = $user['User']; //actualizar la url del avatar en la secio
         $this->set(compact('img_url'));
     }
 

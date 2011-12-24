@@ -94,8 +94,12 @@ class User extends AppModel {
 	}
 
     function setAvatar($image,$uid){
-        //$user = $this->findById($uid);
-        //if(isset())
+        $user = $this->findById($uid);
+        if(isset($user['User']['avatar']) && !empty($user['User']['avatar']) ){
+           foreach(array('small','medium','large') as $size ){
+            unlink($user['User']['avatar'][$size]['file_path']);
+           }
+        }
 		$image = json_encode($image);
 		return $this->execute(new MongoCode(
 				"db.users.update({_id:ObjectId('$uid')},{\$set:{avatar:$image}},true,false)"
