@@ -24,7 +24,7 @@ class ExchangesController extends AppController {
 
 	function beforeFilter() {
 		parent::beforeFilter();
-		$this->Auth->allow('index','get','view','search');
+		$this->Auth->allow('index','get','view','search','view_photo');
 	}
 
 	function index() {
