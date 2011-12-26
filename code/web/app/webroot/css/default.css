@@ -18,6 +18,10 @@
 	clear:both;
 }
 
+ul {
+    list-style: none;
+}
+
 body {
 	background:#f9fafc;
 	font-family:'lucida grande',verdana,helvetica,arial,sans-serif;
