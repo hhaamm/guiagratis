@@ -130,7 +130,9 @@ class Exchange extends AppModel {
 
 		foreach ($e['Exchange']['photos'] as $photo) {
 			if ($photo['id'] == $pid) {
-
+                foreach(array('small','square') as $size ){
+                    unlink($photo[$size]['file_path']); //borrar del disco
+                }
 				$photo_data = json_encode($photo);
 			}
 		}
@@ -139,7 +141,6 @@ class Exchange extends AppModel {
 			return false;
 		}
 		
-		//TODO: hacer que borre también las imágenes
 		$query = "db.exchanges.update({_id:ObjectId('$eid')}, {\$pull:{photos:$photo_data}})";
 		$result = $this->execute(new MongoCode($query));
 		return $result;
