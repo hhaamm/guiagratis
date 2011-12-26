@@ -77,8 +77,15 @@
 				<li><a href="/users/login">Entrar</a></li>
 				<li><a href="/users/register">Registrarse</a></li>
 					<?php } ?>
-				<li><a href="/pages/about_us">Quiénes somos</a></li>
-				<li><a href="/pages/help">Ayuda</a></li>
+				
+				<li>
+                    <a href="/pages/help">Ayuda</a>
+                    <ul class="subnav">
+                        <li><a href="/pages/help">Guía principiantes</a></li>
+                        <li><a href="/pages/about_us">Quiénes somos</a></li>
+                        <li><a href="/pages/development">Desarrollo</a></li>
+                    </ul>
+                </li>
 			</ul>
 			<div class="br"></div>
 			<div class="body">
