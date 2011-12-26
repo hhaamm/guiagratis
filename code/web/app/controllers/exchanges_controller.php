@@ -151,23 +151,16 @@ class ExchangesController extends AppController {
 
 	function view($id) {
 		$exchange = $this->Exchange->read(null, $id);
-		if (empty($exchange)) {
-			debug("Exchange is null");
-		}
         $owner = $this->User->findById($exchange['Exchange']['user_id']);
         //TODO: ver si esto se puede cambiar por los datos del usuario en sesión
         //(menos llamadas a la base)
         $title_for_layout = $exchange['Exchange']['title'];
-        $this->set(compact('owner','user','exchange','title_for_layout'));
+        $this->set(compact('owner','exchange','title_for_layout'));
 	}
 
 	function edit($eid) {
         $exchange = $this->Exchange->read(null, $eid);
-        $owner = $this->User->findById($exchange['Exchange']['user_id']);
-        //TODO: ver si esto se puede cambiar por los datos del usuario en sesión
-        //(menos llamadas a la base)
-        $user =  $this->User->findById($this->Auth->user('_id'));
-        if($owner['User']['_id'] !=  $user['User']['_id'] ){
+        if($exchange['Exchange']['user_id'] !=  $this->Auth->user('_id') ){
             $this->Session->setFlash('No tiene permisos para realizar esta acción',true);
             $this->redirect(array('action' => 'view',$eid));
             return;
@@ -233,9 +226,7 @@ class ExchangesController extends AppController {
 		}
         $e = $this->Exchange->read(null, $exchange_id);
 
-        $owner = $this->User->findById($e['Exchange']['user_id']);
-        $user =  $this->User->findById($this->Auth->user('_id'));
-        if($owner['User']['_id'] !=  $user['User']['_id'] ){
+        if($e['Exchange']['user_id'] !=  $this->Auth->user('_id') ){
             $this->Session->setFlash('No tiene permisos para realizar esta acción',true);
             $this->redirect(array('action' => 'view',$exchange_id));
             return;
@@ -302,5 +293,15 @@ class ExchangesController extends AppController {
         $offersByUser = round($countOffer / $usersActive, 2);
         $requestsByUser = round($countRequest / $usersActive, 2);
         $this->set(compact('exchanges', 'count', 'countOffer', 'countRequest', 'exchangesByUser', 'offersByUser', 'requestsByUser'));
+    }
+    
+    function view_photo() {
+        $this->layout = 'popup';
+        $this->set(array(
+            'url'=> $this->params['url']['photo_url'],
+            'width'=>$this->params['url']['width'],
+            'height'=>$this->params['url']['height'],
+            'title_for_layout'=>'Foto'
+        ));
     }
 }

@@ -22,6 +22,13 @@
     $this->Javascript->link('agile_carousel.alpha', false);
     $this->Html->css('agile_carousel.css', null, array('inline'=>false));
 ?>
+<script type="text/javascript">
+    function viewPhoto(url, imageId) {
+        var img = $('#'+imageId);
+        var options = 'toolbar=no, resizable=no, width='+img.width()+", height="+img.height()+", resizable=no, menubar=no, location=no";
+        window.open('/exchanges/view_photo/?'+$.param({photo_url:url, width:img.width(), height:img.height()}), "", options);
+    }
+</script>
 <div>
     <div class="exchange-type <?php echo $this->Exchange->cssClass($exchange); ?>">
     <?php echo $this->Exchange->type($exchange); ?>
@@ -71,8 +78,8 @@
                     {
                         content: $('<div>').append(
                             $('<div>').attr('class', 'slide_inner').append(
-                                $('<a>').attr('class','photo_link').attr('href','#').append(
-                                    $('<img>').attr('src', '<?php echo $photo['small']['url'] ?>').attr('class','photo')
+                                $('<a>').attr('class','photo_link').attr('href','javascript:viewPhoto("<?php echo $photo['small']['url'] ?>", "<?php echo "carouselImage$i" ?>");').append(
+                                    $('<img>').attr('src', '<?php echo $photo['small']['url'] ?>').attr('class','photo').attr('id', '<?php echo "carouselImage$i" ?>')
                             )).append(
                                 $('<a>').attr('href', '#').attr('class', 'caption').text('descripcion')
                             )
