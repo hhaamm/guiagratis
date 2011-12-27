@@ -37,13 +37,8 @@
     <p>por <?php echo $this->Html->link($owner['User']['username'] ,'/users/view/'.$owner['User']['_id'], array('style'=> 'text-decoration: none;' ));  ?> </p>
 
 	<!-- SHOW ONLY WHEN IS OWNER -->
-    <?php if( !empty($current_user) && $current_user['User']['_id'] == $owner['User']['_id'] ){ ?>
-	<div class="admin edit-exchange-menu" style="float: right;">
-        <?php
-            $icon =  $this->Html->image('/img/icons/modify.png');
-            echo $this->Html->link($icon.' Editar',array('controller'=>'exchanges','action'=>'edit',$exchange['Exchange']['_id']),array('class'=>"link-button", 'escape' => false));
-        ?>
-
+    <?php if( !empty($user) && ($user['User']['_id'] == $owner['User']['_id'] || $user['User']['admin']) ){ ?>
+	<div class="admin edit-exchange-menu">
 	<?php
         $icon =  $this->Html->image('/img/icons/photo.png');
 		echo $this->Html->link($icon.' Editar fotos',array('controller'=>'exchanges','action'=>'edit_photos',$exchange['Exchange']['_id']),array('class'=>"link-button", 'escape' => false));

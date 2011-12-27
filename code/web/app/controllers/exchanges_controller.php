@@ -20,7 +20,7 @@
 class ExchangesController extends AppController {
     var $uses = array('Exchange','User');
 	var $components = array('Geo','Email','Upload');
-	var $helpers = array('Exchange');
+	var $helpers = array('Exchange', 'User');
 
 	function beforeFilter() {
 		parent::beforeFilter();
@@ -166,6 +166,7 @@ class ExchangesController extends AppController {
             return;
         }
 		if (!$this->data) {
+            $this->set('creator', $this->User->findById($exchange['Exchange']['user_id']));
 			$this->data = $exchange;
 		} else {
 			$this->data['Exchange']['lng'] = (float)$this->data['Exchange']['lng'];
