@@ -1,0 +1,57 @@
+<?php
+/*
+ * Guia Gratis, sistema para intercambio de regalos.
+ * Copyright (C) 2011  Hugo Alberto Massaroli
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+?>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('#filename').change(function() {
+			ajaxUpload(this.form,'<?php echo $url?>',
+				'upload_area',
+				'File Uploading Please Wait...&lt;br /&gt;&lt;img src=\'img/loader_light_blue.gif\' width=\'128\' height=\'15\' border=\'0\' /&gt;',
+				'&lt;img src=\'images/error.gif\' width=\'16\' height=\'16\' border=\'0\' /&gt; Error in Upload, check settings and path info in source code.');
+			return false;
+		});
+	});
+
+	/*
+	 * Adds an image to exchange-photo-list when added
+	 */
+	function ajax_upload_callback(response) {
+       $("#<?php echo $image_id?>").attr('src',$('#uploaded_image_url').html());
+	}
+
+</script>
+
+
+<?
+ echo $this->Form->create('Photo',array('action'=>'/images/upload','enctype'=>'multipart/form-data'));
+ echo $this->Form->input('photo',array(
+    'type'=>'file',
+    'id'=>'filename',
+    'value'=>'filename',
+    'label'=>'Cambiar avatar',
+    'name'=>'photo'
+ ));
+ echo $this->Form->hidden('prefix',array('default'=>$prefix));
+ echo $this->Form->hidden('id',array('default'=>$id));
+ echo $this->Form->end();
+
+?>
+
+<div id="upload_area"></div>

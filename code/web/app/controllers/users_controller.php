@@ -21,6 +21,8 @@ class UsersController extends AppController {
 
     var $uses = array('Exchange','User');
     var $helpers = array('Exchange');
+    var $components = array('Upload');
+
 
 
 	function beforeFilter() {
@@ -92,6 +94,43 @@ class UsersController extends AppController {
             $this->data['User']['password'] = $this->data['User']['confirm_password'];
 		}
 	}
+
+    function edit_profile(){
+        $user = $this->User->read(null, $this->Auth->user('_id'));
+
+        if ($this->data) {
+            $this->User->set($user);
+            if($this->User->save($this->data)){
+                $this->redirect(array('action'=>'view',$this->Auth->user('_id')));
+            }else{
+                //var_dump($this->User->invalidFields());
+				$this->Session->setFlash('Hubo un error al guardar tus datos');
+            }
+        }else{
+            $this->data = $user;
+        }
+    }
+
+    function change_avatar(){
+        $this->autoLayout = false;
+        if($this->data['Photo']['id'] != $this->Auth->user('_id')){
+            return;
+        }
+        $uid = $this->data['Photo']['id'];
+        $result = $this->Upload->images(array('images' => array(
+            'small' => array('width' => 50, 'height' => 50, 'keep_aspect_ratio' => true),
+            'medium' => array('width' => 100,'height' => 100, 'keep_aspect_ratio' => true),
+            'large' => array('width' => 150,'height' => 150, 'keep_aspect_ratio' => true)
+        ),
+            'dest_path' => WWW_ROOT.'uploads',
+            'file_field'=>'photo'));
+        $image =  array('id'=>uniqid(null, true),'small'=>$result['small'],'medium'=>$result['medium'],'large'=>$result['large']);
+        $this->User->setAvatar($image,$uid);
+        $img_url = $result['medium']['url'];
+        $user =  $this->User->read(null, $this->Auth->user('_id'));
+        $_SESSION['Auth']['User'] = $user['User']; //actualizar la url del avatar en la secio
+        $this->set(compact('img_url'));
+    }
 
 	function activate($token) {
 		if ($this->User->updateAll(array('active' => 1), array('User.register_token' => $token))) {

@@ -33,7 +33,19 @@ class User extends AppModel {
 		'admin'=>array('type'=>'integer'),
 		'reset_password_token'=>array('type'=>'integer'),
         'notify_on_message'=>array('type'=>'integer'),
-        'notify_on_answer'=>array('type'=>'integer')
+        'notify_on_answer'=>array('type'=>'integer'),
+        //-- personal data
+        'firstname'=>array('type'=>'string'),
+        'lastname'=>array('type'=>'string'),
+        'telephone'=>array('type'=>'string'),
+        'country'=>array('type'=>'string'),
+        'region'=>array('type'=>'string'),
+        'city'=>array('type'=>'string'),
+        'description'=>array('type'=>'string'),
+        'show_email' => array('type'=>'integer'),
+         //avatar
+         'avatar'=>array('type'=>'hash')
+
 	);
     
     var $validate = array(
@@ -80,4 +92,18 @@ class User extends AppModel {
 		$user = $this->find('first',array('conditions'=>compact('username')));
 		return !empty($user);
 	}
+
+    function setAvatar($image,$uid){
+        $user = $this->findById($uid);
+        if(isset($user['User']['avatar']) && !empty($user['User']['avatar']) ){
+           foreach(array('small','medium','large') as $size ){
+            unlink($user['User']['avatar'][$size]['file_path']);
+           }
+        }
+		$image = json_encode($image);
+		return $this->execute(new MongoCode(
+				"db.users.update({_id:ObjectId('$uid')},{\$set:{avatar:$image}},true,false)"
+		));
+    }
+
 }

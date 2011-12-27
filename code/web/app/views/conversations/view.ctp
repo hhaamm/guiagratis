@@ -25,7 +25,7 @@
 	<?php foreach ($conversation['Conversation']['messages'] as $message) { ?>
 
 		<li>
-			<div><?php echo $message['from_data']['username']." (".$this->Time->timeAgoInWords($message['created']).")" ?></div>
+            <div><?php echo $this->Html->link($message['from_data']['username'],array('controller'=>'users','action'=>'view',$message['from_data']['_id']),array('style'=>'text-decoration:none'))." (".$this->Time->timeAgoInWords($message['created']).")" ?></div>
 			<p><?php echo $message['text']?></p>
 		</li>
 
