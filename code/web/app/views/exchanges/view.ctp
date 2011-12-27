@@ -144,7 +144,8 @@
 				<div class="exchange_comment_user_info">
 					<?php
                         if($current_user && $current_user['User']['admin']){
-                            echo "(".$this->Html->link("X",array('action'=>'remove_comment',$comment['user_id'],$i)).")";
+                            $icon =  $this->Html->image('/img/icons/erase.png',array('style'=>"width: 14px; height: 14px; margin-right: 5px; margin-bottom: 7px;"));
+                            echo $this->Html->link($icon,array('action'=>'remove_comment',$comment['user_id'],$i),array('escape'=>false));
                         }
                         echo $this->Html->link($this->Html->image('/img/icons/mail.png'),'/conversations/add/'.$comment['user_id'],array('escape'=>false,'title'=>"Enviar mensaje personal"));?>
 				</div>
