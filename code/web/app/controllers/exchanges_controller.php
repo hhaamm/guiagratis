@@ -24,7 +24,7 @@ class ExchangesController extends AppController {
 
 	function beforeFilter() {
 		parent::beforeFilter();
-		$this->Auth->allow('index','get','view');
+		$this->Auth->allow('index','get','view','search','view_photo');
 	}
 
 	function index() {
@@ -32,6 +32,36 @@ class ExchangesController extends AppController {
         $this->set_start_point();
         $this->set('start_address', Configure::read('GoogleMaps.DefaultAddress'));
 	}
+
+    function search(){
+       $options = array(
+			'limit'=>35,
+			'page'=>1,
+            'conditions' => array('state'=>EXCHANGE_PUBLISHED)
+       );
+       $mode = 0;
+       if(isSet($this->params['url']['query'])){
+        if($this->params['url']['query']==""){
+            $this->Session->setFlash('Ingrese una consulta en el cuadro de texto');
+            $this->set('mode',0);
+            return;
+        }
+        if(!isSet($this->params['url']['mode']) || $this->params['url']['mode']=="0"){
+          $options['conditions']['tags'] = array('$in' => explode(',', $this->params['url']['query']));
+        }else{
+          $query = explode(' ',$this->params['url']['query'] );
+          $query = implode('.*.',$query);
+          $options['conditions']['title'] = array('$regex' => new MongoRegex('/'.$query.'/i'));
+          $mode = 1;
+        }
+        if(isSet($this->params['url']['type']) && !empty($this->params['url']['type'])){
+         $options['conditions']['exchange_type_id']=(int)$this->params['url']['type'];
+        }
+        $exchanges = $this->Exchange->find('all',$options);
+        $this->set(compact('exchanges'));
+       }
+       $this->set(compact('mode'));                   
+    }
 
 	function add_request() {
 		if ($this->data) {
@@ -121,27 +151,22 @@ class ExchangesController extends AppController {
 
 	function view($id) {
 		$exchange = $this->Exchange->read(null, $id);
-		if (empty($exchange)) {
-			debug("Exchange is null");
-		}
         $owner = $this->User->findById($exchange['Exchange']['user_id']);
         //TODO: ver si esto se puede cambiar por los datos del usuario en sesión
         //(menos llamadas a la base)
-        $user =  $this->User->findById($this->Auth->user('_id'));
         $title_for_layout = $exchange['Exchange']['title'];
-        $this->set(compact('owner','user','exchange','title_for_layout'));
+        $this->set(compact('owner','exchange','title_for_layout'));
 	}
 
 	function edit($eid) {
-        Configure::write('debug',1);
         $exchange = $this->Exchange->read(null, $eid);
-        if(!$this->Auth->user('admin') && $exchange['Exchange']['user_id'] !=  $this->Auth->user('_id')){
+        if($this->_cantEditExchange($exchange)){
             $this->Session->setFlash('No tiene permisos para realizar esta acción',true);
             $this->redirect(array('action' => 'view',$eid));
             return;
         }
+        $this->set('creator', $this->User->findById($exchange['Exchange']['user_id']));
 		if (!$this->data) {
-            $this->set('creator', $this->User->findById($exchange['Exchange']['user_id']));
 			$this->data = $exchange;
 		} else {
 			$this->data['Exchange']['lng'] = (float)$this->data['Exchange']['lng'];
@@ -180,6 +205,17 @@ class ExchangesController extends AppController {
 		
 	}
 
+    function remove_comment($eid,$i){
+        if(!$this->Auth->user('admin')){
+            //por ahora solo los admins pueden elimiar comentarios
+            //despues se podrian agregar otros rangos.
+            $this->getBack('No tiene permisos para realizar esta acción');
+            return;
+        }
+        $this->Exchange->removeComment($eid,$i);
+        $this->getBack("Comentario eliminado");
+    }
+
 	/*
 	 * Lists all exchanges related with the current user
 	 */
@@ -202,9 +238,7 @@ class ExchangesController extends AppController {
 		}
         $e = $this->Exchange->read(null, $exchange_id);
 
-        $owner = $this->User->findById($e['Exchange']['user_id']);
-        $user =  $this->User->findById($this->Auth->user('_id'));
-        if($owner['User']['_id'] !=  $user['User']['_id'] ){
+        if($this->_cantEditExchange($e)){
             $this->Session->setFlash('No tiene permisos para realizar esta acción',true);
             $this->redirect(array('action' => 'view',$exchange_id));
             return;
@@ -241,12 +275,36 @@ class ExchangesController extends AppController {
 	}
 
 	function finalize($eid) {
-		$result = $this->Exchange->finalize($eid, $this->uid);
-		debug($result);
+       $exchange = $this->find('first',array('conditions'=>array('_id'=>$eid)));
+		if ($this->_cantEditExchange($exchange)) {
+            $this->Session->setFlash('No tiene permisos para realizar esta acción',true);
+            $this->redirect('/exchanges/own');
+            return;
+		}
+		$result = $this->Exchange->finalize($exchange);
 		$this->Session->setFlash('El intercambio ha finalizado');
 		$this->redirect('/exchanges/own');
 	}
-    
+
+    function delete($eid){
+       //borrar completamente. Solo para los post que son CRAP.
+       //para lo demas usar finalize.
+       if(!$this->Auth->user('admin')){
+            $this->getBack('No tiene permisos para realizar esta acción');
+            return;
+       }
+       $exchange = $this->Exchange->read(null, $eid);
+       $user_id = $exchange['Exchange']['user_id'];
+       //delete all photos
+       if(!empty($exchange['Exchange']['photos'])){
+           foreach ($exchange['Exchange']['photos'] as $photo) {
+               $this->Exchange->deletePhoto($eid, $photo['id'], $this->uid);
+           }
+       }
+       $this->Exchange->delete($eid);
+       $this->redirect('/users/view/'.$user_id);
+    }
+
     // admin sections
     function admin_index() {
         $exchanges = $this->Exchange->find('all', array(
@@ -273,4 +331,20 @@ class ExchangesController extends AppController {
         $requestsByUser = round($countRequest / $usersActive, 2);
         $this->set(compact('exchanges', 'count', 'countOffer', 'countRequest', 'exchangesByUser', 'offersByUser', 'requestsByUser'));
     }
+    
+    function view_photo() {
+        $this->layout = 'popup';
+        $this->set(array(
+            'url'=> $this->params['url']['photo_url'],
+            'width'=>$this->params['url']['width'],
+            'height'=>$this->params['url']['height'],
+            'title_for_layout'=>'Foto'
+        ));
+    }
+
+
+    private function  _cantEditExchange($exchange){
+        return !$this->Auth->user('admin') && $exchange['Exchange']['user_id'] !=  $this->Auth->user('_id');
+    }
+
 }

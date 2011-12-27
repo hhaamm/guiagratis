@@ -19,9 +19,13 @@
  */
 class UsersController extends AppController {
 
+    var $uses = array('Exchange','User');
+    var $helpers = array('Exchange');
+
+
 	function beforeFilter() {
 		parent::beforeFilter();
-		$this->Auth->allow('register','login', 'logout', 'create', 'modal_login','modal_register','validate_mail','validate_username','verify','forgot_password','reset','activate');
+		$this->Auth->allow('register','login', 'logout', 'create', 'modal_login','modal_register','validate_mail','validate_username','verify','forgot_password','reset','activate','view');
 	}
 
 	function login() {
@@ -33,6 +37,16 @@ class UsersController extends AppController {
 	function logout() {
 		$this->redirect($this->Auth->logout());
 	}
+
+    function view($id){
+        $user = $this->User->findById($id);
+        $exchanges = $this->Exchange->find('all',array(
+			'conditions'=>array('user_id'=>$user['User']['_id']),
+			'limit'=>35
+		));
+        $this->set(compact('user','exchanges'));
+
+    }
 
 	function register() {
 		if ($this->data) {
