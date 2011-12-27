@@ -160,13 +160,12 @@ class ExchangesController extends AppController {
 
 	function edit($eid) {
         $exchange = $this->Exchange->read(null, $eid);
-        if($exchange['Exchange']['user_id'] !=  $this->Auth->user('_id') ){
-            $this->Session->setFlash('No tiene permisos para realizar esta acción',true);
+        if(!$this->Auth->user('admin') && $exchange['Exchange']['user_id'] !=  $this->Auth->user('_id')){            $this->Session->setFlash('No tiene permisos para realizar esta acción',true);
             $this->redirect(array('action' => 'view',$eid));
             return;
         }
+        $this->set('creator', $this->User->findById($exchange['Exchange']['user_id']));
 		if (!$this->data) {
-            $this->set('creator', $this->User->findById($exchange['Exchange']['user_id']));
 			$this->data = $exchange;
 		} else {
 			$this->data['Exchange']['lng'] = (float)$this->data['Exchange']['lng'];
