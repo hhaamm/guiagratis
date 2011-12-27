@@ -131,7 +131,7 @@
 	<ul class="exchange-comment-list">
 		<?php
 		if (isset($exchange['Exchange']['comments'])) { 
-			foreach($exchange['Exchange']['comments'] as $comment) { ?>
+			foreach($exchange['Exchange']['comments'] as $i => $comment) { ?>
 			<li class="exchange_comment">
 				<div style="float:left">
 					<h4 class="exchange_comment_header"><?php echo $comment['username']." (".$this->Time->timeAgoInWords($comment['created'],true).")"?></h4>
@@ -139,6 +139,9 @@
 				</div>
 				<div class="exchange_comment_user_info">
 					<?php
+                        if($current_user && $current_user['User']['admin']){
+                            echo "(".$this->Html->link("X",array('action'=>'remove_comment',$comment['user_id'],$i)).")";
+                        }
                         echo $this->Html->link($this->Html->image('/img/icons/mail.png'),'/conversations/add/'.$comment['user_id'],array('escape'=>false,'title'=>"Enviar mensaje personal"));?>
 				</div>
 				<div class="clear"></div>

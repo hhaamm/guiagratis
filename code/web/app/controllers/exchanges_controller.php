@@ -205,6 +205,17 @@ class ExchangesController extends AppController {
 		
 	}
 
+    function remove_comment($eid,$i){
+        if(!$this->Auth->user('admin')){
+            //por ahora solo los admins pueden elimiar comentarios
+            //despues se podrian agregar otros rangos.
+            $this->getBack('No tiene permisos para realizar esta acción');
+            return;
+        }
+        $this->Exchange->removeComment($eid,$i);
+        $this->getBack("Comentario eliminado");
+    }
+
 	/*
 	 * Lists all exchanges related with the current user
 	 */

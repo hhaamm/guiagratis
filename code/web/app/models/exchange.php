@@ -147,8 +147,6 @@ class Exchange extends AppModel {
 	}
 
 	function finalize($exchange) {
-
-
 		$exchange['Exchange']['state'] = EXCHANGE_FINALIZED;
 		$exchange['Exchange']['finalize_time'] = time();
 		return $this->save($exchange);
@@ -170,4 +168,12 @@ class Exchange extends AppModel {
        }
        return $results;
     }
+
+    function removeComment($eid, $i) {
+ 		$this->execute(new MongoCode(
+			"db.exchanges.update({_id:ObjectId('$eid')}, {\$unset : {'comments.$i' : 1 }});db.exchanges.update({_id:ObjectId('$eid')}, {\$pull : {'comments' : null}});"
+
+		));
+        return true;
+	}
 }
