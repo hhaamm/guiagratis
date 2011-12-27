@@ -1,0 +1,19 @@
+
+.footer {
+	padding: 0 20px;
+	margin: 0;
+	float: left;
+	width: 800px;
+	height:20px;
+	background: #222;
+	border-radius: 0px 0px 15px 15px;
+    color: white;
+    text-align:center;
+}
+
+.top-menu{
+    width: 800px;
+	background: #222000;
+}
+
+.own-buttons-containter{ margin-top: -45px;}

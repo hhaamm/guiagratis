@@ -24,7 +24,7 @@ class ExchangesController extends AppController {
 
 	function beforeFilter() {
 		parent::beforeFilter();
-		$this->Auth->allow('index','get','view');
+		$this->Auth->allow('index','get','view','search','view_photo');
 	}
 
 	function index() {
@@ -32,6 +32,36 @@ class ExchangesController extends AppController {
         $this->set_start_point();
         $this->set('start_address', Configure::read('GoogleMaps.DefaultAddress'));
 	}
+
+    function search(){
+       $options = array(
+			'limit'=>35,
+			'page'=>1,
+            'conditions' => array('state'=>EXCHANGE_PUBLISHED)
+       );
+       $mode = 0;
+       if(isSet($this->params['url']['query'])){
+        if($this->params['url']['query']==""){
+            $this->Session->setFlash('Ingrese una consulta en el cuadro de texto');
+            $this->set('mode',0);
+            return;
+        }
+        if(!isSet($this->params['url']['mode']) || $this->params['url']['mode']=="0"){
+          $options['conditions']['tags'] = array('$in' => explode(',', $this->params['url']['query']));
+        }else{
+          $query = explode(' ',$this->params['url']['query'] );
+          $query = implode('.*.',$query);
+          $options['conditions']['title'] = array('$regex' => new MongoRegex('/'.$query.'/i'));
+          $mode = 1;
+        }
+        if(isSet($this->params['url']['type']) && !empty($this->params['url']['type'])){
+         $options['conditions']['exchange_type_id']=(int)$this->params['url']['type'];
+        }
+        $exchanges = $this->Exchange->find('all',$options);
+        $this->set(compact('exchanges'));
+       }
+       $this->set(compact('mode'));                   
+    }
 
 	function add_request() {
 		if ($this->data) {
@@ -121,25 +151,16 @@ class ExchangesController extends AppController {
 
 	function view($id) {
 		$exchange = $this->Exchange->read(null, $id);
-		if (empty($exchange)) {
-			debug("Exchange is null");
-		}
         $owner = $this->User->findById($exchange['Exchange']['user_id']);
         //TODO: ver si esto se puede cambiar por los datos del usuario en sesión
         //(menos llamadas a la base)
-        $user =  $this->User->findById($this->Auth->user('_id'));
-        $this->set(compact('owner'));
-        $this->set(compact('user'));
-		$this->set(compact('exchange'));
+        $title_for_layout = $exchange['Exchange']['title'];
+        $this->set(compact('owner','exchange','title_for_layout'));
 	}
 
 	function edit($eid) {
         $exchange = $this->Exchange->read(null, $eid);
-        $owner = $this->User->findById($exchange['Exchange']['user_id']);
-        //TODO: ver si esto se puede cambiar por los datos del usuario en sesión
-        //(menos llamadas a la base)
-        $user =  $this->User->findById($this->Auth->user('_id'));
-        if($owner['User']['_id'] !=  $user['User']['_id'] ){
+        if($exchange['Exchange']['user_id'] !=  $this->Auth->user('_id') ){
             $this->Session->setFlash('No tiene permisos para realizar esta acción',true);
             $this->redirect(array('action' => 'view',$eid));
             return;
@@ -205,9 +226,7 @@ class ExchangesController extends AppController {
 		}
         $e = $this->Exchange->read(null, $exchange_id);
 
-        $owner = $this->User->findById($e['Exchange']['user_id']);
-        $user =  $this->User->findById($this->Auth->user('_id'));
-        if($owner['User']['_id'] !=  $user['User']['_id'] ){
+        if($e['Exchange']['user_id'] !=  $this->Auth->user('_id') ){
             $this->Session->setFlash('No tiene permisos para realizar esta acción',true);
             $this->redirect(array('action' => 'view',$exchange_id));
             return;
@@ -245,7 +264,6 @@ class ExchangesController extends AppController {
 
 	function finalize($eid) {
 		$result = $this->Exchange->finalize($eid, $this->uid);
-		debug($result);
 		$this->Session->setFlash('El intercambio ha finalizado');
 		$this->redirect('/exchanges/own');
 	}
@@ -266,6 +284,24 @@ class ExchangesController extends AppController {
                 'exchange_type_id'=>Configure::read('ExchangeType.Request')
             )
         ));
-        $this->set(compact('exchanges', 'count', 'countOffer', 'countRequest'));
+        $usersActive = $this->User->find('count', array(
+            'conditions'=>array(
+                'active'=>1
+            )
+        ));
+        $exchangesByUser = round($count / $usersActive, 2);
+        $offersByUser = round($countOffer / $usersActive, 2);
+        $requestsByUser = round($countRequest / $usersActive, 2);
+        $this->set(compact('exchanges', 'count', 'countOffer', 'countRequest', 'exchangesByUser', 'offersByUser', 'requestsByUser'));
+    }
+    
+    function view_photo() {
+        $this->layout = 'popup';
+        $this->set(array(
+            'url'=> $this->params['url']['photo_url'],
+            'width'=>$this->params['url']['width'],
+            'height'=>$this->params['url']['height'],
+            'title_for_layout'=>'Foto'
+        ));
     }
 }

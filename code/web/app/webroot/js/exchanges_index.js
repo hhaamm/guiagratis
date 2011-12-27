@@ -105,13 +105,13 @@ function get_exchanges_callback(data) {
         debug('inside for');
 		
         var exchange = this.Exchange;
-		
-		debug('exchange: '+exchange.title);
-		debug(exchange.lat+" "+exchange.lng);
+		debug(exchange);
 		var point = new GLatLng(exchange.lat, exchange.lng);
         
 		var markerOptions = {title:exchange.title};
 		
+        //esto es para los exchanges que tienen íconos customizados.
+        //no lo estamos usando.
 		if (exchange.custom_icon == 1) {
 			var icon = new GIcon();
 			icon.image = exchange.custom_icon_pic;

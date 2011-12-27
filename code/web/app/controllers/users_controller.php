@@ -19,9 +19,13 @@
  */
 class UsersController extends AppController {
 
+    var $uses = array('Exchange','User');
+    var $helpers = array('Exchange');
+
+
 	function beforeFilter() {
 		parent::beforeFilter();
-		$this->Auth->allow('register','login', 'logout', 'create', 'modal_login','modal_register','validate_mail','validate_username','verify','forgot_password','reset','activate');
+		$this->Auth->allow('register','login', 'logout', 'create', 'modal_login','modal_register','validate_mail','validate_username','verify','forgot_password','reset','activate','view');
 	}
 
 	function login() {
@@ -33,6 +37,16 @@ class UsersController extends AppController {
 	function logout() {
 		$this->redirect($this->Auth->logout());
 	}
+
+    function view($id){
+        $user = $this->User->findById($id);
+        $exchanges = $this->Exchange->find('all',array(
+			'conditions'=>array('user_id'=>$user['User']['_id']),
+			'limit'=>35
+		));
+        $this->set(compact('user','exchanges'));
+
+    }
 
 	function register() {
 		if ($this->data) {
@@ -293,7 +307,9 @@ class UsersController extends AppController {
                 'admin'=>1
             )
         ));
+        $inactivePercentage = round($countInactive/$count*100, 2);
+        $activePercentage = 100 - $inactivePercentage;
         $users = $this->User->find('all', array('limit'=>500));
-        $this->set(compact('users', 'count', 'countActive', 'countInactive', 'countAdmin'));
+        $this->set(compact('users', 'count', 'countActive', 'countInactive', 'countAdmin', 'inactivePercentage', 'activePercentage'));
     }
 }

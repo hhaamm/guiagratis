@@ -31,6 +31,12 @@
         });
     });
 </script>
+
+<?php
+    $icon =  $this->Html->image('/img/icons/photo.png');
+    echo $this->Html->link($icon.' Editar fotos',array('controller'=>'exchanges','action'=>'edit_photos',$this->data['Exchange']['_id']),array('class'=>"link-button", 'escape' => false));
+?>
+        
 <?php
 
 echo $this->Form->create('Exchange');

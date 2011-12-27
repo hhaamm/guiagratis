@@ -18,6 +18,10 @@
 	clear:both;
 }
 
+ul {
+    list-style: none;
+}
+
 body {
 	background:#f9fafc;
 	font-family:'lucida grande',verdana,helvetica,arial,sans-serif;
@@ -75,7 +79,7 @@ h4 {
 	border-style:solid;
 	border-width:0px 1px 0px 1px;
 	border-color:#222;
-	width:778px;
+	width:790px;
 	margin:0;
 	padding:10px;
 }
@@ -105,11 +109,17 @@ p {
 	padding: 0 20px;
 	margin: 0;
 	float: left;
-	width: 760px;
-	height:10px;
+	width: 772px;
+	height:20px;
 	background: #222;
 	-moz-border-radius: 0px 0px 15px 15px;
 	border-radius: 0px 0px 15px 15px;
+    color: white;
+    text-align:center;
+}
+
+.footer a {
+    color:white;
 }
 
 /* Index page */
@@ -130,7 +140,7 @@ p {
 }
 
 .top-menu {
-	width: 760px;
+	width: 772px;
 	background: #222000;
 	-moz-border-radius: 15px 15px 0px 0px;
 	border-top-right-radius: 15px;
@@ -463,3 +473,30 @@ table.users {
 table.exchanges {
     width:740px;    
 }
+
+div.exchange-type {
+    width:100%;
+    color:white;
+}
+
+div.event {
+    background:#44E;
+}
+
+div.offer {
+    background:chocolate;
+}
+
+div.request {
+    background:#0a0;
+}
+
+/*carousel*/
+.exchange-photos{ float:left;margin:10px; }
+.carousel_view{float: left;border: 1px solid black;}
+.carousel_slider{float: left;text-align: center;height: 332px;overflow: hidden;border: 1px solid black;}
+
+
+.link-button{vertical-align: super;float: left;margin:3px; padding: 5px 10px;border-radius: 7px 7px 7px 8px;border-color: #CCCCCC #C6C6C6 #AAAAAA; border-style: solid;border-width: 1px;text-decoration: none;background-color: #FCFCFC}
+
+a.exchange-view-link{color: #993;font-family:'Gill Sans','lucida grande', helvetica, arial, sans-serif;font-size: 140%;}

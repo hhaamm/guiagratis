@@ -39,6 +39,42 @@ class ExchangeHelper extends AppHelper {
 			}
 		}
 	}
+    
+    /*
+     * Devuelve el tipo del intercambio como string
+     */
+    function type($exchange) {
+        switch($exchange['Exchange']['exchange_type_id']) {
+            case EXCHANGE_REQUEST:
+                return "Pedido";
+                break;
+            case EXCHANGE_OFFER:
+                return "Oferta";
+                break;
+            case EXCHANGE_EVENT;
+                return "Evento";
+                break;
+            default:
+                echo "Tipo desconocido";
+        }
+    }
+    
+    /*
+     * Devuelve la clase css para ese tipo.
+     */
+    function cssClass($exchange) {
+          switch($exchange['Exchange']['exchange_type_id']) {
+            case EXCHANGE_REQUEST:
+                return "request";
+                break;
+            case EXCHANGE_OFFER:
+                return "offer";
+                break;
+            case EXCHANGE_EVENT;
+                return "event";
+                break;
+        }
+    }
 }
 
 ?>

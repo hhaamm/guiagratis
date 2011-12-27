@@ -20,12 +20,13 @@
 <html>
 	<head>
 		<?php echo $this->Html->charset(); ?>
-		<title>¿Necesitás algo? Conseguilo en guia-gratis.com.ar</title>
+		<title><?php echo $title_for_layout ?></title>
 		<?php
 		echo $javascript->link('debug');
 		echo $javascript->link('jquery');
 		echo $javascript->link('common');
 		echo $javascript->link('jquery-ui-1.8.2.custom.min');
+        echo $javascript->link('jquery.carousel.min');
 		echo $javascript->link('sexy_dropdown_menu');
 
 		echo $scripts_for_layout;
@@ -38,6 +39,9 @@
 
 		echo $this->Html->meta('icon', '/favicon2.ico');
 		?>
+        <!--[if IE]>
+ 		<?php echo $this->Html->css('ie-hacks.css'); ?>
+        <![endif]-->
 	</head>
 	<body>
 		<div id="content">
@@ -45,14 +49,14 @@
 				<li><a href="/">Home</a></li>
 				<?php if ($current_user) { ?>
 				<li>
-					<a href="#">Acciones</a>
+					<a href="#" onclick="$(this).next().next().click();return false;">Acciones</a>
 					<ul class="subnav">
 						<li><a href="/exchanges/add_offer">Agregar oferta</a></li>
 						<li><a href="/exchanges/add_request">Agregar pedido</a></li>
 					</ul>
 				</li>
 				<li>
-					<a href="#">Cuenta</a>
+					<a href="#" onclick="$(this).next().next().click();return false;">Cuenta</a>
 					<ul class="subnav">
 						<li><a href="/conversations">Mis conversaciones</a></li>
 						<li><a href="/exchanges/own">Mis ofertas/pedidos</a></li>
@@ -62,7 +66,7 @@
 				</li>
                 <?php if ($is_admin) { ?>
                 <li>
-					<a href="#">Administración</a>
+					<a href="#" onclick="$(this).next().click();return false;" >Administración</a>
 					<ul class="subnav">
 						<li><a href="/admin/users">Usuarios</a></li>
                         <li><a href="/admin/exchanges">Ofertas y pedidos</a></li>
@@ -73,8 +77,15 @@
 				<li><a href="/users/login">Entrar</a></li>
 				<li><a href="/users/register">Registrarse</a></li>
 					<?php } ?>
-				<li><a href="/pages/about_us">Quiénes somos</a></li>
-				<li><a href="/pages/help">Ayuda</a></li>
+				
+				<li>
+                    <a href="/pages/help">Ayuda</a>
+                    <ul class="subnav">
+                        <li><a href="/pages/help">Guía principiantes</a></li>
+                        <li><a href="/pages/about_us">Quiénes somos</a></li>
+                        <li><a href="/pages/development">Desarrollo</a></li>
+                    </ul>
+                </li>
 			</ul>
 			<div class="br"></div>
 			<div class="body">
@@ -82,7 +93,9 @@
 				<?php echo $content_for_layout; ?>
 			</div>
 			<?php echo $this->element('sql_dump'); ?>
-			<div class="footer"></div>
+			<div class="footer">
+                Al usar Guia Gratis aceptás estar de acuerdo con sus <a href="/pages/tys">Términos y Condiciones</a>.
+            </div>
 		</div>
 	</body>
 </html>

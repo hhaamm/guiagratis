@@ -3,6 +3,9 @@
 <p>Número de ofertas y pedidos: <?php echo $count ?></p>
 <p>Número de ofertas: <?php echo $countOffer ?></p>
 <p>Número de pedidos: <?php echo $countRequest ?></p>
+<p>Ofertas y pedidos por usuario activo: <?php echo $exchangesByUser ?></p>
+<p>Ofertas por usuario activo: <?php echo $offersByUser; ?></p>
+<p>Pedidos por usuario activo: <?php echo $requestsByUser; ?></p>
 <br/>
 <h3>Listado</h3>
 <table class="exchanges">
