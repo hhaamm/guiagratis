@@ -146,13 +146,8 @@ class Exchange extends AppModel {
 		return $result;
 	}
 
-	function finalize($eid, $current_user) {
-		$exchange = $this->find('first',array('conditions'=>array('_id'=>$eid)));
+	function finalize($exchange) {
 
-		if ($exchange['Exchange']['user_id'] != $current_user) {
-			$this->log("User ${$current_user} trying to finalize exchange with id = ${$eid}. Denied");
-			return false;
-		}
 
 		$exchange['Exchange']['state'] = EXCHANGE_FINALIZED;
 		$exchange['Exchange']['finalize_time'] = time();

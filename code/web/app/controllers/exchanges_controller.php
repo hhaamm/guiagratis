@@ -160,7 +160,8 @@ class ExchangesController extends AppController {
 
 	function edit($eid) {
         $exchange = $this->Exchange->read(null, $eid);
-        if(!$this->Auth->user('admin') && $exchange['Exchange']['user_id'] !=  $this->Auth->user('_id')){            $this->Session->setFlash('No tiene permisos para realizar esta acción',true);
+        if($this->_cantEditExchange($exchange)){
+            $this->Session->setFlash('No tiene permisos para realizar esta acción',true);
             $this->redirect(array('action' => 'view',$eid));
             return;
         }
@@ -226,7 +227,7 @@ class ExchangesController extends AppController {
 		}
         $e = $this->Exchange->read(null, $exchange_id);
 
-        if($e['Exchange']['user_id'] !=  $this->Auth->user('_id') ){
+        if($this->_cantEditExchange($e)){
             $this->Session->setFlash('No tiene permisos para realizar esta acción',true);
             $this->redirect(array('action' => 'view',$exchange_id));
             return;
@@ -263,7 +264,13 @@ class ExchangesController extends AppController {
 	}
 
 	function finalize($eid) {
-		$result = $this->Exchange->finalize($eid, $this->uid);
+       $exchange = $this->find('first',array('conditions'=>array('_id'=>$eid)));
+		if ($this->_cantEditExchange($exchange)) {
+            $this->Session->setFlash('No tiene permisos para realizar esta acción',true);
+            $this->redirect('/exchanges/own');
+            return;
+		}
+		$result = $this->Exchange->finalize($exchange);
 		$this->Session->setFlash('El intercambio ha finalizado');
 		$this->redirect('/exchanges/own');
 	}
@@ -304,4 +311,10 @@ class ExchangesController extends AppController {
             'title_for_layout'=>'Foto'
         ));
     }
+
+
+    private function  _cantEditExchange($exchange){
+        return !$this->Auth->user('admin') && $exchange['Exchange']['user_id'] !=  $this->Auth->user('_id');
+    }
+
 }
