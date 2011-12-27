@@ -74,7 +74,10 @@
 <p>
     Estos Términos y Condiciones pueden cambiar a través del tiempo. Guia Gratis no se hace responsable de 
     informar al Usuario de tales cambios. Cualquier cambio en los Términos y Condiciones regirá automáticamente
-    ni bien estén disponibles en esta página de Términos y Condiciones.
+    ni bien estén disponibles en esta página de Términos y Condiciones. El usuario que no esté de acuerdo con los
+    nuevos términos y condiciones deberá enviar un mail a <a href="mailto:<?=Configure::read('Mail.to')?>"><?=Configure::read('Mail.to')?></a>
+    y será inhabilitado como usuario. De no hacerlo en un plazo de 5 días, se considerará que el usuario acepta los
+    nuevos Términos y Condiciones.
 </p>
 <br/>
 <h3>Responsabilidad</h3>

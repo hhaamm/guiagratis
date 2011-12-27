@@ -130,7 +130,9 @@ class Exchange extends AppModel {
 
 		foreach ($e['Exchange']['photos'] as $photo) {
 			if ($photo['id'] == $pid) {
-
+                foreach(array('small','square') as $size ){
+                    unlink($photo[$size]['file_path']); //borrar del disco
+                }
 				$photo_data = json_encode($photo);
 			}
 		}
@@ -139,20 +141,12 @@ class Exchange extends AppModel {
 			return false;
 		}
 		
-		//TODO: hacer que borre también las imágenes
 		$query = "db.exchanges.update({_id:ObjectId('$eid')}, {\$pull:{photos:$photo_data}})";
 		$result = $this->execute(new MongoCode($query));
 		return $result;
 	}
 
-	function finalize($eid, $current_user) {
-		$exchange = $this->find('first',array('conditions'=>array('_id'=>$eid)));
-
-		if ($exchange['Exchange']['user_id'] != $current_user) {
-			$this->log("User ${$current_user} trying to finalize exchange with id = ${$eid}. Denied");
-			return false;
-		}
-
+	function finalize($exchange) {
 		$exchange['Exchange']['state'] = EXCHANGE_FINALIZED;
 		$exchange['Exchange']['finalize_time'] = time();
 		return $this->save($exchange);
@@ -167,9 +161,19 @@ class Exchange extends AppModel {
     }
     
     function afterFind($results, $primary) {
+       if($results!=null){
         foreach($results as &$result) {
             $result['Exchange']['tags'] = implode(', ', $result['Exchange']['tags']);
         }
-        return $results;
+       }
+       return $results;
     }
+
+    function removeComment($eid, $i) {
+ 		$this->execute(new MongoCode(
+			"db.exchanges.update({_id:ObjectId('$eid')}, {\$unset : {'comments.$i' : 1 }});db.exchanges.update({_id:ObjectId('$eid')}, {\$pull : {'comments' : null}});"
+
+		));
+        return true;
+	}
 }
