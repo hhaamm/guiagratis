@@ -58,6 +58,10 @@
                 " Finalizado",
                 array('style'=>'background-color:#DDDDDD'));
         }
+        if($current_user['User']['admin']){
+            $icon =  $this->Html->image('/img/icons/erase.png');
+            echo $this->Html->link($icon.' Borrar',array('controller'=>'exchanges','action'=>'delete',$exchange['Exchange']['_id']),array('class'=>"link-button", 'escape' => false),"Esta acción es irreversible. Usar solo para contenido basura(CRAP) \\n ¿Seguro que deseas continuar?");
+        }
 	?>
 	</div>
     <div class="clear"></div>

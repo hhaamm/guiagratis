@@ -285,7 +285,26 @@ class ExchangesController extends AppController {
 		$this->Session->setFlash('El intercambio ha finalizado');
 		$this->redirect('/exchanges/own');
 	}
-    
+
+    function delete($eid){
+       //borrar completamente. Solo para los post que son CRAP.
+       //para lo demas usar finalize.
+       if(!$this->Auth->user('admin')){
+            $this->getBack('No tiene permisos para realizar esta acción');
+            return;
+       }
+       $exchange = $this->Exchange->read(null, $eid);
+       $user_id = $exchange['Exchange']['user_id'];
+       //delete all photos
+       if(!empty($exchange['Exchange']['photos'])){
+           foreach ($exchange['Exchange']['photos'] as $photo) {
+               $this->Exchange->deletePhoto($eid, $photo['id'], $this->uid);
+           }
+       }
+       $this->Exchange->delete($eid);
+       $this->redirect('/users/view/'.$user_id);
+    }
+
     // admin sections
     function admin_index() {
         $exchanges = $this->Exchange->find('all', array(
