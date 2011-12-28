@@ -500,3 +500,14 @@ div.request {
 .link-button{vertical-align: super;float: left;margin:3px; padding: 5px 10px;border-radius: 7px 7px 7px 8px;border-color: #CCCCCC #C6C6C6 #AAAAAA; border-style: solid;border-width: 1px;text-decoration: none;background-color: #FCFCFC}
 
 a.exchange-view-link{color: #993;font-family:'Gill Sans','lucida grande', helvetica, arial, sans-serif;font-size: 140%;}
+
+
+.notification-counter{padding: 2px 5px; float: right; margin-top: 3px; border-radius: 5px 5px 5px 5px; background-color: #F22222; border: 2px solid rgb(136, 85, 85);}
+.notification-counter-zero{padding: 2px 5px;float: right;background-color: #FFFFFF; margin-top: 3px;border-radius: 5px 5px 5px 5px;border: 2px solid #777777;}
+
+.notification-counter a{
+    color: #FFFFFF !important;
+}
+.notification-counter-zero a{
+    color: #000000 !important;
+}

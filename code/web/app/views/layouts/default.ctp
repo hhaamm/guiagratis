@@ -86,6 +86,14 @@
                         <li><a href="/pages/development">Desarrollo</a></li>
                     </ul>
                 </li>
+                <?php if($current_user){ ?>
+                <li style="float: right;array">
+                     <div class="notification-counter">
+                        <?php echo $this->Html->link("0","#",array('style'=>'padding-top: 0px; padding-right: 0px;'))?>
+                     </div>
+                    <?php echo $this->Html->link($current_user['User']['username'],array('controller'=>'users','action'=>'view',$current_user['User']['_id']),array('style'=>'padding-top: 7px;')) ?>
+                </li>
+                 <?php } ?>
 			</ul>
 			<div class="br"></div>
 			<div class="body">
