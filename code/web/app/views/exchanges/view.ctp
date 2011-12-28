@@ -62,7 +62,14 @@
 	?>
 	</div>
     <div class="clear"></div>
-    <?php } ?>
+    <?php }else{
+        if ($exchange['Exchange']['state'] == EXCHANGE_FINALIZED) {
+            echo $this->Html->div('link-button',
+                $this->Html->image('/img/icons/abort.png').
+                " Finalizado ".$this->Time->timeAgoInWords($exchange['Exchange']['finalize_time']),
+                array('style'=>'background-color:#DDDDDD;float:right'));
+        }
+    }?>
 	<br>
 
 	<p class="exchange-description"><?php echo $exchange['Exchange']['detail']?></p>
