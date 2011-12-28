@@ -37,11 +37,11 @@
 	<?php
 	echo $this->Form->create();
 	echo $this->Form->input('title',array('label'=>'Título'));
-    echo $this->Form->input('start_date',array('label'=>'Fecha de inicio'));
-    echo $this->Form->input('end_date',array('label'=>'Fecha de finalización'));
+    echo $this->Form->input('start_date',array('label'=>'Fecha de inicio', 'type'=>'datetime', 'timeFormat'=>24));
+    echo $this->Form->input('end_date',array('label'=>'Fecha de finalización', 'type'=>'datetime', 'timeFormat'=>24));
 	echo $this->Form->input('detail',array('label'=>'descripción', 'type'=>'textarea'));
     echo $this->Form->input('tags', array('label'=>'Tags (separados por coma)'));
 	echo $this->element('set_exchange_location');
-	echo $this->Form->end('Agregar oferta');
+	echo $this->Form->end('Agregar evento');
 	?>
 </fieldset>

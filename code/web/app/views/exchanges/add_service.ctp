@@ -41,6 +41,6 @@
 	echo $this->Form->input('detail',array('label'=>'descripción', 'type'=>'textarea'));
     echo $this->Form->input('tags', array('label'=>'Tags (separados por coma)'));
 	echo $this->element('set_exchange_location');
-	echo $this->Form->end('Agregar oferta');
+	echo $this->Form->end('Agregar servicio');
 	?>
 </fieldset>

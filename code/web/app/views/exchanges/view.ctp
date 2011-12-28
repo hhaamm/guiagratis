@@ -40,7 +40,7 @@
 	<?php
             $icon =  $this->Html->image('/img/icons/modify.png');
             echo $this->Html->link($icon.' Editar',array('controller'=>'exchanges','action'=>'edit',$exchange['Exchange']['_id']),array('class'=>"link-button", 'escape' => false));
-        ?>
+    ?>
 
 	<?php
         $icon =  $this->Html->image('/img/icons/photo.png');
@@ -63,8 +63,12 @@
 	?>
 	</div>
     <?php 
-    if ($exchange['Exchange']['exchange_type_id'] == EXCHANGE_SERVICE) {
+    if ($this->Exchange->is_service($exchange)) {
         echo $this->Html->div('hours_of_opening', 'Horario de atención: '.$exchange['Exchange']['hours_of_opening']);
+    }
+    if ($this->Exchange->is_event($exchange)) {
+        echo $this->Html->div('service_start_date', 'Empieza: '.date('Y-m-d H:i', $exchange['Exchange']['start_date']->sec));
+        echo $this->Html->div('service_end_date', 'Termina: '.date('Y-m-d H:i', $exchange['Exchange']['end_date']->sec));
     }
     ?>
     <p class="exchange-description"><?php echo $exchange['Exchange']['detail']?></p>

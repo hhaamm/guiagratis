@@ -81,6 +81,31 @@ class ExchangeHelper extends AppHelper {
                 break;
         }
     }
+    
+    function is_service($exchange) {
+        return $this->is($exchange, EXCHANGE_SERVICE);
+    }
+    
+    function is_event($exchange) {
+        return $this->is($exchange, EXCHANGE_EVENT);
+    }
+    
+    function is_offer($exchange) {
+        return $this->is($exchange, EXCHANGE_OFFER);
+    }
+    
+    function is_request($exchange) {
+        return $this->is($exchange, EXCHANGE_REQUEST);
+    }
+    
+    function is($exchange, $exchange_type_id) {
+        return $exchange['Exchange']['exchange_type_id'] == $exchange_type_id;
+    }
+    
+    //formatea una fecha como se guarda en MongoDB en un formato razonable.
+    function date() {
+        
+    }
 }
 
 ?>

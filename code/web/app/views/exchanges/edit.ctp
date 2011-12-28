@@ -47,6 +47,13 @@ if ($current_user['User']['admin']) { ?>
 echo $this->Form->create('Exchange');
 echo $this->Form->hidden('_id');
 echo $this->Form->input('title',array('label'=>'Título'));
+if ($this->Exchange->is_service($this->data)) {
+    echo $this->Form->input('hours_of_opening',array('label'=>'Horario de atención'));
+}
+if ($this->Exchange->is_event($this->data)) {
+    echo $this->Form->input('start_date',array('label'=>'Fecha de inicio', 'type'=>'datetime', 'timeFormat'=>24));
+    echo $this->Form->input('end_date',array('label'=>'Fecha de finalización', 'type'=>'datetime', 'timeFormat'=>24));
+}
 echo $this->Form->input('detail',array('label'=>'Descripción'));
 echo $this->Form->input('tags', array('label'=>'Tags (separados por coma)'));
 echo $this->element('set_exchange_location');

@@ -36,7 +36,7 @@ class Exchange extends AppModel {
 		'created'=>'timestamp',
         //TODO: ver si este campo state es necesario
 		'state'=>'string',
-		'finalize_time'=>'timestamp',
+		'finalize_time'=>array('type'=>'timestamp'),
 		'photos'=>array(
 			'default', 'id', 'small', 'square'
 		),
@@ -159,6 +159,25 @@ class Exchange extends AppModel {
         foreach ($this->data['Exchange']['tags'] as &$tag) {
             $tag = trim($tag);  
         }
+        
+        //guardamos la fecha en un formato entendible
+        $this->data['Exchange']['start_date'] = new MongoDate(mktime(
+                $this->data['Exchange']['start_date']['hour'],
+                $this->data['Exchange']['start_date']['min'],
+                $this->data['Exchange']['start_date']['sec'],
+                $this->data['Exchange']['start_date']['month'],
+                $this->data['Exchange']['start_date']['day'],
+                $this->data['Exchange']['start_date']['year']
+        ));
+         $this->data['Exchange']['end_date'] = new MongoDate(mktime(
+                $this->data['Exchange']['end_date']['hour'],
+                $this->data['Exchange']['end_date']['min'],
+                $this->data['Exchange']['end_date']['sec'],
+                $this->data['Exchange']['end_date']['month'],
+                $this->data['Exchange']['end_date']['day'],
+                $this->data['Exchange']['end_date']['year']
+        ));
+        
         return true;
     }
     
