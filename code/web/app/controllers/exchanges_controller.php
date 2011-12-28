@@ -60,6 +60,7 @@ class ExchangesController extends AppController {
             if (isSet($this->params['url']['type']) && !empty($this->params['url']['type'])) {
                 $options['conditions']['exchange_type_id'] = (int) $this->params['url']['type'];
             }
+            $this->Exchange->catchFinalizedEvents = true;
             $exchanges = $this->Exchange->find('all', $options);
             $this->set(compact('exchanges'));
         }
@@ -142,6 +143,7 @@ class ExchangesController extends AppController {
             $options['conditions']['tags'] = array('$in' => explode(',', $_REQUEST['query']));
         }
 
+        $this->Exchange->catchFinalizedEvents = true;
         $exchanges = $this->Exchange->find('all', $options);
         $this->result(true, '', compact('exchanges'));
     }
@@ -255,7 +257,6 @@ class ExchangesController extends AppController {
                     'conditions' => array('user_id' => $this->Auth->user('_id')),
                     'limit' => 35
                 ));
-
         if (!$exchanges) {
             $exchanges = array();
         }

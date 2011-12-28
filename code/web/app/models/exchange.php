@@ -18,6 +18,7 @@
  * 
  */
 class Exchange extends AppModel {
+    var $catchFinalizedEvents = false;
 	var $mongoSchema = array(
 		'comments'=>array(
 			'user_id'=>array('type'=>'integer'),
@@ -161,30 +162,41 @@ class Exchange extends AppModel {
         }
         
         //guardamos la fecha en un formato entendible
-        $this->data['Exchange']['start_date'] = new MongoDate(mktime(
-                $this->data['Exchange']['start_date']['hour'],
-                $this->data['Exchange']['start_date']['min'],
-                $this->data['Exchange']['start_date']['sec'],
-                $this->data['Exchange']['start_date']['month'],
-                $this->data['Exchange']['start_date']['day'],
-                $this->data['Exchange']['start_date']['year']
-        ));
-         $this->data['Exchange']['end_date'] = new MongoDate(mktime(
+        if (is_array($this->data['Exchange']['start_date'])) {
+            $this->data['Exchange']['start_date'] = new MongoDate(mktime(
+                    $this->data['Exchange']['start_date']['hour'],
+                    $this->data['Exchange']['start_date']['min'],
+                    $this->data['Exchange']['start_date']['sec'],
+                    $this->data['Exchange']['start_date']['month'],
+                    $this->data['Exchange']['start_date']['day'],
+                    $this->data['Exchange']['start_date']['year']
+            ));
+        }
+        if (is_array($this->data['Exchange']['end_date'])) {
+            $this->data['Exchange']['end_date'] = new MongoDate(mktime(
                 $this->data['Exchange']['end_date']['hour'],
                 $this->data['Exchange']['end_date']['min'],
                 $this->data['Exchange']['end_date']['sec'],
                 $this->data['Exchange']['end_date']['month'],
                 $this->data['Exchange']['end_date']['day'],
                 $this->data['Exchange']['end_date']['year']
-        ));
+            ));
+        }
         
         return true;
     }
     
     function afterFind($results, $primary) {
        if($results!=null){
-        foreach($results as &$result) {
+        foreach($results as $key => &$result) {
             $result['Exchange']['tags'] = implode(', ', $result['Exchange']['tags']);
+            
+            if ($this->catchFinalizedEvents && $result['Exchange']['exchange_type_id'] == EXCHANGE_EVENT
+                    && $result['Exchange']['end_date']->sec < time() && $result['Exchange']['state'] != EXCHANGE_FINALIZED) {
+                //TODO: mandar mail de evento finalizado.
+                $this->finalize($result);
+                unset($results[$key]);
+            }
         }
        }
        return $results;

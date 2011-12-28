@@ -18,6 +18,8 @@
  * 
  */
 ?>
+<h2>Mis Gratiposts</h2>
+<p>Pedidos, ofertas, servicios y eventos agregados por mi.</p>
 <ul class="exchanges">
 <?php foreach($exchanges as $e) { ?>
 	<li>
