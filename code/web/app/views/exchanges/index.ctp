@@ -47,13 +47,15 @@
 		echo $this->Form->create('Search', array('onsubmit'=>'get_exchanges();return false;'));
         echo $this->Form->input('text', array('label'=>'Tags', 'id'=>'text_tags'));
 		echo $this->Form->input('exchange_type_id',array('options'=>array(
-			Configure::read('ExchangeType.Request')=>'Pedidos',
-			Configure::read('ExchangeType.Offer')=>'Ofertas',
-			Configure::read('ExchangeType.All')=>'Todos'
+			EXCHANGE_REQUEST=>'Pedidos',
+			EXCHANGE_OFFER=>'Ofertas',
+            EXCHANGE_EVENT=>'Eventos',
+            EXCHANGE_SERVICE=>'Servicios',
+			EXCHANGE_ALL=>'Todos'
 		),
 			'id'=>'exchange_type_id',
 			'label'=>'Ver',
-            'default'=>Configure::read('ExchangeType.All')));
+            'default'=>EXCHANGE_ALL));
 		echo $this->Form->hidden('lat',array('id'=>'lat'));
 		echo $this->Form->hidden('lng',array('id'=>'lng'));
         //echo $this->Form->submit('Buscar', array('onclick'=>'javascript:get_exchanges();'));

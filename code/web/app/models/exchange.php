@@ -36,12 +36,14 @@ class Exchange extends AppModel {
 		'created'=>'timestamp',
         //TODO: ver si este campo state es necesario
 		'state'=>'string',
-        //TODO: cambiar a timestamp
-		'finalize_time'=>'integer',
+		'finalize_time'=>'timestamp',
 		'photos'=>array(
 			'default', 'id', 'small', 'square'
 		),
-        'tags'=>'string'
+        'tags'=>'string',
+        'hours_of_opening'=>'string',
+        'start_date'=>array('type'=>'timestamp'),
+        'end_date'=>array('type'=>'timestamp')
 	);
     
     var $validate = array(

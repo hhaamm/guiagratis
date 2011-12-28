@@ -65,20 +65,7 @@ class ExchangesController extends AppController {
 
 	function add_request() {
 		if ($this->data) {
-			$this->data['Exchange']['exchange_type_id'] = Configure::read('ExchangeType.Request');
-			$this->data['Exchange']['exchange_state_id'] = Configure::read('ExchangeState.Published');
-			$this->data['Exchange']['lng']=(float)$this->data['Exchange']['lng'];
-			$this->data['Exchange']['lat']=(float)$this->data['Exchange']['lat'];
-			$this->data['Exchange']['user_id']=$this->Auth->user('_id');
-			$this->data['Exchange']['created']=time();
-			$this->data['Exchange']['modified']=time();
-			$this->data['Exchange']['state'] = EXCHANGE_PUBLISHED;
-			$this->data['Exchange']['photos'] = array();
-            $this->data['Exchange']['username'] = $this->Auth->user('username');
-            if ($this->Exchange->save($this->data)) {
-                $this->Session->setFlash('¡El pedido fue publicado!');
-                $this->redirect(array('controller'=>'exchanges','action'=>'edit_photos',$this->Exchange->id));
-            }
+            $this->add_exchange(EXCHANGE_REQUEST);
 		}
 
 		$this->set_start_point();
@@ -86,24 +73,44 @@ class ExchangesController extends AppController {
 
 	function add_offer() {
 		if ($this->data) {
-			$this->data['Exchange']['exchange_type_id'] = Configure::read('ExchangeType.Offer');
-			$this->data['Exchange']['exchange_state_id'] = Configure::read('ExchangeState.Published');
-			$this->data['Exchange']['lng']=(float)$this->data['Exchange']['lng'];
-			$this->data['Exchange']['lat']=(float)$this->data['Exchange']['lat'];
-			$this->data['Exchange']['user_id']=$this->Auth->user('_id');
-			$this->data['Exchange']['created']=time();
-			$this->data['Exchange']['modified']=time();
-			$this->data['Exchange']['state'] = EXCHANGE_PUBLISHED;
-			$this->data['Exchange']['photos'] = array();
-            $this->data['Exchange']['username'] = $this->Auth->user('username');
-			if ($this->Exchange->save($this->data)) {
-                $this->Session->setFlash('¡La oferta fue publicada!');
-                $this->redirect(array('controller'=>'exchanges','action'=>'edit_photos',$this->Exchange->id));
-            }
+            $this->add_exchange(EXCHANGE_OFFER);
 		}
 
 		$this->set_start_point();
 	}
+    
+    function add_event() {
+		if ($this->data) {
+			$this->add_exchange(EXCHANGE_EVENT);
+		}
+
+		$this->set_start_point();
+	}
+    
+    function add_service() {
+		if ($this->data) {
+			$this->add_exchange(EXCHANGE_SERVICE);
+		}
+
+		$this->set_start_point();
+	}
+    
+    private function add_exchange($exchange_type_id) {
+        $this->data['Exchange']['exchange_type_id'] = $exchange_type_id;
+        $this->data['Exchange']['exchange_state_id'] = Configure::read('ExchangeState.Published');
+		$this->data['Exchange']['lng']=(float)$this->data['Exchange']['lng'];
+		$this->data['Exchange']['lat']=(float)$this->data['Exchange']['lat'];
+		$this->data['Exchange']['user_id']=$this->Auth->user('_id');
+		$this->data['Exchange']['created']=time();
+		$this->data['Exchange']['modified']=time();
+		$this->data['Exchange']['state'] = EXCHANGE_PUBLISHED;
+		$this->data['Exchange']['photos'] = array();
+        $this->data['Exchange']['username'] = $this->Auth->user('username');
+		if ($this->Exchange->save($this->data)) {
+            $this->Session->setFlash('¡El evento fue publicado!');
+            $this->redirect(array('controller'=>'exchanges','action'=>'edit_photos',$this->Exchange->id));
+        }
+    }
 
 	/*
 	 * Ajax function that returns exchanges with some parameters

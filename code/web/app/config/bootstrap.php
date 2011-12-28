@@ -66,6 +66,7 @@ define('DEFAULT_EXCHANGE_PHOTO','/img/default_exchange_photo.jpg');
 define('EXCHANGE_REQUEST', 1);
 define('EXCHANGE_OFFER', 2);
 define('EXCHANGE_EVENT', 3);
+define('EXCHANGE_SERVICE', 4);
 //this is an special value when searching. Not used in database.
 define('EXCHANGE_ALL', 0);
 
