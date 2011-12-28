@@ -102,10 +102,9 @@ function get_exchanges_callback(data) {
 	map.clearOverlays();
     
     $.each(data.exchanges, function() {
-        debug('inside for');
-		
+
         var exchange = this.Exchange;
-		debug(exchange);
+
 		var point = new GLatLng(exchange.lat, exchange.lng);
         
 		var markerOptions = {title:exchange.title};
@@ -121,7 +120,13 @@ function get_exchanges_callback(data) {
 			icon.iconAnchor = new GPoint(37, 59);
 			icon.infoWindowAnchor = new GPoint(31, 8);
 			markerOptions.icon = icon;
-		}
+		}else{
+            if(exchange.exchange_type_id==1){
+                var icon = new GIcon(G_DEFAULT_ICON);
+                icon.image = "http://maps.google.com/mapfiles/marker_green.png";
+                markerOptions.icon = icon;
+            }
+        }
             
 		var marker = new GMarker(point, markerOptions);
 		GEvent.addListener(marker, "click", function() {
