@@ -34,9 +34,7 @@
     <?php echo $this->Exchange->type($exchange); ?>
     </div>
 	<h2><?php echo $exchange['Exchange']['title']?></h2>
-    <p>por <?php echo $this->Html->link($owner['User']['username'] ,'/users/view/'.$owner['User']['_id'], array('style'=> 'text-decoration: none;' ));  ?> </p>
-
-	<!-- SHOW ONLY WHEN IS OWNER -->
+    <!-- SHOW ONLY WHEN IS OWNER -->
     <?php if( !empty($current_user) && ($current_user['User']['_id'] == $owner['User']['_id'] || $current_user['User']['admin']) ){ ?>
 	<div class="admin edit-exchange-menu" style="float: right;">
 	<?php
@@ -64,11 +62,17 @@
         }
 	?>
 	</div>
+    <?php 
+    if ($exchange['Exchange']['exchange_type_id'] == EXCHANGE_SERVICE) {
+        echo $this->Html->div('hours_of_opening', 'Horario de atención: '.$exchange['Exchange']['hours_of_opening']);
+    }
+    ?>
+    <p class="exchange-description"><?php echo $exchange['Exchange']['detail']?></p>
+
+    <p>Creado por <?php echo $this->Html->link($owner['User']['username'] ,'/users/view/'.$owner['User']['_id'], array('style'=> 'text-decoration: none;' ));  ?> </p>
     <div class="clear"></div>
     <?php } ?>
 	<br>
-
-	<p class="exchange-description"><?php echo $exchange['Exchange']['detail']?></p>
 
     <p class="exchange-comment-tags">
         <?php echo $this->Html->image('/img/icons/blue_tag.png') ?>

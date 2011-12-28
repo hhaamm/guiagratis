@@ -76,7 +76,7 @@ class ExchangeHelper extends AppHelper {
             case EXCHANGE_EVENT;
                 return "event";
                 break;
-            case EXCHANGE_EVENT;
+            case EXCHANGE_SERVICE;
                 return "service";
                 break;
         }
