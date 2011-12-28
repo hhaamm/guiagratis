@@ -51,8 +51,11 @@ class ExchangeHelper extends AppHelper {
             case EXCHANGE_OFFER:
                 return "Oferta";
                 break;
-            case EXCHANGE_EVENT;
+            case EXCHANGE_EVENT:
                 return "Evento";
+                break;
+            case EXCHANGE_SERVICE:
+                return "Servicio";
                 break;
             default:
                 echo "Tipo desconocido";
@@ -72,6 +75,9 @@ class ExchangeHelper extends AppHelper {
                 break;
             case EXCHANGE_EVENT;
                 return "event";
+                break;
+            case EXCHANGE_EVENT;
+                return "service";
                 break;
         }
     }

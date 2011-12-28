@@ -62,6 +62,7 @@
 						<li><a href="/exchanges/add_offer">Agregar oferta</a></li>
 						<li><a href="/exchanges/add_request">Agregar pedido</a></li>
                         <li><a href="/exchanges/add_event">Agregar evento</a></li>
+                        <li><a href="/exchanges/add_event">Agregar servicio</a></li>
 					</ul>
 				</li>
 				<li>

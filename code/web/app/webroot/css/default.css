@@ -480,15 +480,20 @@ div.exchange-type {
 }
 
 div.event {
-    background:#44E;
+    color:gray;
+    background:#FFFFFF;
 }
 
 div.offer {
-    background:chocolate;
+    background:#FF9305;
 }
 
 div.request {
-    background:#0a0;
+    background:#CD05FF;
+}
+
+div.service {
+    background:#5658F5;
 }
 
 /*carousel*/
