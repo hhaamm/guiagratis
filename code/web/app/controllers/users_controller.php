@@ -30,7 +30,7 @@ class UsersController extends AppController {
 
 	function login() {
 		if ($this->data && !$this->Auth->user()) {
-			$this->Session->setFlash('Usuario o contraseña inválidos');
+			$this->Session->setFlash('Usuario o contraseña inválidos','flash_failure');
 		}
 	}
 
@@ -52,16 +52,16 @@ class UsersController extends AppController {
 		if ($this->data) {
 			if ($this->data['User']['terms']) {
 				if ($this->data['User']['password'] != $this->Auth->password($this->data['User']['confirm_password'])) {
-					$this->Session->setFlash('Las contraseñas tienen que ser iguales');
+					$this->Session->setFlash('Las contraseñas tienen que ser iguales','flash_failure');
 				} else {
 					if ($this->User->user_already_registered($this->data['User']['username'])) {
-						$this->Session->setFlash('El usuario ya existe!');
+						$this->Session->setFlash('El usuario ya existe!','flash_failure');
 						return;
 					}
 
 					$user = $this->User->mail_already_registered($this->data['User']['mail']);
 					if (!empty($user)) {
-						$this->Session->setFlash('Ese mail ya fue registrado!');
+						$this->Session->setFlash('Ese mail ya fue registrado!','flash_failure');
 						return;
 					}
 
@@ -84,7 +84,7 @@ class UsersController extends AppController {
                     }
 				}
 			} else {
-				$this->Session->setFlash('Tenés que aceptar los Términos y Condiciones para registrarte');
+				$this->Session->setFlash('Tenés que aceptar los Términos y Condiciones para registrarte','flash_warning');
 				$this->data['User']['password'] = '';
 				$this->data['User']['confirm_password'] = '';
 			}
@@ -100,11 +100,11 @@ class UsersController extends AppController {
 			if (!empty($user)) {
 				$this->sendMail($user['User']['mail'],'¡Bienvenido!','welcome');
 
-				$this->Session->setFlash('La cuenta fue activada. ¡Ya podés loguearte!');
+				$this->Session->setFlash('La cuenta fue activada. ¡Ya podés loguearte!','flash_success');
 				
 			}
 		} else {
-            $this->Session->setFlash('Información equivocada');
+            $this->Session->setFlash('Información equivocada','flash_failure');
         }
         $this->redirect('/');
 	}
@@ -129,19 +129,19 @@ class UsersController extends AppController {
 			$uid = $this->Auth->user('id');
 			$p = $this->data['User']['new_password'];
 			if ($p != $this->data['User']['confirm_password']) {
-				$this->Session->setFlash("Passwords doesn't match");
+                $this->Session->setFlash('Las contraseñas tienen que ser iguales','flash_failure');
 				$this->redirect('account');
 				exit();
 			}
 			$db_password = $this->User->getPassword($uid);
 			if ($this->Auth->password($this->data['User']['old_password']) != $db_password) {
-				$this->Session->setFlash("Invalid old password");
+				$this->Session->setFlash("Tu antigua contraseña no es la que has ingresado",'flash_failure');
 				$this->redirect('account');
 				exit();
 			}
 			$this->User->id = $uid;
 			$this->User->saveField('password', $this->Auth->password($p));
-			$this->Session->setFlash('Password changed successfully');
+			$this->Session->setFlash('Tu password a sido cambiado con exito','flash_success');
 		}
 		$this->redirect('account');
 	}
@@ -239,7 +239,7 @@ class UsersController extends AppController {
 			));
 
 			if (empty($user)) {
-				$this->Session->setFlash('Mal inválido.');
+				$this->Session->setFlash('Mal inválido.','flash_failure');
 				return;
 			}
 
@@ -254,7 +254,7 @@ class UsersController extends AppController {
 				$this->sendMail($mail,'Reseteo de contraseña','reset_password');
 				$this->redirect('reset');
 			} else {
-				$this->Session->setFlash('Ha ocurrido un error');
+				$this->Session->setFlash('Ha ocurrido un error','flash_failure');
 			}
 		}
 	}
@@ -262,7 +262,7 @@ class UsersController extends AppController {
 	public function reset() {
 		if ($this->data) {
 			if ($this->data['User']['password'] != $this->Auth->password($this->data['User']['confirm_password'])) {
-				$this->Session->setFlash("Las contraseñas no son iguales");
+				$this->Session->setFlash("Las contraseñas no son iguales",'flash_failure');
 				return;
 			}
 
@@ -272,16 +272,16 @@ class UsersController extends AppController {
 			)));
 
 			if (empty($user)) {
-				$this->Session->setFlash('Email o token inválidos');
+				$this->Session->setFlash('Email o token inválidos','flash_failure');
 				return;
 			}
 
 			$this->User->id = $user['User']['_id'];
 			if ($this->User->saveField('password', $this->data['User']['password'])) {
-				$this->Session->setFlash('Contraseña reseteada. Ya puede loguearse');
+				$this->Session->setFlash('Contraseña reseteada. Ya puede loguearse','flash_success');
 				$this->redirect('/');
 			} else {
-				$this->Session->setFlash('Ocurrió un error.');
+				$this->Session->setFlash('Ocurrió un error.','flash_success');
 			}
 		}
 		unset($this->data['User']['password']);

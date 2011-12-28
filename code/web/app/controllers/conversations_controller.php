@@ -46,7 +46,7 @@ class ConversationsController extends AppController {
                 $this->Session->setFlash('Mensaje enviado');
                 $this->redirect('/conversations/view/' . $this->Conversation->id);
             } else {
-                $this->Session->setFlash('No se pudo enviar el mensaje');
+                $this->Session->setFlash('No se pudo enviar el mensaje','flash_failure');
             }
         } else {
             $this->data['Conversation']['to'] = $to;
@@ -63,7 +63,7 @@ class ConversationsController extends AppController {
         $conversation = $this->Conversation->view($cid, $this->uid);
 
         if (!$conversation) {
-            $this->getBack('Conversación no encontrada');
+            $this->getBack('Conversación no encontrada','flash_failure');
         }
         $this->set(compact('conversation'));
     }
@@ -91,7 +91,7 @@ class ConversationsController extends AppController {
             ));
             $this->sendMail($destiny['User']['mail'], 'Tenés un nuevo mensaje', 'message_notification');
         }
-        $this->getBack('Mensaje enviado');
+        $this->getBack('Mensaje enviado','flash_success');
     }
 
 }

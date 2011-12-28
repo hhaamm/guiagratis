@@ -42,7 +42,7 @@ class ExchangesController extends AppController {
        $mode = 0;
        if(isSet($this->params['url']['query'])){
         if($this->params['url']['query']==""){
-            $this->Session->setFlash('Ingrese una consulta en el cuadro de texto');
+            $this->Session->setFlash('Ingrese una consulta en el cuadro de texto','flash_warning');
             $this->set('mode',0);
             return;
         }
@@ -76,7 +76,7 @@ class ExchangesController extends AppController {
 			$this->data['Exchange']['photos'] = array();
             $this->data['Exchange']['username'] = $this->Auth->user('username');
             if ($this->Exchange->save($this->data)) {
-                $this->Session->setFlash('¡El pedido fue publicado!');
+                $this->Session->setFlash('¡El pedido fue publicado!','flash_success');
                 $this->redirect(array('controller'=>'exchanges','action'=>'edit_photos',$this->Exchange->id));
             }
 		}
@@ -97,7 +97,7 @@ class ExchangesController extends AppController {
 			$this->data['Exchange']['photos'] = array();
             $this->data['Exchange']['username'] = $this->Auth->user('username');
 			if ($this->Exchange->save($this->data)) {
-                $this->Session->setFlash('¡La oferta fue publicada!');
+                $this->Session->setFlash('¡La oferta fue publicada!','flash_success');
                 $this->redirect(array('controller'=>'exchanges','action'=>'edit_photos',$this->Exchange->id));
             }
 		}
@@ -161,7 +161,7 @@ class ExchangesController extends AppController {
 	function edit($eid) {
         $exchange = $this->Exchange->read(null, $eid);
         if($this->_cantEditExchange($exchange)){
-            $this->Session->setFlash('No tiene permisos para realizar esta acción',true);
+            $this->Session->setFlash('No tiene permisos para realizar esta acción','flash_failure');
             $this->redirect(array('action' => 'view',$eid));
             return;
         }
@@ -173,9 +173,9 @@ class ExchangesController extends AppController {
 			$this->data['Exchange']['lat'] = (float)$this->data['Exchange']['lat'];
 			$result = $this->Exchange->save($this->data);
 			if ($result) {
-				$this->Session->setFlash('Cambios guardados');
+				$this->Session->setFlash('Cambios guardados','flash_success');
 			} else {
-				$this->Session->setFlash('Un error ha ocurrido',true);
+				$this->Session->setFlash('Un error ha ocurrido','flash_failure');
 			}
 		}
 		$this->set('start_point',array('latitude'=>$this->data['Exchange']['lat'],'longitude'=>$this->data['Exchange']['lng']));
@@ -198,9 +198,9 @@ class ExchangesController extends AppController {
                 $this->set(compact('eid'));
                 $this->sendMail($creator['User']['mail'], 'Alguien comentó tu artículo en Guia Gratis', 'comment_notification');
             }
-            $this->getBack("Tu comentario ha sido añadido");
+            $this->getBack("Tu comentario ha sido añadido",'flash_success');
         } else {
-            $this->getBack("Hubo un error al agregar el comentario");
+            $this->getBack("Hubo un error al agregar el comentario",'flash_failure');
         }
 		
 	}
@@ -209,11 +209,11 @@ class ExchangesController extends AppController {
         if(!$this->Auth->user('admin')){
             //por ahora solo los admins pueden elimiar comentarios
             //despues se podrian agregar otros rangos.
-            $this->getBack('No tiene permisos para realizar esta acción');
+            $this->getBack('No tiene permisos para realizar esta acción','flash_failure');
             return;
         }
         $this->Exchange->removeComment($eid,$i);
-        $this->getBack("Comentario eliminado");
+        $this->getBack("Comentario eliminado",'flash_success');
     }
 
 	/*
@@ -239,7 +239,7 @@ class ExchangesController extends AppController {
         $e = $this->Exchange->read(null, $exchange_id);
 
         if($this->_cantEditExchange($e)){
-            $this->Session->setFlash('No tiene permisos para realizar esta acción',true);
+            $this->Session->setFlash('No tiene permisos para realizar esta acción','flash_failure');
             $this->redirect(array('action' => 'view',$exchange_id));
             return;
         }
@@ -277,12 +277,12 @@ class ExchangesController extends AppController {
 	function finalize($eid) {
        $exchange = $this->Exchange->find('first',array('conditions'=>array('_id'=>$eid)));
 		if ($this->_cantEditExchange($exchange)) {
-            $this->Session->setFlash('No tiene permisos para realizar esta acción',true);
+            $this->Session->setFlash('No tiene permisos para realizar esta acción','flash_failure');
             $this->redirect('/exchanges/own');
             return;
 		}
 		$result = $this->Exchange->finalize($exchange);
-		$this->Session->setFlash('El intercambio ha finalizado');
+		$this->Session->setFlash('El intercambio ha finalizado','flash_success');
 		$this->redirect('/exchanges/own');
 	}
 
@@ -290,7 +290,7 @@ class ExchangesController extends AppController {
        //borrar completamente. Solo para los post que son CRAP.
        //para lo demas usar finalize.
        if(!$this->Auth->user('admin')){
-            $this->getBack('No tiene permisos para realizar esta acción');
+            $this->getBack('No tiene permisos para realizar esta acción','flash_failure');
             return;
        }
        $exchange = $this->Exchange->read(null, $eid);
