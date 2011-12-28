@@ -349,9 +349,7 @@ class ExchangesController extends AppController {
         ));
     }
 
-
     private function  _cantEditExchange($exchange){
         return !$this->Auth->user('admin') && $exchange['Exchange']['user_id'] !=  $this->Auth->user('_id');
     }
-
 }
