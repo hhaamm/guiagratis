@@ -275,7 +275,7 @@ class ExchangesController extends AppController {
 	}
 
 	function finalize($eid) {
-       $exchange = $this->find('first',array('conditions'=>array('_id'=>$eid)));
+       $exchange = $this->Exchange->find('first',array('conditions'=>array('_id'=>$eid)));
 		if ($this->_cantEditExchange($exchange)) {
             $this->Session->setFlash('No tiene permisos para realizar esta acción',true);
             $this->redirect('/exchanges/own');
