@@ -20,7 +20,7 @@
 class ExchangesController extends AppController {
     var $uses = array('Exchange','User');
 	var $components = array('Geo','Email','Upload');
-	var $helpers = array('Exchange');
+	var $helpers = array('Exchange', 'User');
 
 	function beforeFilter() {
 		parent::beforeFilter();
@@ -160,11 +160,12 @@ class ExchangesController extends AppController {
 
 	function edit($eid) {
         $exchange = $this->Exchange->read(null, $eid);
-        if($exchange['Exchange']['user_id'] !=  $this->Auth->user('_id') ){
+        if($this->_cantEditExchange($exchange)){
             $this->Session->setFlash('No tiene permisos para realizar esta acción',true);
             $this->redirect(array('action' => 'view',$eid));
             return;
         }
+        $this->set('creator', $this->User->findById($exchange['Exchange']['user_id']));
 		if (!$this->data) {
 			$this->data = $exchange;
 		} else {
@@ -204,7 +205,18 @@ class ExchangesController extends AppController {
 		
 	}
 
-	/*http://www.mercadolibre.com.ar/seguro_prohibidos.html
+    function remove_comment($eid,$i){
+        if(!$this->Auth->user('admin')){
+            //por ahora solo los admins pueden elimiar comentarios
+            //despues se podrian agregar otros rangos.
+            $this->getBack('No tiene permisos para realizar esta acción');
+            return;
+        }
+        $this->Exchange->removeComment($eid,$i);
+        $this->getBack("Comentario eliminado");
+    }
+
+	/*
 	 * Lists all exchanges related with the current user
 	 */
 	function own() {
@@ -226,7 +238,7 @@ class ExchangesController extends AppController {
 		}
         $e = $this->Exchange->read(null, $exchange_id);
 
-        if($e['Exchange']['user_id'] !=  $this->Auth->user('_id') ){
+        if($this->_cantEditExchange($e)){
             $this->Session->setFlash('No tiene permisos para realizar esta acción',true);
             $this->redirect(array('action' => 'view',$exchange_id));
             return;
@@ -263,11 +275,36 @@ class ExchangesController extends AppController {
 	}
 
 	function finalize($eid) {
-		$result = $this->Exchange->finalize($eid, $this->uid);
+       $exchange = $this->find('first',array('conditions'=>array('_id'=>$eid)));
+		if ($this->_cantEditExchange($exchange)) {
+            $this->Session->setFlash('No tiene permisos para realizar esta acción',true);
+            $this->redirect('/exchanges/own');
+            return;
+		}
+		$result = $this->Exchange->finalize($exchange);
 		$this->Session->setFlash('El intercambio ha finalizado');
 		$this->redirect('/exchanges/own');
 	}
-    
+
+    function delete($eid){
+       //borrar completamente. Solo para los post que son CRAP.
+       //para lo demas usar finalize.
+       if(!$this->Auth->user('admin')){
+            $this->getBack('No tiene permisos para realizar esta acción');
+            return;
+       }
+       $exchange = $this->Exchange->read(null, $eid);
+       $user_id = $exchange['Exchange']['user_id'];
+       //delete all photos
+       if(!empty($exchange['Exchange']['photos'])){
+           foreach ($exchange['Exchange']['photos'] as $photo) {
+               $this->Exchange->deletePhoto($eid, $photo['id'], $this->uid);
+           }
+       }
+       $this->Exchange->delete($eid);
+       $this->redirect('/users/view/'.$user_id);
+    }
+
     // admin sections
     function admin_index() {
         $exchanges = $this->Exchange->find('all', array(
@@ -304,4 +341,10 @@ class ExchangesController extends AppController {
             'title_for_layout'=>'Foto'
         ));
     }
+
+
+    private function  _cantEditExchange($exchange){
+        return !$this->Auth->user('admin') && $exchange['Exchange']['user_id'] !=  $this->Auth->user('_id');
+    }
+
 }

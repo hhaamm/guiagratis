@@ -146,14 +146,7 @@ class Exchange extends AppModel {
 		return $result;
 	}
 
-	function finalize($eid, $current_user) {
-		$exchange = $this->find('first',array('conditions'=>array('_id'=>$eid)));
-
-		if ($exchange['Exchange']['user_id'] != $current_user) {
-			$this->log("User ${$current_user} trying to finalize exchange with id = ${$eid}. Denied");
-			return false;
-		}
-
+	function finalize($exchange) {
 		$exchange['Exchange']['state'] = EXCHANGE_FINALIZED;
 		$exchange['Exchange']['finalize_time'] = time();
 		return $this->save($exchange);
@@ -175,4 +168,12 @@ class Exchange extends AppModel {
        }
        return $results;
     }
+
+    function removeComment($eid, $i) {
+ 		$this->execute(new MongoCode(
+			"db.exchanges.update({_id:ObjectId('$eid')}, {\$unset : {'comments.$i' : 1 }});db.exchanges.update({_id:ObjectId('$eid')}, {\$pull : {'comments' : null}});"
+
+		));
+        return true;
+	}
 }
