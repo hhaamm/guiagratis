@@ -353,8 +353,18 @@ class UsersController extends AppController {
     }
 
     function notifications(){
-       $user = array( 'User' => $this->Session->read('Auth.User'));
-       $notifications = $user['User']['notifications'];
+       $user = $this->Session->read('Auth.User');
+       $notifications = isSet($user['notifications']) ? $user['notifications'] : array();
+       $there_are_unread = false;
+       foreach($notifications as $i => $notification){
+           if(!$notification['has_been_read']){
+            $there_are_unread = true;
+            $this->Session->write("Auth.User.notifications.$i.has_been_read",1);
+           }
+       }
+       if($there_are_unread){
+        $this->User->updateNotifications($this->Auth->user('_id'),$this->Session->read('Auth.User.notifications'));
+       }   
        $this->set(compact('notifications'));
     }
 

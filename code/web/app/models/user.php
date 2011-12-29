@@ -106,4 +106,10 @@ class User extends AppModel {
 		));
     }
 
+    function updateNotifications($uid,$notifications){
+        $notifications = json_encode($notifications);
+       	return $this->execute(new MongoCode(
+				"db.users.update({_id:ObjectId('$uid')},{\$set:{notifications:$notifications}},true,false)"
+		));
+    }
 }

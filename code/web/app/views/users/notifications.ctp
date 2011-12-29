@@ -23,7 +23,6 @@
 <ul>
     <?php
      $new_icon = $this->Html->image('/img/icons/new.png',array('style'=>'margin: 2px 2px -7px;'));
-     //DCDCDC
      if(isSet($notifications)){
        foreach($notifications as $notification){
            $links = array();
