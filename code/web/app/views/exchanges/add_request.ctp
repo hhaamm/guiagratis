@@ -30,6 +30,7 @@
             theme : "simple"
         });
     });
+    setLocationIcon = get_custom_icon('P', 'CD05FF', 'FFFFFF', false);
 </script>
 <fieldset>
 	<legend>Agregar un pedido</legend>

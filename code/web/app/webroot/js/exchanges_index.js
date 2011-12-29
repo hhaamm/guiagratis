@@ -92,20 +92,6 @@ function get_exchanges() {
 	}, get_exchanges_callback);
 }
 
-function get_custom_icon(letter, bgcolor, textcolor, star) {
-    var icon = new GIcon();
-    if (star) {
-        icon.image = 'https://chart.googleapis.com/chart?chst=d_map_xpin_letter&chld='+letter+'|'+bgcolor+'|'+textcolor;
-    } else {
-        icon.image = 'https://chart.googleapis.com/chart?chst=d_map_pin_letter&chld='+letter+'|'+bgcolor+'|'+textcolor;
-    }
-    icon.shadow = 'https://chart.googleapis.com/chart?chst=d_map_pin_shadow&chld=pin';
-    icon.iconAnchor = new GPoint(10, 34);
-    icon.shadowSize = new GSize(40,37);
-    icon.iconSize = new GSize(21, 34);
-    return icon;
-}
-
 function get_exchanges_callback(data) {
 	if (data.exchanges == null) {
 		return;

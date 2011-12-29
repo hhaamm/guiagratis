@@ -30,6 +30,7 @@
             theme : "simple"
         });
     });
+    setLocationIcon = get_custom_icon('O', 'FF9305', 'FFFFFF', false);
 </script>
 <!-- /TinyMCE -->
 <fieldset>
