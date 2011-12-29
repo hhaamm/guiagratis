@@ -51,8 +51,11 @@ class ExchangeHelper extends AppHelper {
             case EXCHANGE_OFFER:
                 return "Oferta";
                 break;
-            case EXCHANGE_EVENT;
+            case EXCHANGE_EVENT:
                 return "Evento";
+                break;
+            case EXCHANGE_SERVICE:
+                return "Servicio";
                 break;
             default:
                 echo "Tipo desconocido";
@@ -73,7 +76,35 @@ class ExchangeHelper extends AppHelper {
             case EXCHANGE_EVENT;
                 return "event";
                 break;
+            case EXCHANGE_SERVICE;
+                return "service";
+                break;
         }
+    }
+    
+    function is_service($exchange) {
+        return $this->is($exchange, EXCHANGE_SERVICE);
+    }
+    
+    function is_event($exchange) {
+        return $this->is($exchange, EXCHANGE_EVENT);
+    }
+    
+    function is_offer($exchange) {
+        return $this->is($exchange, EXCHANGE_OFFER);
+    }
+    
+    function is_request($exchange) {
+        return $this->is($exchange, EXCHANGE_REQUEST);
+    }
+    
+    function is($exchange, $exchange_type_id) {
+        return $exchange['Exchange']['exchange_type_id'] == $exchange_type_id;
+    }
+    
+    //formatea una fecha como se guarda en MongoDB en un formato razonable.
+    function date() {
+        
     }
 }
 

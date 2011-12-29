@@ -42,6 +42,14 @@
         <!--[if IE]>
  		<?php echo $this->Html->css('ie-hacks.css'); ?>
         <![endif]-->
+        <script type="text/javascript">
+        var exchange_type_id = {
+            offer:<?php echo EXCHANGE_OFFER ?>,
+            request:<?php echo EXCHANGE_REQUEST ?>,
+            service:<?php echo EXCHANGE_SERVICE ?>,
+            event:<?php echo EXCHANGE_EVENT ?>
+        }    
+        </script>
 	</head>
 	<body>
 		<div id="content">
@@ -53,13 +61,15 @@
 					<ul class="subnav">
 						<li><a href="/exchanges/add_offer">Agregar oferta</a></li>
 						<li><a href="/exchanges/add_request">Agregar pedido</a></li>
+                        <li><a href="/exchanges/add_event">Agregar evento</a></li>
+                        <li><a href="/exchanges/add_service">Agregar servicio</a></li>
 					</ul>
 				</li>
 				<li>
 					<a href="#" onclick="$(this).next().next().click();return false;">Cuenta</a>
 					<ul class="subnav">
+                        <li><a href="/exchanges/own">Mis Gratiposts</a></li>
 						<li><a href="/conversations">Mis conversaciones</a></li>
-						<li><a href="/exchanges/own">Mis ofertas/pedidos</a></li>
                         <li><a href="/users/account">Configuración</a></li>
                         <li><a href="/users/view/<?php echo $current_user['User']['_id'] ?>">Mi perfil</a></li>
 						<li><a href="/users/logout">Salir</a></li>
@@ -70,7 +80,7 @@
 					<a href="#" onclick="$(this).next().click();return false;" >Administración</a>
 					<ul class="subnav">
 						<li><a href="/admin/users">Usuarios</a></li>
-                        <li><a href="/admin/exchanges">Ofertas y pedidos</a></li>
+                        <li><a href="/admin/exchanges">Ofertas / Pedidos / Eventos</a></li>
 					</ul>
 				</li>
                 <?php } ?>

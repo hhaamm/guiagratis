@@ -59,22 +59,13 @@ function file_extension($filename)
     return low($path_info['extension']);
 }
 
-define('EXCHANGE_PUBLISHED','published');
-define('EXCHANGE_FINALIZED','finalized');
-define('DEFAULT_EXCHANGE_PHOTO','/img/default_exchange_photo.jpg');
-
-define('EXCHANGE_REQUEST', 1);
-define('EXCHANGE_OFFER', 2);
-define('EXCHANGE_EVENT', 3);
-//this is an special value when searching. Not used in database.
-define('EXCHANGE_ALL', 0);
-
-//variables that will be used in the bitmask field 'admin' of users database.
-define('ADMIN', 1);
-define('SUPERADMIN', 2);
-define('MODERATOR', 4);
-
 //include all php files from app/config/override
 foreach(glob(APP."config/override/*.php") as $configFile) {
     include($configFile);
+}
+
+function debudie($var) {
+    Configure::write('debug',1);
+    debug($var);
+    die();
 }
