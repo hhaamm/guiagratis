@@ -61,6 +61,7 @@
 						<li><a href="/conversations">Mis conversaciones</a></li>
 						<li><a href="/exchanges/own">Mis ofertas/pedidos</a></li>
                         <li><a href="/users/account">Configuración</a></li>
+                        <li><a href="/users/view/<?php echo $current_user['User']['_id'] ?>">Mi perfil</a></li>
 						<li><a href="/users/logout">Salir</a></li>
 					</ul>
 				</li>
