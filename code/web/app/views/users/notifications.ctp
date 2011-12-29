@@ -33,8 +33,9 @@
              }
              $class = $icon = (! $notification['has_been_read'] ? "notification-item-unread" : "notification-item");
              $icon = (! $notification['has_been_read'] ? $new_icon." " : "");
+             $created_time = $this->Time->timeAgoInWords($notification['created']);
              echo $this->Html->tag('li',
-              $icon." ".$this->Html->tag('span',vsprintf($notification['description'],$links)),
+              $icon." ".vsprintf($notification['description'],$links)." ".$created_time,
               array('class'=>"$class"));
        }
      }

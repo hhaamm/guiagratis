@@ -44,7 +44,9 @@ class User extends AppModel {
         'description'=>array('type'=>'string'),
         'show_email' => array('type'=>'integer'),
          //avatar
-         'avatar'=>array('type'=>'hash')
+         'avatar'=>array('type'=>'hash'),
+         'notifications'=>array('type'=>'hash')
+
 
 	);
     
@@ -123,6 +125,7 @@ class User extends AppModel {
         $notification = array(
           'description' => $message,
           'has_been_read'=>0,
+          'created' => time(),
           'links' =>  $links
         );
         $notification = json_encode($notification);
