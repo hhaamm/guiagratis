@@ -153,7 +153,7 @@ class User extends AppModel {
              $exchange_label = "publicacion";
      }
 
-     $links[$exchange_label] = array('controller'=>'exchange','action'=>'view',$exchange['Exchange']['_id']);
+     $links[$exchange_label] = array('controller'=>'exchanges','action'=>'view',$exchange['Exchange']['_id']);
      $this->notify($exchange['Exchange']['user_id'],"%s  ha comentado tu %s",$links);
     }
 
