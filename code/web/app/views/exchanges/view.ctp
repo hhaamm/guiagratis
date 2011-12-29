@@ -141,9 +141,22 @@
 		if (isset($exchange['Exchange']['comments'])) { 
 			foreach($exchange['Exchange']['comments'] as $i => $comment) { ?>
 			<li class="exchange_comment">
-				<div style="float:left">
-					<h4 class="exchange_comment_header"><?php echo $comment['username']." (".$this->Time->timeAgoInWords($comment['created'],true).")"?></h4>
-					<p class="exchange_comment_text"><?php echo $comment['text'];?></p>
+                <div style="float:left">
+                    <?php
+                        $avatar_url = '/img/default_avatar.png';
+                        if(isset($comment['user']['avatar'])){
+                            $avatar_url = $comment['user']['avatar']['small']['url'];
+                        }
+                        $avatar =  $this->Html->image($avatar_url,array('style'=>"width: 50px; height: 50px;"));
+                        echo $this->Html->link($avatar,array('controller'=>'users','action'=>'view',$comment['user_id']),array('escape'=>false))
+                    ?>
+                </div>
+				<div style="float:left;margin-left: 10px;">
+                    <?php echo $this->Html->link($comment['user']['username'],array('controller'=>'users','action'=>'view',$comment['user_id']),array('style'=>'text-decoration:none')) ?>
+					<span class="exchange_comment_header">
+                        <?php echo  " (".$this->Time->timeAgoInWords($comment['created'],true).")"?>
+                    </span>
+					<p class="exchange_comment_text" style="width: 690px;"><?php echo $comment['text'];?></p>
 				</div>
 				<div class="exchange_comment_user_info">
 					<?php

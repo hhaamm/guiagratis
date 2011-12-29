@@ -43,3 +43,14 @@
 	</li>
 <?php } ?>
 </ul>
+
+
+<?php
+ if(empty($exchanges)){
+?>
+     <div style="text-align: center;">
+      <h1>No has compartido nada todavia</h1>
+     </div>
+<?php
+ }
+?>

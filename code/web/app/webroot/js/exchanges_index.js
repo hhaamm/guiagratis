@@ -102,10 +102,9 @@ function get_exchanges_callback(data) {
 	map.clearOverlays();
     
     $.each(data.exchanges, function() {
-        debug('inside for');
-		
+
         var exchange = this.Exchange;
-		debug(exchange);
+
 		var point = new GLatLng(exchange.lat, exchange.lng);
         
 		var markerOptions = {title:exchange.title};
