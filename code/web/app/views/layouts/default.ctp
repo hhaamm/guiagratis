@@ -88,10 +88,17 @@
                 </li>
                 <?php if($current_user){ ?>
                 <li style="float: right;array">
-                     <div class="notification-counter">
-                        <?php echo $this->Html->link("0","#",array('style'=>'padding-top: 0px; padding-right: 0px;'))?>
-                     </div>
-                    <?php echo $this->Html->link($current_user['User']['username'],array('controller'=>'users','action'=>'view',$current_user['User']['_id']),array('style'=>'padding-top: 7px;')) ?>
+                     <?php
+                       echo $this->Html->link($current_user['User']['username'],array('controller'=>'users','action'=>'view',$current_user['User']['_id']),array('style'=>'padding-top: 7px;'));
+                       $notification_counter =  isSet($current_user['User']['notifications']) ? count($current_user['User']['notifications']) : 0 ;
+                       echo $this->Html->div(
+                            ($notification_counter>0 ? 'notification-counter' : 'notification-counter-zero' ),
+                            $this->Html->link($notification_counter,array('controller'=>'users','action'=>'notifications'),array('style'=>'padding-top: 0px; padding-right: 0px;','title'=>'Notificaciones'))
+                       );
+                     ?>
+
+
+                    <?php ?>
                 </li>
                  <?php } ?>
 			</ul>

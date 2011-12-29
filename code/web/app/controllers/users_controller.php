@@ -351,4 +351,9 @@ class UsersController extends AppController {
         $users = $this->User->find('all', array('limit'=>500));
         $this->set(compact('users', 'count', 'countActive', 'countInactive', 'countAdmin', 'inactivePercentage', 'activePercentage'));
     }
+
+    function notifications(){
+        
+    }
+
 }
