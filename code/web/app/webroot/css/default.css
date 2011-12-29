@@ -509,5 +509,5 @@ a.exchange-view-link{color: #993;font-family:'Gill Sans','lucida grande', helvet
 .notification-counter a:hover{ background-color: #F22222 !important;}
 .notification-counter-zero a{ color: #000000 !important; }
 .notification-counter-zero a:hover{ background-color: #FFFFFF !important;}
-.notification-item{background-color:#DCDCDC;height: 25px; margin-bottom: 2px;padding-left: 30px;padding-top: 5px;}
+.notification-item{background-color:#DCDCDC;height: 25px; margin-bottom: 2px;padding-left: 31px;padding-top: 5px;}
 .notification-item-unread{background-color:#B0E0E6;height: 30px; margin-bottom: 2px;}

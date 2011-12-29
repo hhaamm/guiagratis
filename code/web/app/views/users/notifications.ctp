@@ -1,7 +1,12 @@
 <h2>Notificaciones</h2>
 
 <?php
-  $notification_counter =  isSet($current_user['User']['notifications']) ? count($current_user['User']['notifications']) : 0 ;
+   $notification_counter = 0;
+   if(isSet($notifications)){
+       foreach($notifications as $notification){
+           $notification_counter += $notification['has_been_read'] ? 0 : 1 ;
+       }
+   }
   if($notification_counter == 0){
    $message =  "No hay notificaciones nuevas";
   }else if($notification_counter == 1){
@@ -19,8 +24,8 @@
     <?php
      $new_icon = $this->Html->image('/img/icons/new.png',array('style'=>'margin: 2px 2px -7px;'));
      //DCDCDC
-     if(isSet($current_user['User']['notifications'])){
-       foreach($current_user['User']['notifications'] as $notification){
+     if(isSet($notifications)){
+       foreach($notifications as $notification){
            $links = array();
              if(isSet($notification['links'])){
               foreach($notification['links'] as $text => $url){

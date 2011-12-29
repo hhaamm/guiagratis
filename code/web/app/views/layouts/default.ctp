@@ -91,7 +91,12 @@
                 <li style="float: right;array">
                      <?php
                        echo $this->Html->link($current_user['User']['username'],array('controller'=>'users','action'=>'view',$current_user['User']['_id']),array('style'=>'padding-top: 7px;'));
-                       $notification_counter =  isSet($current_user['User']['notifications']) ? count($current_user['User']['notifications']) : 0 ;
+                       $notification_counter = 0;
+                       if(isSet($current_user['User']['notifications'])){
+                           foreach($current_user['User']['notifications'] as $notification){
+                               $notification_counter += $notification['has_been_read'] ? 0 : 1 ;
+                           }
+                       }
                        echo $this->Html->div(
                             ($notification_counter>0 ? 'notification-counter' : 'notification-counter-zero' ),
                             $this->Html->link($notification_counter,array('controller'=>'users','action'=>'notifications'),array('style'=>'padding-top: 0px; padding-right: 0px;','title'=>'Notificaciones'))

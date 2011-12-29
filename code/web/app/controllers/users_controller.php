@@ -353,7 +353,9 @@ class UsersController extends AppController {
     }
 
     function notifications(){
-        
+       $user = array( 'User' => $this->Session->read('Auth.User'));
+       $notifications = $user['User']['notifications'];
+       $this->set(compact('notifications'));
     }
 
 }
