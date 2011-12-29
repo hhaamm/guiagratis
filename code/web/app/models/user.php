@@ -157,7 +157,12 @@ class User extends AppModel {
      $this->notify($exchange['Exchange']['user_id'],"%s  ha comentado tu %s",$links);
     }
 
-    function notifyMessage($uid,$type,$a){
+    function notifyMessage($user,$destiny,$cid){
+        $links = array(
+            $user['User']['username'] => array( 'controller'=>'users','action'=>'view',$user['User']['_id']),
+            "mensaje privado" => array( 'controller'=>'conversations','action'=>'view',$cid)
+        );
+        $this->notify($destiny['User']['_id'],"%s te envió un %s",$links);
 
     }
 

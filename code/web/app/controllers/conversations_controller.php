@@ -42,7 +42,7 @@ class ConversationsController extends AppController {
                     ));
                     $this->sendMail($destiny['User']['mail'], 'Tenés un nuevo mensaje', 'message_notification');
                 }
-
+                $this->User->notifyMessage($this->Auth->user(),$destiny,$this->Conversation->id);
                 $this->Session->setFlash('Mensaje enviado');
                 $this->redirect('/conversations/view/' . $this->Conversation->id);
             } else {
@@ -91,6 +91,7 @@ class ConversationsController extends AppController {
             ));
             $this->sendMail($destiny['User']['mail'], 'Tenés un nuevo mensaje', 'message_notification');
         }
+        $this->User->notifyMessage($this->Auth->user(),$destiny,$conversation['Conversation']['_id']);
         $this->getBack('Mensaje enviado');
     }
 
