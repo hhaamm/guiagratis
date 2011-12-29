@@ -201,10 +201,13 @@ class ExchangesController extends AppController {
             $exchange = $this->Exchange->findById($eid);
             $creator = $this->User->findById($exchange['Exchange']['user_id']);
             //checkeamos que no sea el mismo usuario el que se auto-responde y que quiera notificaciones.
-            if ($creator['User']['_id'] != $this->Auth->user('_id') && $creator['User']['notify_on_answer']) {
-                $this->set($comment);
-                $this->set(compact('eid'));
-                $this->sendMail($creator['User']['mail'], 'Alguien comentó tu artículo en Guia Gratis', 'comment_notification');
+            if ($creator['User']['_id'] != $this->Auth->user('_id')) {
+                if($creator['User']['notify_on_answer']){
+                    $this->set($comment);
+                    $this->set(compact('eid'));
+                    $this->sendMail($creator['User']['mail'], 'Alguien comentó tu artículo en Guia Gratis', 'comment_notification');
+                }
+                $this->User->notifyComment($this->Auth->user(),$exchange);
             }
             $this->getBack("Tu comentario ha sido añadido");
         } else {
