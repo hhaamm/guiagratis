@@ -30,17 +30,18 @@
             theme : "simple"
         });
     });
-    setLocationIcon = get_custom_icon('O', 'FF9305', 'FFFFFF', false);
+    setLocationIcon = get_custom_icon('S', '5658F5', 'FFFFFF', false);
 </script>
 <!-- /TinyMCE -->
 <fieldset>
-	<legend>Agregar una oferta</legend>
+	<legend>Agregar un evento</legend>
 	<?php
 	echo $this->Form->create();
 	echo $this->Form->input('title',array('label'=>'Título'));
+    echo $this->Form->input('hours_of_opening',array('label'=>'Horario de atención'));
 	echo $this->Form->input('detail',array('label'=>'descripción', 'type'=>'textarea'));
     echo $this->Form->input('tags', array('label'=>'Tags (separados por coma)'));
 	echo $this->element('set_exchange_location');
-	echo $this->Form->end('Agregar oferta');
+	echo $this->Form->end('Agregar servicio');
 	?>
 </fieldset>

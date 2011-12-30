@@ -34,37 +34,53 @@
     <?php echo $this->Exchange->type($exchange); ?>
     </div>
 	<h2><?php echo $exchange['Exchange']['title']?></h2>
-    <p>por <?php echo $this->Html->link($owner['User']['username'] ,'/users/view/'.$owner['User']['_id'], array('style'=> 'text-decoration: none;' ));  ?> </p>
-
-	<!-- SHOW ONLY WHEN IS OWNER -->
-    <?php if( !empty($current_user) && $current_user['User']['_id'] == $owner['User']['_id'] ){ ?>
+    <!-- SHOW ONLY WHEN IS OWNER -->
+    <?php if( !empty($current_user) && ($current_user['User']['_id'] == $owner['User']['_id'] || $current_user['User']['admin']) ){ ?>
 	<div class="admin edit-exchange-menu" style="float: right;">
-        <?php
-            $icon =  $this->Html->image('/img/icons/modify.png');
-            echo $this->Html->link($icon.' Editar',array('controller'=>'exchanges','action'=>'edit',$exchange['Exchange']['_id']),array('class'=>"link-button", 'escape' => false));
-        ?>
-
-	<?php
-        $icon =  $this->Html->image('/img/icons/photo.png');
-		echo $this->Html->link($icon.' Editar fotos',array('controller'=>'exchanges','action'=>'edit_photos',$exchange['Exchange']['_id']),array('class'=>"link-button", 'escape' => false));
-    ?>
     <?php
         if ($exchange['Exchange']['state'] != EXCHANGE_FINALIZED) {
-         $icon =  $this->Html->image('/img/icons/terminate.png');
-         echo $this->Html->link($icon.' Finalizar','/exchanges/finalize/'.$exchange['Exchange']['_id'], array('class'=>"link-button", 'escape' => false) , "Una vez que finalizes el intercambio dejará de estar publicado. ¿Estás seguro?");
+            $icon =  $this->Html->image('/img/icons/modify.png');
+            echo $this->Html->link($icon.' Editar',array('controller'=>'exchanges','action'=>'edit',$exchange['Exchange']['_id']),array('class'=>"link-button", 'escape' => false));
+
+            $icon =  $this->Html->image('/img/icons/photo.png');
+            echo $this->Html->link($icon.' Editar fotos',array('controller'=>'exchanges','action'=>'edit_photos',$exchange['Exchange']['_id']),array('class'=>"link-button", 'escape' => false));
+
+            $icon =  $this->Html->image('/img/icons/terminate.png');
+            echo $this->Html->link($icon.' Finalizar','/exchanges/finalize/'.$exchange['Exchange']['_id'], array('class'=>"link-button", 'escape' => false) , "Una vez que finalizes el intercambio dejará de estar publicado. ¿Estás seguro?");
         }else{
-         echo $this->Html->div('link-button',
+            echo $this->Html->div('link-button',
                 $this->Html->image('/img/icons/abort.png').
                 " Finalizado",
                 array('style'=>'background-color:#DDDDDD'));
         }
+        if($current_user['User']['admin']){
+            $icon =  $this->Html->image('/img/icons/erase.png');
+            echo $this->Html->link($icon.' Borrar',array('controller'=>'exchanges','action'=>'delete',$exchange['Exchange']['_id']),array('class'=>"link-button", 'escape' => false),"Esta acción es irreversible. Usar solo para contenido basura(CRAP) \\n ¿Seguro que deseas continuar?");
+        }
 	?>
 	</div>
-    <div class="clear"></div>
-    <?php } ?>
-	<br>
+    <?php 
+    if ($this->Exchange->is_service($exchange)) {
+        echo $this->Html->div('hours_of_opening', 'Horario de atención: '.$exchange['Exchange']['hours_of_opening']);
+    }
+    if ($this->Exchange->is_event($exchange)) {
+        echo $this->Html->div('service_start_date', 'Empieza: '.date('Y-m-d H:i', $exchange['Exchange']['start_date']->sec));
+        echo $this->Html->div('service_end_date', 'Termina: '.date('Y-m-d H:i', $exchange['Exchange']['end_date']->sec));
+    }
+    ?>
+    <p class="exchange-description"><?php echo $exchange['Exchange']['detail']?></p>
 
-	<p class="exchange-description"><?php echo $exchange['Exchange']['detail']?></p>
+    <p>Creado por <?php echo $this->Html->link($owner['User']['username'] ,'/users/view/'.$owner['User']['_id'], array('style'=> 'text-decoration: none;' ));  ?> </p>
+    <div class="clear"></div>
+    <?php }else{
+        if ($exchange['Exchange']['state'] == EXCHANGE_FINALIZED) {
+            echo $this->Html->div('link-button',
+                $this->Html->image('/img/icons/abort.png').
+                " Finalizado ".$this->Time->timeAgoInWords($exchange['Exchange']['finalize_time']),
+                array('style'=>'background-color:#DDDDDD;float:right'));
+        }
+    }?>
+	<br>
 
     <p class="exchange-comment-tags">
         <?php echo $this->Html->image('/img/icons/blue_tag.png') ?>
@@ -131,7 +147,7 @@
 	<ul class="exchange-comment-list">
 		<?php
 		if (isset($exchange['Exchange']['comments'])) { 
-			foreach($exchange['Exchange']['comments'] as $comment) { ?>
+			foreach($exchange['Exchange']['comments'] as $i => $comment) { ?>
 			<li class="exchange_comment">
                 <div style="float:left">
                     <?php
@@ -152,6 +168,10 @@
 				</div>
 				<div class="exchange_comment_user_info">
 					<?php
+                        if($current_user && $current_user['User']['admin']){
+                            $icon =  $this->Html->image('/img/icons/erase.png',array('style'=>"width: 14px; height: 14px; margin-right: 5px; margin-bottom: 7px;"));
+                            echo $this->Html->link($icon,array('action'=>'remove_comment',$comment['user_id'],$i),array('escape'=>false));
+                        }
                         echo $this->Html->link($this->Html->image('/img/icons/mail.png'),'/conversations/add/'.$comment['user_id'],array('escape'=>false,'title'=>"Enviar mensaje personal"));?>
 				</div>
 				<div class="clear"></div>

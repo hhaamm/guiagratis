@@ -107,26 +107,31 @@ function get_exchanges_callback(data) {
 
 		var point = new GLatLng(exchange.lat, exchange.lng);
         
-		var markerOptions = {title:exchange.title};
-		
-        //esto es para los exchanges que tienen íconos customizados.
-        //no lo estamos usando.
-		if (exchange.custom_icon == 1) {
-			var icon = new GIcon();
-			icon.image = exchange.custom_icon_pic;
-			icon.shadow = exchange.custom_icon_shadow;
-			//icon.iconSize = new GSize(59, 62);
-			//icon.shadowSize = new GSize(91, 62);
-			icon.iconAnchor = new GPoint(37, 59);
-			icon.infoWindowAnchor = new GPoint(31, 8);
-			markerOptions.icon = icon;
-		}else{
-            if(exchange.exchange_type_id==1){
-                var icon = new GIcon(G_DEFAULT_ICON);
-                icon.image = "http://maps.google.com/mapfiles/marker_green.png";
-                markerOptions.icon = icon;
-            }
+        var icon;
+        //esta variable va a venir en el exchange. va a usarse para exchanges destacados
+        //principalmente para entidades existentes y/o eventos patrocinados / amigos de la página.
+        //por ahora está deshabilitado su uso.
+        var destacado = false;
+        //según el tipo de exchange, generamos diferentes íconos.
+        switch(exchange.exchange_type_id) {
+            case exchange_type_id['offer']:
+                icon = get_custom_icon('O', 'FF9305', 'FFFFFF', destacado);
+                break;
+            case exchange_type_id['request']:
+                icon = get_custom_icon('P', 'CD05FF', 'FFFFFF', destacado);
+                break;
+            case exchange_type_id['event']:
+                icon = get_custom_icon('E', 'FFFFFF', '000000', destacado);
+                break;
+            case exchange_type_id['service']:
+                icon = get_custom_icon('S', '5658F5', 'FFFFFF', destacado);
+                break;
         }
+        
+		var markerOptions = {
+            title:exchange.title,
+            icon:icon
+        };
             
 		var marker = new GMarker(point, markerOptions);
 		GEvent.addListener(marker, "click", function() {

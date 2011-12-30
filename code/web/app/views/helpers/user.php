@@ -1,3 +1,4 @@
+<?php
 /*
  * Guia Gratis, sistema para intercambio de regalos.
  * Copyright (C) 2011  Hugo Alberto Massaroli
@@ -15,23 +16,10 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-$(document).ready(function() {
-    use_circle = false;
-    //Google maps
-    debug('start_point: '+start_point.latitude+' '+start_point.longitude);
-    latitude_field_id = 'ExchangeLat';
-    longitude_field_id = 'ExchangeLng';
-    youMarkerConfig = {title: 'Punto de encuentro', draggable: true}
-    //si definimos una variable setLocationIcon
-    //esta se setea para el ícono.
-    if(typeof(setLocationIcon) !== 'undefined') {
-        youMarkerConfig.icon = setLocationIcon;
+class UserHelper extends AppHelper {
+	var $helpers = array('Html');
+ 
+    function link($user) {
+        return $this->Html->link($user['User']['username'], '/users/profile/'.$user['User']['_id']);
     }
-    init_gmap(start_point.latitude, start_point.longitude);
-    init_geocoder();
-
-    //Editable combos
-    $("#go_button").click(function() {
-        get_location($('#location').val());
-    });
-});
+}

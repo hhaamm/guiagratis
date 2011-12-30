@@ -129,3 +129,17 @@ function get_latitude_field_id() {
 function get_longitude_field_id() {
     return latitude_field_id == undefined ? 'longitude' : longitude_field_id;
 }
+
+function get_custom_icon(letter, bgcolor, textcolor, star) {
+    var icon = new GIcon();
+    if (star) {
+        icon.image = 'https://chart.googleapis.com/chart?chst=d_map_xpin_letter&chld='+letter+'|'+bgcolor+'|'+textcolor;
+    } else {
+        icon.image = 'https://chart.googleapis.com/chart?chst=d_map_pin_letter&chld='+letter+'|'+bgcolor+'|'+textcolor;
+    }
+    icon.shadow = 'https://chart.googleapis.com/chart?chst=d_map_pin_shadow&chld=pin';
+    icon.iconAnchor = new GPoint(10, 34);
+    icon.shadowSize = new GSize(40,37);
+    icon.iconSize = new GSize(21, 34);
+    return icon;
+}

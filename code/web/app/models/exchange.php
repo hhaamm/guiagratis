@@ -18,6 +18,7 @@
  * 
  */
 class Exchange extends AppModel {
+    var $catchFinalizedEvents = false;
 	var $mongoSchema = array(
 		'comments'=>array(
 			'user_id'=>array('type'=>'integer'),
@@ -36,12 +37,14 @@ class Exchange extends AppModel {
 		'created'=>'timestamp',
         //TODO: ver si este campo state es necesario
 		'state'=>'string',
-        //TODO: cambiar a timestamp
-		'finalize_time'=>'integer',
+		'finalize_time'=>array('type'=>'timestamp'),
 		'photos'=>array(
 			'default', 'id', 'small', 'square'
 		),
-        'tags'=>'string'
+        'tags'=>'string',
+        'hours_of_opening'=>'string',
+        'start_date'=>array('type'=>'timestamp'),
+        'end_date'=>array('type'=>'timestamp')
 	);
     
     var $validate = array(
@@ -146,14 +149,7 @@ class Exchange extends AppModel {
 		return $result;
 	}
 
-	function finalize($eid, $current_user) {
-		$exchange = $this->find('first',array('conditions'=>array('_id'=>$eid)));
-
-		if ($exchange['Exchange']['user_id'] != $current_user) {
-			$this->log("User ${$current_user} trying to finalize exchange with id = ${$eid}. Denied");
-			return false;
-		}
-
+	function finalize($exchange) {
 		$exchange['Exchange']['state'] = EXCHANGE_FINALIZED;
 		$exchange['Exchange']['finalize_time'] = time();
 		return $this->save($exchange);
@@ -164,15 +160,53 @@ class Exchange extends AppModel {
         foreach ($this->data['Exchange']['tags'] as &$tag) {
             $tag = trim($tag);  
         }
+        
+        //guardamos la fecha en un formato entendible
+        if (is_array($this->data['Exchange']['start_date'])) {
+            $this->data['Exchange']['start_date'] = new MongoDate(mktime(
+                    $this->data['Exchange']['start_date']['hour'],
+                    $this->data['Exchange']['start_date']['min'],
+                    $this->data['Exchange']['start_date']['sec'],
+                    $this->data['Exchange']['start_date']['month'],
+                    $this->data['Exchange']['start_date']['day'],
+                    $this->data['Exchange']['start_date']['year']
+            ));
+        }
+        if (is_array($this->data['Exchange']['end_date'])) {
+            $this->data['Exchange']['end_date'] = new MongoDate(mktime(
+                $this->data['Exchange']['end_date']['hour'],
+                $this->data['Exchange']['end_date']['min'],
+                $this->data['Exchange']['end_date']['sec'],
+                $this->data['Exchange']['end_date']['month'],
+                $this->data['Exchange']['end_date']['day'],
+                $this->data['Exchange']['end_date']['year']
+            ));
+        }
+        
         return true;
     }
     
     function afterFind($results, $primary) {
        if($results!=null){
-        foreach($results as &$result) {
+        foreach($results as $key => &$result) {
             $result['Exchange']['tags'] = implode(', ', $result['Exchange']['tags']);
+            
+            if ($this->catchFinalizedEvents && $result['Exchange']['exchange_type_id'] == EXCHANGE_EVENT
+                    && $result['Exchange']['end_date']->sec < time() && $result['Exchange']['state'] != EXCHANGE_FINALIZED) {
+                //TODO: mandar mail de evento finalizado.
+                $this->finalize($result);
+                unset($results[$key]);
+            }
         }
        }
        return $results;
     }
+
+    function removeComment($eid, $i) {
+ 		$this->execute(new MongoCode(
+			"db.exchanges.update({_id:ObjectId('$eid')}, {\$unset : {'comments.$i' : 1 }});db.exchanges.update({_id:ObjectId('$eid')}, {\$pull : {'comments' : null}});"
+
+		));
+        return true;
+	}
 }

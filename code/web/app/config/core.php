@@ -341,9 +341,27 @@ Configure::write('ExchangeType.Request', 1);
 Configure::write('ExchangeType.Offer', 2);
 Configure::write('ExchangeType.All', 0);
 
+define('EXCHANGE_PUBLISHED','published');
+define('EXCHANGE_FINALIZED','finalized');
+define('DEFAULT_EXCHANGE_PHOTO','/img/default_exchange_photo.jpg');
+
+define('EXCHANGE_REQUEST', 1);
+define('EXCHANGE_OFFER', 2);
+define('EXCHANGE_EVENT', 3);
+define('EXCHANGE_SERVICE', 4);
+//this is an special value when searching. Not used in database.
+define('EXCHANGE_ALL', 0);
+
+//variables that will be used in the bitmask field 'admin' of users database.
+define('ADMIN', 1);
+define('SUPERADMIN', 2);
+define('MODERATOR', 4);
+
 Configure::write('ExchangeType.Names', array(
-    Configure::read('ExchangeType.Request') => 'Pedido',
-    Configure::read('ExchangeType.Offer') => 'Oferta'
+    EXCHANGE_REQUEST => 'Pedido',
+    EXCHANGE_OFFER => 'Oferta',
+    EXCHANGE_EVENT => 'Evento',
+    EXCHANGE_SERVICE => 'Servicio'
 ));
 
 Configure::write('Config.language', 'spa');

@@ -76,9 +76,9 @@ class AppController extends Controller {
 		return true;
 	}
 
-	protected function getBack($message = null) {
+	protected function getBack($message = null,$element = 'default') {
 		if ($message)
-			$this->Session->setFlash($message);
+			$this->Session->setFlash($message,$element);
 		$this->redirect($this->referer());
 	}
 

@@ -30,17 +30,19 @@
             theme : "simple"
         });
     });
-    setLocationIcon = get_custom_icon('O', 'FF9305', 'FFFFFF', false);
+    setLocationIcon = icon = get_custom_icon('E', 'FFFFFF', '000000', false);
 </script>
 <!-- /TinyMCE -->
 <fieldset>
-	<legend>Agregar una oferta</legend>
+	<legend>Agregar un evento</legend>
 	<?php
 	echo $this->Form->create();
 	echo $this->Form->input('title',array('label'=>'Título'));
+    echo $this->Form->input('start_date',array('label'=>'Fecha de inicio', 'type'=>'datetime', 'timeFormat'=>24));
+    echo $this->Form->input('end_date',array('label'=>'Fecha de finalización', 'type'=>'datetime', 'timeFormat'=>24));
 	echo $this->Form->input('detail',array('label'=>'descripción', 'type'=>'textarea'));
     echo $this->Form->input('tags', array('label'=>'Tags (separados por coma)'));
 	echo $this->element('set_exchange_location');
-	echo $this->Form->end('Agregar oferta');
+	echo $this->Form->end('Agregar evento');
 	?>
 </fieldset>
