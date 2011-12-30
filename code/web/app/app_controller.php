@@ -24,7 +24,7 @@ class AppController extends Controller {
 
 	function beforeFilter() {
         $user_refresh = $this->Session->read('Auth.User.refresh_time');
-        if(!$user_refresh ||   time() - $user_refresh  > 60  ){
+        if( $this->Auth->user('_id') && ( !$user_refresh ||   time() - $user_refresh  > 60)){
           //refresca el usuario cada 1 minuto para que se vean las actualizaciones.
           //TODO hacer que el tiempo sea configurable
           $this->refreshCurrentUser();
