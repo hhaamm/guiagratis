@@ -203,23 +203,27 @@ class ExchangesController extends AppController {
                 $this->Session->setFlash('Un error ha ocurrido', true);
             }
         }
-        //formateamos en el formato que usa CakePHP
-        $this->data['Exchange']['start_date'] = array(
-            'hour' => date('H', $this->data['Exchange']['start_date']->sec),
-            'min' => date('i', $this->data['Exchange']['start_date']->sec),
-            'sec' => date('s', $this->data['Exchange']['start_date']->sec),
-            'year' => date('Y', $this->data['Exchange']['start_date']->sec),
-            'month' => date('m', $this->data['Exchange']['start_date']->sec),
-            'day' => date('d', $this->data['Exchange']['start_date']->sec)
-        );
-        $this->data['Exchange']['end_date'] = array(
-            'hour' => date('H', $this->data['Exchange']['end_date']->sec),
-            'min' => date('i', $this->data['Exchange']['end_date']->sec),
-            'sec' => date('s', $this->data['Exchange']['end_date']->sec),
-            'year' => date('Y', $this->data['Exchange']['end_date']->sec),
-            'month' => date('m', $this->data['Exchange']['end_date']->sec),
-            'day' => date('d', $this->data['Exchange']['end_date']->sec)
-        );
+        if(isset($this->data['Exchange']['start_date'])){
+            //formateamos en el formato que usa CakePHP
+            $this->data['Exchange']['start_date'] = array(
+                'hour' => date('H', $this->data['Exchange']['start_date']->sec),
+                'min' => date('i', $this->data['Exchange']['start_date']->sec),
+                'sec' => date('s', $this->data['Exchange']['start_date']->sec),
+                'year' => date('Y', $this->data['Exchange']['start_date']->sec),
+                'month' => date('m', $this->data['Exchange']['start_date']->sec),
+                'day' => date('d', $this->data['Exchange']['start_date']->sec)
+            );
+        }
+        if(isset($this->data['Exchange']['end_date'])){
+            $this->data['Exchange']['end_date'] = array(
+                'hour' => date('H', $this->data['Exchange']['end_date']->sec),
+                'min' => date('i', $this->data['Exchange']['end_date']->sec),
+                'sec' => date('s', $this->data['Exchange']['end_date']->sec),
+                'year' => date('Y', $this->data['Exchange']['end_date']->sec),
+                'month' => date('m', $this->data['Exchange']['end_date']->sec),
+                'day' => date('d', $this->data['Exchange']['end_date']->sec)
+            );
+        }
         $this->set('start_point', array('latitude' => $this->data['Exchange']['lat'], 'longitude' => $this->data['Exchange']['lng']));
     }
 
