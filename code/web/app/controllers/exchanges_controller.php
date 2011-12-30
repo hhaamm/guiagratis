@@ -128,7 +128,8 @@ class ExchangesController extends AppController {
 
         //TODO: poner un órden copado, por "popularidad" o algo así.
         $options = array(
-            'limit' => 35,
+            'limit' => 40,
+            'order' => array('created' => -1),
             'page' => 1,
             'conditions' => array(
                 'lat' => array('$lt' => (float) $_REQUEST['north'], '$gt' => (float) $_REQUEST['south']),
