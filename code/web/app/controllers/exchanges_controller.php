@@ -196,11 +196,11 @@ class ExchangesController extends AppController {
             $this->data['Exchange']['lat'] = (float) $this->data['Exchange']['lat'];
             $result = $this->Exchange->save($this->data);
             if ($result) {
-                $this->Session->setFlash('Cambios guardados');
+                $this->Session->setFlash('Cambios guardados','flash_success');
                 $this->redirect('/exchanges/view/' . $eid);
             } else {
                 $this->data = $this->Exchange->read(null, $eid);
-                $this->Session->setFlash('Un error ha ocurrido', true);
+                $this->Session->setFlash('Un error ha ocurrido','flash_failure');
             }
         }
         if(isset($this->data['Exchange']['start_date'])){
