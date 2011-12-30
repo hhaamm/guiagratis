@@ -60,7 +60,17 @@
         }
 	?>
 	</div>
-    <?php 
+
+    <?php }else{
+        if ($exchange['Exchange']['state'] == EXCHANGE_FINALIZED) {
+            echo $this->Html->div('link-button',
+                $this->Html->image('/img/icons/abort.png').
+                " Finalizado ".$this->Time->timeAgoInWords($exchange['Exchange']['finalize_time']),
+                array('style'=>'background-color:#DDDDDD;float:right'));
+        }
+    }?>
+
+    <?php
     if ($this->Exchange->is_service($exchange)) {
         echo $this->Html->div('hours_of_opening', 'Horario de atención: '.$exchange['Exchange']['hours_of_opening']);
     }
@@ -70,16 +80,6 @@
     }
     ?>
 
-
-    <div class="clear"></div>
-    <?php }else{
-        if ($exchange['Exchange']['state'] == EXCHANGE_FINALIZED) {
-            echo $this->Html->div('link-button',
-                $this->Html->image('/img/icons/abort.png').
-                " Finalizado ".$this->Time->timeAgoInWords($exchange['Exchange']['finalize_time']),
-                array('style'=>'background-color:#DDDDDD;float:right'));
-        }
-    }?>
 	<br/>
 
     <div class="clear"></div>
