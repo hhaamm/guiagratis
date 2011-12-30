@@ -68,6 +68,7 @@
         echo $this->Html->div('service_end_date', 'Termina: '.date('Y-m-d H:i', $exchange['Exchange']['end_date']->sec));
     }
     ?>
+    <div class="clear"></div>
     <p class="exchange-description"><?php echo $exchange['Exchange']['detail']?></p>
 
     <p>Creado por <?php echo $this->Html->link($owner['User']['username'] ,'/users/view/'.$owner['User']['_id'], array('style'=> 'text-decoration: none;' ));  ?> </p>
@@ -143,6 +144,9 @@
 	<div id="exchange-photos" class="exchange-photos" ></div>
     <div class="clear"></div>
     <?php } ?>
+
+    <br/>
+    <br/>
 
 	<ul class="exchange-comment-list">
 		<?php
