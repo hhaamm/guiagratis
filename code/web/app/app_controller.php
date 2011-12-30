@@ -19,9 +19,17 @@
 class AppController extends Controller {
 	var $components = array('Session','Auth','Email');
 	var $helpers = array('Javascript','Html','Session','Form','Time');
+    var $models = array('User');
 	var $uid;
 
 	function beforeFilter() {
+        $user_refresh = $this->Session->read('Auth.User.refresh_time');
+        if(!$user_refresh ||   time() - $user_refresh  > 60  ){
+          //refresca el usuario cada 1 minuto para que se vean las actualizaciones.
+          //TODO hacer que el tiempo sea configurable
+          $this->refreshCurrentUser();
+          $this->Session->write('Auth.User.refresh_time',time());
+        }
         $this->Auth->logoutRedirect = array('controller' => 'users', 'action' => 'login');
         $this->Auth->loginError = "El usuario o la contraseña son incorrectos";
         $this->Auth->autoRedirect = true;
@@ -73,4 +81,11 @@ class AppController extends Controller {
 			$this->Session->setFlash($message);
 		$this->redirect($this->referer());
 	}
+
+    function refreshCurrentUser(){
+      if($this->Auth->user('_id')){
+        $user = $this->User->read(null, $this->Auth->user('_id'));
+        $this->Session->write('Auth.User',$user['User']);
+      }
+    }
 }
