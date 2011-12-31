@@ -210,10 +210,23 @@
     </table>
 	
 	<fieldset>
-		<legend><?php if ($exchange['Exchange']['exchange_type_id'] == Configure::read('ExchangeType.Offer'))
-                echo "¿Necesitás este artículo?";
-                else
-                    echo "¿Querés donar este artículo?"; ?></legend>
+		<legend><?php
+                switch($exchange['Exchange']['exchange_type_id']) {
+                    case EXCHANGE_OFFER:
+                        echo "¿Necesitás este artículo?";
+                        break;
+                    case EXCHANGE_REQUEST:
+                        echo "¿Querés donar este artículo?";
+                        break;
+                    case EXCHANGE_SERVICE:
+                        echo "¿Querés preguntar sobre este servicio?";
+                        break;
+                    case EXCHANGE_EVENT:
+                        echo "¿Querés preguntar sobre este evento?";
+                        break;
+                }
+                
+                ?></legend>
 
 		<?php
 		if ($current_user) {
