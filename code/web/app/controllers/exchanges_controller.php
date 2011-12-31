@@ -69,7 +69,7 @@ class ExchangesController extends AppController {
 
     function add_request() {
         if ($this->data) {
-            $this->add_exchange(EXCHANGE_REQUEST);
+            $this->add_exchange(EXCHANGE_REQUEST, '¡El pedido fue publicado!');
         }
 
         $this->set_start_point();
@@ -77,7 +77,7 @@ class ExchangesController extends AppController {
 
     function add_offer() {
         if ($this->data) {
-            $this->add_exchange(EXCHANGE_OFFER);
+            $this->add_exchange(EXCHANGE_OFFER, '¡La oferta fue publicada!');
         }
 
         $this->set_start_point();
@@ -85,7 +85,7 @@ class ExchangesController extends AppController {
 
     function add_event() {
         if ($this->data) {
-            $this->add_exchange(EXCHANGE_EVENT);
+            $this->add_exchange(EXCHANGE_EVENT, '¡El evento fue publicado!');
         }
 
         $this->set_start_point();
@@ -93,13 +93,13 @@ class ExchangesController extends AppController {
 
     function add_service() {
         if ($this->data) {
-            $this->add_exchange(EXCHANGE_SERVICE);
+            $this->add_exchange(EXCHANGE_SERVICE, '¡El servicio fue publicado!');
         }
 
         $this->set_start_point();
     }
 
-    private function add_exchange($exchange_type_id) {
+    private function add_exchange($exchange_type_id, $message) {
         $this->data['Exchange']['exchange_type_id'] = $exchange_type_id;
         $this->data['Exchange']['exchange_state_id'] = Configure::read('ExchangeState.Published');
         $this->data['Exchange']['lng'] = (float) $this->data['Exchange']['lng'];
@@ -111,7 +111,7 @@ class ExchangesController extends AppController {
         $this->data['Exchange']['photos'] = array();
         $this->data['Exchange']['username'] = $this->Auth->user('username');
         if ($this->Exchange->save($this->data)) {
-            $this->Session->setFlash('¡El evento fue publicado!');
+            $this->Session->setFlash($message, 'flash_success');
             $this->redirect(array('controller' => 'exchanges', 'action' => 'edit_photos', $this->Exchange->id));
         }
     }
