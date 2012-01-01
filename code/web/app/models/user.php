@@ -109,7 +109,11 @@ class User extends AppModel {
     }
 
     function updateNotifications($uid,$notifications){
-        //TODO si las notificaciones superan cierto numero habria que truncarlas
+        $count = count($notifications);
+        if(count($notifications) > 30 ){
+           //TODO guradar el numero maximo de notificaciones en la configuracion
+           array_slice($notifications, $count - 30) ;
+        }
         $notifications = json_encode($notifications);
        	return $this->execute(new MongoCode(
 				"db.users.update({_id:ObjectId('$uid')},{\$set:{notifications:$notifications}},true,false)"
