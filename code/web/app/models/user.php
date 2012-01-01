@@ -112,7 +112,7 @@ class User extends AppModel {
         $count = count($notifications);
         if(count($notifications) > 30 ){
            //TODO guradar el numero maximo de notificaciones en la configuracion
-           array_slice($notifications, $count - 30) ;
+           $notifications = array_slice($notifications, $count - 30) ;
         }
         $notifications = json_encode($notifications);
        	return $this->execute(new MongoCode(
