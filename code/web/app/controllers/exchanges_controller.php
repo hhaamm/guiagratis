@@ -69,7 +69,7 @@ class ExchangesController extends AppController {
 
     function add_request() {
         if ($this->data) {
-            $this->add_exchange(EXCHANGE_REQUEST);
+            $this->add_exchange(EXCHANGE_REQUEST, '¡El pedido fue publicado!');
         }
 
         $this->set_start_point();
@@ -77,7 +77,7 @@ class ExchangesController extends AppController {
 
     function add_offer() {
         if ($this->data) {
-            $this->add_exchange(EXCHANGE_OFFER);
+            $this->add_exchange(EXCHANGE_OFFER, '¡La oferta fue publicada!');
         }
 
         $this->set_start_point();
@@ -85,7 +85,7 @@ class ExchangesController extends AppController {
 
     function add_event() {
         if ($this->data) {
-            $this->add_exchange(EXCHANGE_EVENT);
+            $this->add_exchange(EXCHANGE_EVENT, '¡El evento fue publicado!');
         }
 
         $this->set_start_point();
@@ -93,13 +93,13 @@ class ExchangesController extends AppController {
 
     function add_service() {
         if ($this->data) {
-            $this->add_exchange(EXCHANGE_SERVICE);
+            $this->add_exchange(EXCHANGE_SERVICE, '¡El servicio fue publicado!');
         }
 
         $this->set_start_point();
     }
 
-    private function add_exchange($exchange_type_id) {
+    private function add_exchange($exchange_type_id, $message) {
         $this->data['Exchange']['exchange_type_id'] = $exchange_type_id;
         $this->data['Exchange']['exchange_state_id'] = Configure::read('ExchangeState.Published');
         $this->data['Exchange']['lng'] = (float) $this->data['Exchange']['lng'];
@@ -111,7 +111,7 @@ class ExchangesController extends AppController {
         $this->data['Exchange']['photos'] = array();
         $this->data['Exchange']['username'] = $this->Auth->user('username');
         if ($this->Exchange->save($this->data)) {
-            $this->Session->setFlash('¡El evento fue publicado!');
+            $this->Session->setFlash($message, 'flash_success');
             $this->redirect(array('controller' => 'exchanges', 'action' => 'edit_photos', $this->Exchange->id));
         }
     }
@@ -128,7 +128,8 @@ class ExchangesController extends AppController {
 
         //TODO: poner un órden copado, por "popularidad" o algo así.
         $options = array(
-            'limit' => 35,
+            'limit' => 40,
+            'order' => array('created' => -1),
             'page' => 1,
             'conditions' => array(
                 'lat' => array('$lt' => (float) $_REQUEST['north'], '$gt' => (float) $_REQUEST['south']),
@@ -195,30 +196,34 @@ class ExchangesController extends AppController {
             $this->data['Exchange']['lat'] = (float) $this->data['Exchange']['lat'];
             $result = $this->Exchange->save($this->data);
             if ($result) {
-                $this->Session->setFlash('Cambios guardados');
+                $this->Session->setFlash('Cambios guardados','flash_success');
                 $this->redirect('/exchanges/view/' . $eid);
             } else {
                 $this->data = $this->Exchange->read(null, $eid);
-                $this->Session->setFlash('Un error ha ocurrido', true);
+                $this->Session->setFlash('Un error ha ocurrido','flash_failure');
             }
         }
-        //formateamos en el formato que usa CakePHP
-        $this->data['Exchange']['start_date'] = array(
-            'hour' => date('H', $this->data['Exchange']['start_date']->sec),
-            'min' => date('i', $this->data['Exchange']['start_date']->sec),
-            'sec' => date('s', $this->data['Exchange']['start_date']->sec),
-            'year' => date('Y', $this->data['Exchange']['start_date']->sec),
-            'month' => date('m', $this->data['Exchange']['start_date']->sec),
-            'day' => date('d', $this->data['Exchange']['start_date']->sec)
-        );
-        $this->data['Exchange']['end_date'] = array(
-            'hour' => date('H', $this->data['Exchange']['end_date']->sec),
-            'min' => date('i', $this->data['Exchange']['end_date']->sec),
-            'sec' => date('s', $this->data['Exchange']['end_date']->sec),
-            'year' => date('Y', $this->data['Exchange']['end_date']->sec),
-            'month' => date('m', $this->data['Exchange']['end_date']->sec),
-            'day' => date('d', $this->data['Exchange']['end_date']->sec)
-        );
+        if(isset($this->data['Exchange']['start_date'])){
+            //formateamos en el formato que usa CakePHP
+            $this->data['Exchange']['start_date'] = array(
+                'hour' => date('H', $this->data['Exchange']['start_date']->sec),
+                'min' => date('i', $this->data['Exchange']['start_date']->sec),
+                'sec' => date('s', $this->data['Exchange']['start_date']->sec),
+                'year' => date('Y', $this->data['Exchange']['start_date']->sec),
+                'month' => date('m', $this->data['Exchange']['start_date']->sec),
+                'day' => date('d', $this->data['Exchange']['start_date']->sec)
+            );
+        }
+        if(isset($this->data['Exchange']['end_date'])){
+            $this->data['Exchange']['end_date'] = array(
+                'hour' => date('H', $this->data['Exchange']['end_date']->sec),
+                'min' => date('i', $this->data['Exchange']['end_date']->sec),
+                'sec' => date('s', $this->data['Exchange']['end_date']->sec),
+                'year' => date('Y', $this->data['Exchange']['end_date']->sec),
+                'month' => date('m', $this->data['Exchange']['end_date']->sec),
+                'day' => date('d', $this->data['Exchange']['end_date']->sec)
+            );
+        }
         $this->set('start_point', array('latitude' => $this->data['Exchange']['lat'], 'longitude' => $this->data['Exchange']['lng']));
     }
 

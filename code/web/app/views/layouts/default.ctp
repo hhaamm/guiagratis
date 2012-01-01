@@ -80,7 +80,7 @@
 					<a href="#" onclick="$(this).next().click();return false;" >Administración</a>
 					<ul class="subnav">
 						<li><a href="/admin/users">Usuarios</a></li>
-                        <li><a href="/admin/exchanges">Ofertas / Pedidos / Eventos</a></li>
+                        <li><a href="/admin/exchanges">Gratiposts</a></li>
 					</ul>
 				</li>
                 <?php } ?>

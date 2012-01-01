@@ -160,9 +160,8 @@ class Exchange extends AppModel {
         foreach ($this->data['Exchange']['tags'] as &$tag) {
             $tag = trim($tag);  
         }
-        
         //guardamos la fecha en un formato entendible
-        if (is_array($this->data['Exchange']['start_date'])) {
+        if (isset($this->data['Exchange']['start_date']) && is_array($this->data['Exchange']['start_date'])) {
             $this->data['Exchange']['start_date'] = new MongoDate(mktime(
                     $this->data['Exchange']['start_date']['hour'],
                     $this->data['Exchange']['start_date']['min'],
@@ -172,7 +171,7 @@ class Exchange extends AppModel {
                     $this->data['Exchange']['start_date']['year']
             ));
         }
-        if (is_array($this->data['Exchange']['end_date'])) {
+        if (isset($this->data['Exchange']['end_date']) && is_array($this->data['Exchange']['end_date'])) {
             $this->data['Exchange']['end_date'] = new MongoDate(mktime(
                 $this->data['Exchange']['end_date']['hour'],
                 $this->data['Exchange']['end_date']['min'],

@@ -34,6 +34,7 @@
     <?php echo $this->Exchange->type($exchange); ?>
     </div>
 	<h2><?php echo $exchange['Exchange']['title']?></h2>
+        <p>Creado por <?php echo $this->Html->link($owner['User']['username'] ,'/users/view/'.$owner['User']['_id'], array('style'=> 'text-decoration: none;' ));  ?> </p>
     <!-- SHOW ONLY WHEN IS OWNER -->
     <?php if( !empty($current_user) && ($current_user['User']['_id'] == $owner['User']['_id'] || $current_user['User']['admin']) ){ ?>
 	<div class="admin edit-exchange-menu" style="float: right;">
@@ -59,19 +60,7 @@
         }
 	?>
 	</div>
-    <?php 
-    if ($this->Exchange->is_service($exchange)) {
-        echo $this->Html->div('hours_of_opening', 'Horario de atención: '.$exchange['Exchange']['hours_of_opening']);
-    }
-    if ($this->Exchange->is_event($exchange)) {
-        echo $this->Html->div('service_start_date', 'Empieza: '.date('Y-m-d H:i', $exchange['Exchange']['start_date']->sec));
-        echo $this->Html->div('service_end_date', 'Termina: '.date('Y-m-d H:i', $exchange['Exchange']['end_date']->sec));
-    }
-    ?>
-    <p class="exchange-description"><?php echo $exchange['Exchange']['detail']?></p>
 
-    <p>Creado por <?php echo $this->Html->link($owner['User']['username'] ,'/users/view/'.$owner['User']['_id'], array('style'=> 'text-decoration: none;' ));  ?> </p>
-    <div class="clear"></div>
     <?php }else{
         if ($exchange['Exchange']['state'] == EXCHANGE_FINALIZED) {
             echo $this->Html->div('link-button',
@@ -80,7 +69,22 @@
                 array('style'=>'background-color:#DDDDDD;float:right'));
         }
     }?>
-	<br>
+
+    <?php
+    if ($this->Exchange->is_service($exchange)) {
+        echo $this->Html->div('hours_of_opening', 'Horario de atención: '.$exchange['Exchange']['hours_of_opening']);
+    }
+    if ($this->Exchange->is_event($exchange)) {
+        echo $this->Html->div('service_start_date', 'Empieza: '.date('Y-m-d H:i', $exchange['Exchange']['start_date']->sec));
+        echo $this->Html->div('service_end_date', 'Termina: '.date('Y-m-d H:i', $exchange['Exchange']['end_date']->sec));
+    }
+    ?>
+
+	<br/>
+
+    <div class="clear"></div>
+    <p class="exchange-description"><?php echo $exchange['Exchange']['detail']?></p>
+
 
     <p class="exchange-comment-tags">
         <?php echo $this->Html->image('/img/icons/blue_tag.png') ?>
@@ -144,6 +148,9 @@
     <div class="clear"></div>
     <?php } ?>
 
+    <br/>
+    <br/>
+
 	<ul class="exchange-comment-list">
 		<?php
 		if (isset($exchange['Exchange']['comments'])) { 
@@ -203,10 +210,23 @@
     </table>
 	
 	<fieldset>
-		<legend><?php if ($exchange['Exchange']['exchange_type_id'] == Configure::read('ExchangeType.Offer'))
-                echo "¿Necesitás este artículo?";
-                else
-                    echo "¿Querés donar este artículo?"; ?></legend>
+		<legend><?php
+                switch($exchange['Exchange']['exchange_type_id']) {
+                    case EXCHANGE_OFFER:
+                        echo "¿Necesitás este artículo?";
+                        break;
+                    case EXCHANGE_REQUEST:
+                        echo "¿Querés donar este artículo?";
+                        break;
+                    case EXCHANGE_SERVICE:
+                        echo "¿Querés preguntar sobre este servicio?";
+                        break;
+                    case EXCHANGE_EVENT:
+                        echo "¿Querés preguntar sobre este evento?";
+                        break;
+                }
+                
+                ?></legend>
 
 		<?php
 		if ($current_user) {
