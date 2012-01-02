@@ -34,7 +34,7 @@
     <?php echo $this->Exchange->type($exchange); ?>
     </div>
 	<h2><?php echo $exchange['Exchange']['title']?></h2>
-        <p>Creado por <?php echo $this->Html->link($owner['User']['username'] ,'/users/view/'.$owner['User']['_id'], array('style'=> 'text-decoration: none;' ));  ?> </p>
+        <p>Creado por <?php echo $this->Html->link($owner['User']['username'] ,'/users/view/'.$owner['User']['_id'], array('style'=> 'text-decoration: none;' ));  ?> <?php echo $this->Time->timeAgoInWords($exchange['Exchange']['created']) ;?> </p>
     <!-- SHOW ONLY WHEN IS OWNER -->
     <?php if( !empty($current_user) && ($current_user['User']['_id'] == $owner['User']['_id'] || $current_user['User']['admin']) ){ ?>
 	<div class="admin edit-exchange-menu" style="float: right;">
