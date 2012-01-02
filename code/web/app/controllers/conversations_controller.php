@@ -91,6 +91,7 @@ class ConversationsController extends AppController {
             ));
             $this->sendMail($destiny['User']['mail'], 'Tenés un nuevo mensaje', 'message_notification');
         }
+        $this->User->notifyMessage($this->Auth->user(),$destiny,$this->data['Conversation']['_id']);
         $this->getBack('Mensaje enviado','flash_success');
     }
 
