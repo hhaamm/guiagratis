@@ -36,7 +36,7 @@
 <fieldset>
 	<legend>Agregar un evento</legend>
 	<?php
-	echo $this->Form->create();
+    echo $this->Form->create(null,array("onsubmit"=>"return markerMoved();"));
 	echo $this->Form->input('title',array('label'=>'Título'));
     echo $this->Form->input('start_date',array('label'=>'Fecha de inicio', 'type'=>'datetime', 'timeFormat'=>24));
     echo $this->Form->input('end_date',array('label'=>'Fecha de finalización', 'type'=>'datetime', 'timeFormat'=>24));

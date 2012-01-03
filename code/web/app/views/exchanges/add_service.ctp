@@ -36,7 +36,7 @@
 <fieldset>
 	<legend>Agregar un evento</legend>
 	<?php
-	echo $this->Form->create();
+	echo $this->Form->create(null,array("onsubmit"=>"return markerMoved();"));
 	echo $this->Form->input('title',array('label'=>'Título'));
     echo $this->Form->input('hours_of_opening',array('label'=>'Horario de atención'));
 	echo $this->Form->input('detail',array('label'=>'descripción', 'type'=>'textarea'));

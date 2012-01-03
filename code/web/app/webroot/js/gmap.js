@@ -70,6 +70,7 @@ function get_location_callback(answer, callback) {
     get_exchanges();
 }
 
+var marker_has_been_moved = false;
 function refreshCenter() {
     map.clearOverlays();
     debug(glocation);
@@ -80,6 +81,7 @@ function refreshCenter() {
 			debug('dragend');
 			newPoint = marker.getLatLng();
 			set_user_location(newPoint);
+            marker_has_been_moved = true;
 		});
 		if (youMarkerDragendCallback) {
 			GEvent.addListener(marker, 'dragend', youMarkerDragendCallback);

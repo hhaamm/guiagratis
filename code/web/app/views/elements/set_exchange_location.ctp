@@ -30,6 +30,14 @@
            })
         }
    )
+
+   function markerMoved(){
+        if(!marker_has_been_moved){
+            $("#pleace-move-marker").show();
+        }
+        return marker_has_been_moved;
+    }
+
 </script>
 
 <?php echo $this->element('gmap_default_values', array('start_point' => $start_point)); ?>
@@ -48,5 +56,6 @@
 <?php
     echo $form->hidden('lat');
     echo $form->hidden('lng');
-    echo "<div class='clear'></div>";
+    echo $this->Html->div("clear");
+    echo $this->Html->div("error-message","Mueve el marcador en el mapa para indicar un punto de encuentro",array("style"=>"display:none","id"=>"pleace-move-marker"));
 ?>

@@ -36,7 +36,7 @@
 <fieldset>
 	<legend>Agregar una oferta</legend>
 	<?php
-	echo $this->Form->create();
+    echo $this->Form->create(null,array("onsubmit"=>"return markerMoved();"));
 	echo $this->Form->input('title',array('label'=>'Título'));
 	echo $this->Form->input('detail',array('label'=>'descripción', 'type'=>'textarea'));
     echo $this->Form->input('tags', array('label'=>'Tags (separados por coma)'));

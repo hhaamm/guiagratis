@@ -35,7 +35,7 @@
 <fieldset>
 	<legend>Agregar un pedido</legend>
 	<?php
-	echo $this->Form->create();
+    echo $this->Form->create(null,array("onsubmit"=>"return markerMoved();"));
 	echo $this->Form->input('title',array('label'=>'Título'));
 	echo $this->Form->input('detail',array('label'=>'descripción'));
     echo $this->Form->input('tags', array('label'=>'Tags (separados por coma)'));
