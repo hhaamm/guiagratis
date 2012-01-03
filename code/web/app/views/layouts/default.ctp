@@ -100,7 +100,7 @@
                 <?php if($current_user){ ?>
                 <li style="float: right;array">
                      <?php
-                       echo $this->Html->link($current_user['User']['username'],array('controller'=>'users','action'=>'view',$current_user['User']['_id']),array('style'=>'padding-top: 7px;'));
+                       echo $this->Html->link($current_user['User']['username'],array('controller'=>'users','action'=>'view',$current_user['User']['_id']),array('class'=>'my-profile'));
                        $notification_counter = 0;
                        if(isSet($current_user['User']['notifications'])){
                            foreach($current_user['User']['notifications'] as $notification){
