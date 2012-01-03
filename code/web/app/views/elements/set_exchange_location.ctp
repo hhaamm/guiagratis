@@ -18,6 +18,20 @@
  * 
  */
 ?>
+
+<script type="text/javascript">
+   $(document).ready(
+       function(){
+           $("#location").bind("keypress", function(e) {
+             if (e.keyCode == 13) {
+                 $("#go_button").click();
+                 return false;
+            }
+           })
+        }
+   )
+</script>
+
 <?php echo $this->element('gmap_default_values', array('start_point' => $start_point)); ?>
 <?php $javascript->link('gmap', false); ?>
 <?php $javascript->link('exchanges_set_location', false); ?>
