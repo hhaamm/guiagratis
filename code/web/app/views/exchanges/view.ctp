@@ -30,6 +30,14 @@
     }
 </script>
 <div>
+    <?php
+        $avatar_url = '/img/default_avatar.png';
+        if(isset($owner['User']['avatar'])){
+            $avatar_url = $owner['User']['avatar']['small']['url'];
+        }
+        $avatar =  $this->Html->image($avatar_url,array('style'=>"width: 50px; height: 50px;"));
+        echo $this->Html->link($avatar,array('controller'=>'users','action'=>'view',$owner['User']['_id']),array('escape'=>false,"style"=>"float:left;50px; margin-right: 5px;"))
+    ?>
     <div class="exchange-type <?php echo $this->Exchange->cssClass($exchange); ?>">
     <?php echo $this->Exchange->type($exchange); ?>
     </div>
