@@ -83,10 +83,11 @@
 	<br/>
 
     <div class="clear"></div>
-    <p class="exchange-description"><?php echo $exchange['Exchange']['detail']?></p>
+    <?php echo $this->Html->image('/img/staticmap.gif',array('style'=>'float:left;'))?>
+    <div class="exchange-description" style="margin-left:200px;"><?php echo $exchange['Exchange']['detail']?></div>
 
 
-    <p class="exchange-comment-tags">
+    <p class="exchange-comment-tags" style="margin-left:200px;margin-top:5px;" >
         <?php echo $this->Html->image('/img/icons/blue_tag.png') ?>
         Tags:
         <?php
@@ -97,7 +98,35 @@
             }
             echo implode(' , ',$tag_links);
     ?></p>
-    
+
+    <div style="margin-left: 200px; ">
+       <?php echo $this->element('rating_bar');?>
+    </div>
+    <table style="margin: 5px; float: right;" cellspacing="5">
+       <tr>
+         <td>
+          <!-- Google  -->
+          <g:plusone size="medium"></g:plusone>
+         </td>
+         <td>
+          <!-- Facebook -->
+          <div class="fb-like" data-href="<?php echo Router::url($this->here, true); ?>" data-send="false" data-layout="button_count" data-width="130" data-show-faces="true" data-font="lucida grande"></div>
+         </td>
+       </tr>
+       <tr>
+         <td>
+          <!-- Twitter -->
+          <a href="https://twitter.com/share" class="twitter-share-button" data-lang="es">Tweet</a>
+         </td>
+         <td>
+          <!-- Taringa -->
+          <t:sharer data-layout="medium_counter"></t:sharer>
+         </td>
+       </tr>
+    </table>
+
+    <div class="clear"> </div>
+
     <?php if(!empty($exchange['Exchange']['photos'])){ ?>
      <script type="text/javascript">
          $(document).ready(function(){
@@ -186,28 +215,6 @@
 		<?php }} ?>
 	</ul>
     
-    <table style="margin: 5px" cellspacing="5">
-       <tr>
-         <td>
-          <!-- Google  -->
-          <g:plusone size="medium"></g:plusone>
-         </td>
-         <td>
-          <!-- Facebook -->
-          <div class="fb-like" data-href="<?php echo Router::url($this->here, true); ?>" data-send="false" data-layout="button_count" data-width="130" data-show-faces="true" data-font="lucida grande"></div>
-         </td>
-       </tr>
-       <tr>
-         <td>
-          <!-- Twitter -->
-          <a href="https://twitter.com/share" class="twitter-share-button" data-lang="es">Tweet</a>
-         </td>
-         <td>
-          <!-- Taringa -->
-          <t:sharer data-layout="medium_counter"></t:sharer>
-         </td>
-       </tr>
-    </table>
 	
 	<fieldset>
 		<legend><?php
