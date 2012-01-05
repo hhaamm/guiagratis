@@ -83,7 +83,7 @@
 	<br/>
 
     <div class="clear"></div>
-    <?php echo $this->Html->image('/img/staticmap.gif',array('style'=>'float:left;'))?>
+    <?php echo $this->element("minimap",array('exchange'=>$exchange))?>
     <div class="exchange-description" style="margin-left:200px;"><?php echo $exchange['Exchange']['detail']?></div>
 
 
@@ -101,6 +101,21 @@
 
     <div style="margin-left: 200px; ">
        <?php echo $this->element('rating_bar');?>
+       <script type="text/javascript">
+          var good = 0;
+          var bad = 0;
+          $("#thumb-up").bind('click',function(){
+            good++;
+            changeRatingBar(good,bad);
+            return false;
+          })
+          $("#thumb-down").bind('click',function(){
+            bad++;
+            changeRatingBar(good,bad);
+            return false;
+          })
+          changeRatingBar(good,bad);
+       </script>
     </div>
     <table style="margin: 5px; float: right;" cellspacing="5">
        <tr>
