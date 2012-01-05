@@ -118,7 +118,7 @@ class Conversation extends AppModel {
 		$c = $this->findById($cid);
 
 		if ($c['Conversation']['from'] != $current_user && $c['Conversation']['to'] != $current_user) {
-			log("User ${$current_user} trying to see conversation with id = ${$cid}");
+			log("User $current_user trying to see conversation with id = $cid");
 			return false;
 		}
 
