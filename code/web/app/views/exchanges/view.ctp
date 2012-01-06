@@ -110,19 +110,32 @@
     <div style="margin-left: 200px; ">
        <?php echo $this->element('rating_bar');?>
        <script type="text/javascript">
-          var good = 0;
-          var bad = 0;
+
           $("#thumb-up").bind('click',function(){
-            good++;
-            changeRatingBar(good,bad);
+              rate("positive");
             return false;
           })
           $("#thumb-down").bind('click',function(){
-            bad++;
-            changeRatingBar(good,bad);
+            rate("negative");
             return false;
           })
-          changeRatingBar(good,bad);
+          changeRatingBar(<?php echo $rates['positives']?>,<?php echo $rates['negatives']?>);
+
+          function rate(valoration){
+            eid = "<?php echo $exchange['Exchange']['_id']?>";
+            $.ajax({
+                type: "GET",
+                url:"/exchanges/rate/"+valoration+"/"+eid,
+                success: function(response){
+                    if(response.result){
+                        changeRatingBar(response.data.positives,response.data.negatives);
+                    }else{
+                        alert(response.message)
+                    }
+                }
+            });
+          }
+
        </script>
     </div>
     <table style="margin: 5px; float: right;" cellspacing="5">

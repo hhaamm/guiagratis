@@ -22,12 +22,12 @@
 class ExchangesController extends AppController {
 
     var $uses = array('Exchange', 'User');
-    var $components = array('Geo', 'Email', 'Upload');
+    var $components = array('Geo', 'Email', 'Upload','RequestHandler');
     var $helpers = array('Exchange', 'User');
 
     function beforeFilter() {
         parent::beforeFilter();
-        $this->Auth->allow('index', 'get', 'view', 'search', 'view_photo');
+        $this->Auth->allow('index', 'get', 'view', 'search', 'view_photo','rate');
     }
 
     function index() {
@@ -174,10 +174,11 @@ class ExchangesController extends AppController {
             }
         }
 
-        //TODO: ver si esto se puede cambiar por los datos del usuario en sesión
-        //(menos llamadas a la base)
         $title_for_layout = $exchange['Exchange']['title'];
-        $this->set(compact('owner', 'exchange', 'title_for_layout'));
+
+        $rates = $this->Exchange->getTotalRates($exchange);
+
+        $this->set(compact('owner', 'exchange','rates','title_for_layout'));
     }
 
     function edit($eid) {
@@ -393,5 +394,36 @@ class ExchangesController extends AppController {
 
     private function _cantEditExchange($exchange) {
         return!$this->Auth->user('admin') && $exchange['Exchange']['user_id'] != $this->Auth->user('_id');
+    }
+
+    function rate($valoration,$eid){
+      $this->RequestHandler->respondAs('json');
+      $exchange = $this->Exchange->read(null, $eid);
+
+      if(!$this->Auth->user('_id')){
+          $this->result(false, 'Solo los usuarios registrados pueden valorar las publicaciones');
+          return;
+      }
+
+      if($exchange['Exchange']['user_id']==$this->Auth->user('_id')){
+          $this->result(false, 'No puedes valorar tus propias pulicaciones.');
+          return;
+      }
+
+      $rates = isset($exchange['Exchange']['rates'])?$exchange['Exchange']['rates']:array();
+      if($valoration == "positive"){
+          $rates[$this->Auth->user('_id')] = 1;
+      }else if($valoration == "negative"){
+          $rates[$this->Auth->user('_id')] = 0;
+      }else{
+          $this->result(false,'Error');
+          return;
+      }
+
+      $exchange['Exchange']['rates'] =  $rates;
+      $this->Exchange->save($exchange);
+
+      $data = $this->Exchange->getTotalRates($exchange);
+      $this->result(true, '', compact('data'));
     }
 }
