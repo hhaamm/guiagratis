@@ -23,8 +23,7 @@
 		$('#filename').change(function() {
 			ajaxUpload(this.form,'<?php echo $url?>',
 				'upload_area',
-				'File Uploading Please Wait...&lt;br /&gt;&lt;img src=\'img/loader_light_blue.gif\' width=\'128\' height=\'15\' border=\'0\' /&gt;',
-				'&lt;img src=\'images/error.gif\' width=\'16\' height=\'16\' border=\'0\' /&gt; Error in Upload, check settings and path info in source code.');
+				'<?php echo $this->Html->image("/img/ajax-loader.gif")?>File Uploading Please Wait...');
 			return false;
 		});
 	});
