@@ -112,21 +112,23 @@
        <script type="text/javascript">
 
           $("#thumb-up").bind('click',function(){
-              rate("positive");
+              rate("positive","thumb_up");
             return false;
           })
           $("#thumb-down").bind('click',function(){
-            rate("negative");
+            rate("negative","thumb_down");
             return false;
           })
           changeRatingBar(<?php echo $rates['positives']?>,<?php echo $rates['negatives']?>);
 
-          function rate(valoration){
+          function rate(valoration,icon){
             eid = "<?php echo $exchange['Exchange']['_id']?>";
+            toggleLoader(icon);
             $.ajax({
                 type: "GET",
                 url:"/exchanges/rate/"+valoration+"/"+eid,
                 success: function(response){
+                    toggleLoader(icon);
                     if(response.result){
                         changeRatingBar(response.data.positives,response.data.negatives);
                     }else{

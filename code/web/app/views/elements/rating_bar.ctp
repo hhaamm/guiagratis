@@ -50,11 +50,22 @@
    $("#no-ratings").show();
   }
  }
+
+ function toggleLoader(icon){
+   if($("#"+icon+"_img").is(':visible')){
+       $("#"+icon+"_img").hide();
+       $("#"+icon+"_loader").show();
+   }else{
+       $("#"+icon+"_img").show();
+       $("#"+icon+"_loader").hide();
+   }
+ }
 </script>
 
 <?php
- $icon =  $this->Html->image('/img/icons/thumbs_up.png');
- echo $this->Html->link($icon,"#",array('class'=>"link-button", 'escape' => false,"style"=>"margin-top: 15px;","id"=>"thumb-up"));
+ $icon =  $this->Html->image('/img/icons/thumbs_up.png',array('id'=>'thumb_up_img','style'=>'display:block'));
+ $loader = $this->Html->image('/img/ajax-loader.gif',array('id'=>'thumb_up_loader','style'=>'display:none'));
+ echo $this->Html->link($icon.$loader,"#",array('class'=>"link-button", 'escape' => false,"style"=>"margin-top: 15px;","id"=>"thumb-up"));
 ?>
 <div style="float: left;margin-top: 23px;">
     <div id="good-ratings" style="background-color:green;float: left;width: 140px;border-radius: 7px 0 0 7px;color:#ffffff;">&nbsp;&nbsp;7 </div>
@@ -62,6 +73,7 @@
     <div id="no-ratings"  style="background-color:#808080;float: left;width: 200px;border-radius: 7px 7px 7px 7px;color:#ffffff;padding-left: 5px;display:none">0 </div>
 </div>
 <?php
-     $icon =  $this->Html->image('/img/icons/thumbs_down.png');
-     echo $this->Html->link($icon,"#",array('class'=>"link-button", 'escape' => false,"style"=>"margin-top: 15px;","id"=>"thumb-down"));
+     $icon =  $this->Html->image('/img/icons/thumbs_down.png',array('id'=>'thumb_down_img','style'=>'display:block'));
+     $loader = $this->Html->image('/img/ajax-loader.gif',array('id'=>'thumb_down_loader','style'=>'display:none'));
+     echo $this->Html->link($icon.$loader,"#",array('class'=>"link-button", 'escape' => false,"style"=>"margin-top: 15px;","id"=>"thumb-down"));
 ?>
