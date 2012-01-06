@@ -21,9 +21,11 @@
 <script type="text/javascript">
 	$(document).ready(function() {
 		$('#filename').change(function() {
-			ajaxUpload(this.form,'<?php echo $url?>',
-				'upload_area',
-				'<?php echo $this->Html->image("/img/ajax-loader.gif")?>File Uploading Please Wait...');
+			ajaxUpload(this.form, '<?php echo $url?>',
+                'upload_area',
+                '<?php echo $this->Html->image("/img/ajax-loader.gif")?>File Uploading Please Wait...',
+                '<?php echo $this->Html->image("/img/danger.png")?>Error in Upload, check settings and path info in source code.'
+            );
 			return false;
 		});
 	});
