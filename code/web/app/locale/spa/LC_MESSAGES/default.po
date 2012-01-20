@@ -155,6 +155,14 @@ msgstr[1] "horas"
 
 #: /views/helpers/time.php:603;606
 #: /views/helpers/time.php:609
+msgid "minute"
+msgid_plural "minutes"
+msgstr[0] "minuto"
+msgstr[1] "minutos"
+
+
+#: /views/helpers/time.php:603;606
+#: /views/helpers/time.php:609
 msgid "second"
 msgid_plural "seconds"
 msgstr[0] "segundo"

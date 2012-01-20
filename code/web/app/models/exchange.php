@@ -44,7 +44,8 @@ class Exchange extends AppModel {
         'tags'=>'string',
         'hours_of_opening'=>'string',
         'start_date'=>array('type'=>'timestamp'),
-        'end_date'=>array('type'=>'timestamp')
+        'end_date'=>array('type'=>'timestamp'),
+        'rates' => array('type'=>'array')
 	);
     
     var $validate = array(
@@ -208,4 +209,18 @@ class Exchange extends AppModel {
 		));
         return true;
 	}
+
+    function getTotalRates($exchange){
+        $rates = isset($exchange['Exchange']['rates'])?$exchange['Exchange']['rates']:array();
+        $positives = 0; $negatives = 0;
+        foreach($rates as $uid =>$rate){
+            if($rate){
+                $positives++;
+            }else{
+                $negatives++;
+            }
+        }
+        return array('positives'=>$positives,'negatives'=>$negatives);
+    }
+
 }

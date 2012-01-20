@@ -30,6 +30,14 @@
     }
 </script>
 <div>
+    <?php
+        $avatar_url = '/img/default_avatar.png';
+        if(isset($owner['User']['avatar'])){
+            $avatar_url = $owner['User']['avatar']['small']['url'];
+        }
+        $avatar =  $this->Html->image($avatar_url,array('style'=>"width: 50px; height: 50px;"));
+        echo $this->Html->link($avatar,array('controller'=>'users','action'=>'view',$owner['User']['_id']),array('escape'=>false,"style"=>"float:left;50px; margin-right: 5px;"))
+    ?>
     <div class="exchange-type <?php echo $this->Exchange->cssClass($exchange); ?>">
     <?php echo $this->Exchange->type($exchange); ?>
     </div>
@@ -83,10 +91,11 @@
 	<br/>
 
     <div class="clear"></div>
-    <p class="exchange-description"><?php echo $exchange['Exchange']['detail']?></p>
+    <?php echo $this->element("minimap",array('exchange'=>$exchange))?>
+    <div class="exchange-description" style="margin-left:200px;"><?php echo $exchange['Exchange']['detail']?></div>
 
 
-    <p class="exchange-comment-tags">
+    <p class="exchange-comment-tags" style="margin-left:200px;margin-top:5px;" >
         <?php echo $this->Html->image('/img/icons/blue_tag.png') ?>
         Tags:
         <?php
@@ -97,7 +106,65 @@
             }
             echo implode(' , ',$tag_links);
     ?></p>
-    
+
+    <div style="margin-left: 200px; ">
+       <?php echo $this->element('rating_bar');?>
+       <script type="text/javascript">
+
+          $("#thumb-up").bind('click',function(){
+              rate("positive","thumb_up");
+            return false;
+          })
+          $("#thumb-down").bind('click',function(){
+            rate("negative","thumb_down");
+            return false;
+          })
+          changeRatingBar(<?php echo $rates['positives']?>,<?php echo $rates['negatives']?>);
+
+          function rate(valoration,icon){
+            eid = "<?php echo $exchange['Exchange']['_id']?>";
+            toggleLoader(icon);
+            $.ajax({
+                type: "GET",
+                url:"/exchanges/rate/"+valoration+"/"+eid,
+                success: function(response){
+                    toggleLoader(icon);
+                    if(response.result){
+                        changeRatingBar(response.data.positives,response.data.negatives);
+                    }else{
+                        alert(response.message)
+                    }
+                }
+            });
+          }
+
+       </script>
+    </div>
+    <table style="margin: 5px; float: right;" cellspacing="5">
+       <tr>
+         <td>
+          <!-- Google  -->
+          <g:plusone size="medium"></g:plusone>
+         </td>
+         <td>
+          <!-- Facebook -->
+          <div class="fb-like" data-href="<?php echo Router::url($this->here, true); ?>" data-send="false" data-layout="button_count" data-width="130" data-show-faces="true" data-font="lucida grande"></div>
+         </td>
+       </tr>
+       <tr>
+         <td>
+          <!-- Twitter -->
+          <a href="https://twitter.com/share" class="twitter-share-button" data-lang="es">Tweet</a>
+         </td>
+         <td>
+          <!-- Taringa -->
+          <t:sharer data-layout="medium_counter"></t:sharer>
+         </td>
+       </tr>
+    </table>
+
+    <div class="clear"> </div>
+
     <?php if(!empty($exchange['Exchange']['photos'])){ ?>
      <script type="text/javascript">
          $(document).ready(function(){
@@ -186,28 +253,6 @@
 		<?php }} ?>
 	</ul>
     
-    <table style="margin: 5px" cellspacing="5">
-       <tr>
-         <td>
-          <!-- Google  -->
-          <g:plusone size="medium"></g:plusone>
-         </td>
-         <td>
-          <!-- Facebook -->
-          <div class="fb-like" data-href="<?php echo Router::url($this->here, true); ?>" data-send="false" data-layout="button_count" data-width="130" data-show-faces="true" data-font="lucida grande"></div>
-         </td>
-       </tr>
-       <tr>
-         <td>
-          <!-- Twitter -->
-          <a href="https://twitter.com/share" class="twitter-share-button" data-lang="es">Tweet</a>
-         </td>
-         <td>
-          <!-- Taringa -->
-          <t:sharer data-layout="medium_counter"></t:sharer>
-         </td>
-       </tr>
-    </table>
 	
 	<fieldset>
 		<legend><?php
