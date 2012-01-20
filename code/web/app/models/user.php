@@ -32,8 +32,10 @@ class User extends AppModel {
 		'register_token'=>array('type'=>'string'),
 		'admin'=>array('type'=>'integer'),
 		'reset_password_token'=>array('type'=>'integer'),
+        //account options
         'notify_on_message'=>array('type'=>'integer'),
         'notify_on_answer'=>array('type'=>'integer'),
+        'get_newsletter'=>array('type'=>'integer'),
         //-- personal data
         'firstname'=>array('type'=>'string'),
         'lastname'=>array('type'=>'string'),
@@ -44,10 +46,8 @@ class User extends AppModel {
         'description'=>array('type'=>'string'),
         'show_email' => array('type'=>'integer'),
          //avatar
-         'avatar'=>array('type'=>'hash'),
-         'notifications'=>array('type'=>'hash')
-
-
+        'avatar'=>array('type'=>'hash'),
+        'notifications'=>array('type'=>'hash')
 	);
     
     var $validate = array(

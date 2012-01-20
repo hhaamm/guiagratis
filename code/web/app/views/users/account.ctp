@@ -24,6 +24,7 @@ echo $this->element('setting', array('id' => 'settings-notifications', 'title' =
 echo $form->create('User');
 echo $this->Form->input('notify_on_answer', array('label'=>__('Notificar cuando alguien responde una oferta o pedido',true), 'type'=>'checkbox'));
 echo $this->Form->input('notify_on_message', array('label'=>__('Notificar cuando alguien te manda un mensaje',true), 'type'=>'checkbox'));
+echo $this->Form->input('get_newsletter', array('label'=>__('Recibir newsletter semanal en mi mail',true), 'type'=>'checkbox'));
 echo $form->submit(__('Guardar configuración',true));
 echo $form->end();
 echo $this->element('setting',array('footer' => true));

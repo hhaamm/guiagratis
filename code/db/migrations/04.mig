@@ -1,0 +1,2 @@
+//20-01-2012
+db.users.update({}, {$set:{get_newsletter:1}}, false, true);
