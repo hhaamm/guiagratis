@@ -149,6 +149,23 @@ class Exchange extends AppModel {
 		$result = $this->execute(new MongoCode($query));
 		return $result;
 	}
+    
+    //devuelve los últimos exchanges en cierto período de tiempo.
+    function getLast($timestamp) {
+        //$query = "db.exchanges.find({created: {gt: $timestamp}})";
+		//$result = $this->execute(new MongoCode($query));
+        /*return $this->find('all', array(
+            'conditions'=>array(
+                //TODO: ver cómo agregar esta condición
+                //'created >'=>$timestamp
+            ),
+            'limit'=>500,
+            'order'=>'created DESC'
+        ));*/
+        $query = "db.exchanges.find({created: {gt: $timestamp}})";
+        $result = $this->execute(new MongoCode($query));
+        return $result;
+    }
 
 	function finalize($exchange) {
 		$exchange['Exchange']['state'] = EXCHANGE_FINALIZED;
