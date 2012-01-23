@@ -43,7 +43,7 @@ class NewsletterShell extends Shell {
     } 
     
     function main() {
-        Configure::write('debug',1);
+        Configure::write('debug',2);
         //nos fijamos si hay algo para mandar
         $exchanges = $this->Exchange->getLast(strtotime(NEWSLETTER_INTERVAL));
         

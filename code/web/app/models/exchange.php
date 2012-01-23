@@ -155,7 +155,9 @@ class Exchange extends AppModel {
         return $this->find('all', array(
             'conditions'=>array(
                 //TODO: ver cómo agregar esta condición
-                //'created >'=>$timestamp
+                'created'=>array(
+                    '$gt'=>$timestamp
+                )    
             ),
             'limit'=>10,
             'order'=>'created DESC'
