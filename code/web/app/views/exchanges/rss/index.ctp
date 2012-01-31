@@ -27,7 +27,7 @@ foreach ($exchanges as $entry) {
     $bodyText = $entry['Exchange']['detail'];
 
     echo $this->Rss->item(array(), array(
-        'title' => $entry['Exchange']['title'],
+        'title' => $this->Exchange->type($entry).': '.$entry['Exchange']['title'],
         'link' => $entryLink,
         'guid' => array('url' => $entryLink, 'isPermaLink' => 'true'),
         'description' => $bodyText,
