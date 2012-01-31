@@ -23,7 +23,7 @@ class ExchangesController extends AppController {
 
     var $uses = array('Exchange', 'User');
     var $components = array('Geo', 'Email', 'Upload','RequestHandler');
-    var $helpers = array('Exchange', 'User');
+    var $helpers = array('Exchange', 'User', 'Html', 'Text');
 
     function beforeFilter() {
         parent::beforeFilter();
@@ -31,9 +31,21 @@ class ExchangesController extends AppController {
     }
 
     function index() {
-        //This is where we will be first.
-        $this->set_start_point();
-        $this->set('start_address', Configure::read('GoogleMaps.DefaultAddress'));
+        
+        if( $this->RequestHandler->isRss() ){
+            $exchanges = $this->Exchange->find('all', array(
+                'order'=>array('created'=>-1),
+                'limit'=>40,
+                'conditions'=>array(
+                    'state'=>EXCHANGE_PUBLISHED
+                )
+            ));
+            $this->set(compact('exchanges'));
+        } else {
+            //This is where we will be first.
+            $this->set_start_point();
+            $this->set('start_address', Configure::read('GoogleMaps.DefaultAddress'));
+        }    
     }
 
     function search() {

@@ -84,6 +84,16 @@
           <t:sharer data-layout="medium_counter"></t:sharer>
          </td>
        </tr>
+       <tr>
+           <td><?php echo $this->Html->image('rss.png', array('url'=>array(
+               'controller'=>'exchanges',
+               'action'=>'index.rss'),
+               'alt'=>'Feed con los últmos posts',
+               'width'=>32,
+               'height'=>32
+            )); ?></td>
+           <td></td>
+       </tr>
     </table>
 
 
