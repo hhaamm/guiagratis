@@ -4,7 +4,7 @@ $this->set('documentData', array(
     'xmlns:dc' => 'http://purl.org/dc/elements/1.1/'));
 
 $this->set('channelData', array(
-    'title' => __("Posts mas recientes.", true),
+    'title' => __("Guia Gratis", true),
     'link' => $this->Html->url('/', true),
     'description' => __("Guia Gratis es una página para regalar y pedir cualquier cosa.", true),
     'language' => 'es-ar'));
