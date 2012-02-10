@@ -36,7 +36,7 @@ class NewsletterShell extends Shell {
         $this->Controller =& new Controller();
         $this->Email =& new EmailComponent(null);
         $this->Email->initialize($this->Controller);
-        $this->Email->from = Configure::read('Host.from');
+        $this->Email->from = Configure::read('Mail.from');
         $this->Email->sendAs = 'html';
         $this->Email->template = 'newsletter';
         $this->Email->subject = 'Novedades en Guia Gratis';
