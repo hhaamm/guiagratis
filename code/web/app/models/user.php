@@ -22,6 +22,7 @@ class User extends AppModel {
 
 	var $mongoSchema = array(
 		'mail' => array('type'=>'string'),
+        //TODO: borrar estos dos campos
 		'first_name'=>array('type'=>'string'),
 		'last_name'=>array('type'=>'string'),
 		'username'=>array('type'=>'string'),

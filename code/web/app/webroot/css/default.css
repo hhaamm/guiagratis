@@ -518,3 +518,17 @@ a.exchange-view-link{color: #993;font-family:'Gill Sans','lucida grande', helvet
 .notification-item-unread{background-color:#B0E0E6;height: 30px; margin-bottom: 2px;}
 
 .my-profile{padding-top: 7px;}
+
+/** admin user view **/
+dl {
+	
+}
+dl .altrow {
+	background: #f4f4f4;
+}
+dt {
+	font-weight: bold;
+}
+dd {
+	
+}

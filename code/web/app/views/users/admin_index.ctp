@@ -13,8 +13,6 @@
             <td>Email</td>
             <td>Activo</td>
             <td>Admin</td>
-            <td>Fecha creación</td>
-            <td>Fecha modificación</td>
             <td>Acciones</td>
         </tr>
     </thead>
@@ -25,9 +23,9 @@
                 <td><?php echo $user['User']['mail'] ?></td>
                 <td><?php echo $user['User']['active'] ? "Si" : "No" ?></td>
                 <td><?php echo $user['User']['admin'] ? "Si" : "No" ?></td>
-                <td><?php echo date('Y-m-d', $user['User']['created']->sec) ?></td>
-                <td><?php echo date('Y-m-d', $user['User']['modified']->sec) ?></td>
-                <td>No hay acciones disponibles</td>
+                <td>
+                    <?php echo $this->Html->link('Detalle', array('action'=>'view', $user['User']['_id'])) ?>
+                </td>
             </tr>
         <?php } ?>
     </tbody>
