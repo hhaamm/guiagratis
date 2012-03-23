@@ -1,10 +1,7 @@
 <?php
 //TODO pasar los estilos al css
-$types = array(
-     Configure::read('ExchangeType.Request') => "Pedidos",
-     Configure::read('ExchangeType.Offer') => "Oferta",
-     Configure::read('ExchangeType.All') => "Todos"
- )
+$types =   Configure::read('ExchangeType.Names');
+$types[EXCHANGE_ALL] = "Todos";
 ?>
 
 Busqueda: <br/>
