@@ -76,7 +76,9 @@ class ExchangesController extends AppController {
             $exchanges = $this->Exchange->find('all', $options);
             $this->set(compact('exchanges'));
         }else{
-           $mode =  $this->params['url']['mode'] == "0" ? 0 : 1;
+          if(isset($this->params['url']['mode'])){
+              $mode =  $this->params['url']['mode'] == "0" ? 0 : 1;
+          }
         }
         $this->set(compact('mode'));
     }
