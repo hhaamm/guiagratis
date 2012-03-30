@@ -75,6 +75,8 @@ class ExchangesController extends AppController {
             $this->Exchange->catchFinalizedEvents = true;
             $exchanges = $this->Exchange->find('all', $options);
             $this->set(compact('exchanges'));
+        }else{
+           $mode =  $this->params['url']['mode'] == "0" ? 0 : 1;
         }
         $this->set(compact('mode'));
     }
