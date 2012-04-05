@@ -88,7 +88,7 @@
 				<li><a href="/users/login">Entrar</a></li>
 				<li><a href="/users/register">Registrarse</a></li>
 					<?php } ?>
-				
+                <li> <a href="/exchanges/search?type=0&mode=1">Buscador</a></li>
 				<li>
                     <a href="/pages/help">Ayuda</a>
                     <ul class="subnav">

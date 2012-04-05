@@ -42,7 +42,7 @@
 		?>
 	</fieldset>
 	<fieldset>
-		<legend>Búsqueda</legend>
+		<legend>Filtrar mapa</legend>
 		<?php
 		echo $this->Form->create('Search', array('onsubmit'=>'get_exchanges();return false;'));
         echo $this->Form->input('text', array('label'=>'Tags', 'id'=>'text_tags'));
