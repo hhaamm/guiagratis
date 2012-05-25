@@ -18,11 +18,11 @@ Esta guía de instalación está hecha sobre un sistema Debian GNU/Linux 6.0, so
 
 Guia Gratis usa curl, MongoDB como base de datos y la extensión de MongoDB para PHP.
 
-sudo apt-get install mongodb php5 php5-dev php5-curl git-core
-sudo apt-get make
-sudo apt-get install php-pear
-sudo pecl install mongo
-sudo vim /etc/php5/apache2/php.ini
+* sudo apt-get install mongodb php5 php5-dev php5-curl git-core
+* sudo apt-get make
+* sudo apt-get install php-pear
+* sudo pecl install mongo
+* sudo vim /etc/php5/apache2/php.ini
 
 Agregar al final del archivo 'extension=mongo.so'
 
