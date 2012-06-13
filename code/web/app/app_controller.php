@@ -23,18 +23,22 @@ class AppController extends Controller {
 	var $uid;
 
 	function beforeFilter() {
-        $user_refresh = $this->Session->read('Auth.User.refresh_time');
-        if( $this->Auth->user('_id') && ( !$user_refresh ||   time() - $user_refresh  > 60)){
+	        $this->Auth->logoutRedirect = array('controller' => 'users', 'action' => 'login');
+	        $this->Auth->loginError = "El usuario o la contraseña son incorrectos";
+        	$this->Auth->autoRedirect = true;
+		$this->Auth->fields = array('username' => 'mail', 'password' => 'password');
+
+		//el usuario debe ser activo y no debe ser del tipo facebook (para evitar ataques al 'facebook_password')
+		//para loguearse por vías "normales"
+		$this->Auth->userScope = array('User.active'=>1, 'User.facebook_id'=>null);
+
+		$user_refresh = $this->Session->read('Auth.User.refresh_time');
+		if( $this->Auth->user('_id') && ( !$user_refresh ||   time() - $user_refresh  > 60)){
           //refresca el usuario cada 1 minuto para que se vean las actualizaciones.
           //TODO hacer que el tiempo sea configurable
           $this->refreshCurrentUser();
           $this->Session->write('Auth.User.refresh_time',time());
         }
-        $this->Auth->logoutRedirect = array('controller' => 'users', 'action' => 'login');
-        $this->Auth->loginError = "El usuario o la contraseña son incorrectos";
-        $this->Auth->autoRedirect = true;
-		$this->Auth->userScope = array('User.active'=>1);
-		$this->Auth->fields = array('username' => 'mail', 'password' => 'password');
         
         $this->uid = $this->Auth->user('_id');
         
