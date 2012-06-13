@@ -17,6 +17,30 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 ?>
+<div id="fb-root"></div>
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '<?php echo Configure::read('Facebook.app_id'); ?>', // App ID
+	//TODO: cambiar esto
+      channelUrl : '//www.guia-gratis.com.ar/channel.html', // Channel File
+      status     : true, // check login status
+      cookie     : true, // enable cookies to allow the server to access the session
+      xfbml      : true  // parse XFBML
+    });
+
+    // Additional initialization code here
+  };
+
+  // Load the SDK Asynchronously
+  (function(d){
+     var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement('script'); js.id = id; js.async = true;
+     js.src = "//connect.facebook.net/en_US/all.js";
+     ref.parentNode.insertBefore(js, ref);
+   }(document));
+</script>
 <fieldset>
 	<legend>Login</legend>
 	<?php
@@ -31,3 +55,19 @@
 	<div class="clear"/>
 	<div class="floatright"><a href="/users/forgot_password"><?__('Olvidé mi contraseña')?></a></div>
 </fieldset>
+<fieldset>
+	<legend>Facebook login</legend>
+	<a href="#" onclick="fbLogin(); return false;">Loguearse con Facebook</a>
+</fieldset>
+
+<script type="text/javascript">
+	function fbLogin() {
+	  FB.login(function(response) {
+	      if (response.authResponse) {
+	      	window.location = '/users/facebook_login';
+	      } else {
+		alert("No se pudo loguear con Facebook. Intente nuevamente.");
+	      }
+	    }, {scope:'email'});
+	}
+</script>

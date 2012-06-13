@@ -22,7 +22,7 @@ class User extends AppModel {
 
 	var $mongoSchema = array(
 		'mail' => array('type'=>'string'),
-        //TODO: borrar estos dos campos
+		//TODO: borrar estos dos campos
 		'first_name'=>array('type'=>'string'),
 		'last_name'=>array('type'=>'string'),
 		'username'=>array('type'=>'string'),
@@ -33,22 +33,24 @@ class User extends AppModel {
 		'register_token'=>array('type'=>'string'),
 		'admin'=>array('type'=>'integer'),
 		'reset_password_token'=>array('type'=>'integer'),
-        //account options
-        'notify_on_message'=>array('type'=>'integer'),
-        'notify_on_answer'=>array('type'=>'integer'),
-        'get_newsletter'=>array('type'=>'integer'),
-        //-- personal data
-        'firstname'=>array('type'=>'string'),
-        'lastname'=>array('type'=>'string'),
-        'telephone'=>array('type'=>'string'),
-        'country'=>array('type'=>'string'),
-        'region'=>array('type'=>'string'),
-        'city'=>array('type'=>'string'),
-        'description'=>array('type'=>'string'),
-        'show_email' => array('type'=>'integer'),
-         //avatar
-        'avatar'=>array('type'=>'hash'),
-        'notifications'=>array('type'=>'hash')
+		// account options
+		'notify_on_message'=>array('type'=>'integer'),
+		'notify_on_answer'=>array('type'=>'integer'),
+		'get_newsletter'=>array('type'=>'integer'),
+		// personal data
+		'firstname'=>array('type'=>'string'),
+		'lastname'=>array('type'=>'string'),
+		'telephone'=>array('type'=>'string'),
+		'country'=>array('type'=>'string'),
+		'region'=>array('type'=>'string'),
+		'city'=>array('type'=>'string'),
+		'description'=>array('type'=>'string'),
+		'show_email' => array('type'=>'integer'),
+		// avatar
+		'avatar'=>array('type'=>'hash'),
+		'notifications'=>array('type'=>'hash'),
+		// facebook
+		'facebook_id'=>array('type'=>'integer')
 	);
     
     var $validate = array(

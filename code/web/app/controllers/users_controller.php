@@ -20,20 +20,57 @@
  */
 
 class UsersController extends AppController {
-
     var $uses = array('Exchange', 'User');
     var $helpers = array('Exchange');
     var $components = array('Upload');
 
     function beforeFilter() {
         parent::beforeFilter();
-        $this->Auth->allow('register', 'login', 'logout', 'create', 'modal_login', 'modal_register', 'validate_mail', 'validate_username', 'verify', 'forgot_password', 'reset', 'activate', 'view');
+        $this->Auth->allow('register', 'login', 'logout', 'create', 'modal_login', 'modal_register', 'validate_mail', 'validate_username', 'verify', 'forgot_password', 'reset', 'activate', 'view', 'facebook_login');
     }
 
     function login() {
         if ($this->data && !$this->Auth->user()) {
             $this->Session->setFlash('Usuario o contraseña inválidos', 'flash_failure');
         }
+    }
+
+    function facebook_login() {
+	//facebook auth
+	App::import('Vendor', 'facebook/facebook');
+	$facebook = new Facebook(array(
+      		'appId'=>Configure::read('Facebook.app_id'),
+		'secret'=>Configure::read('Facebook.app_secret'),
+		'fileUpload'=>false
+	));
+
+	if ($facebook->getUser() && !$this->Auth->user()) {
+	  $user = $this->User->find('first', array('conditions'=>array('facebook_id'=>$facebook->getUser())));
+	  if (!$user) {
+	    //creamos el usuario
+	    $data = $facebook->api('/me');
+	    $user_data = array(
+		       'firstname'=>$data['first_name'],
+		       'lastname'=>$data['last_name'],
+		       'facebook_id'=>$data['id'],
+		       //TODO: construír el nombre con espacios y un unique id, para que tenga nombre de usuario
+		       'username'=>'fbuid'.$facebook->getUser(),
+		       //crearle una password cualquiera
+		       'password'=>$this->Auth->password('dummy'),
+		       'mail'=>empty($data['email']) ? 'no_email_from_facebook' : $data['email'],
+		       'active'=>1
+      	     );
+	    $this->User->create();
+	    $user = $this->User->save($user_data);
+	  }
+
+	  //logueamos al usuario "a mano"
+	  $this->Session->write('Auth.User', $user['User']);
+	  $this->redirect('/');
+	} else {
+	  $this->Session->flash('¿Estás seguro que estás logueado a Facebook?');
+	  $this->redirect('/users/login');
+	}
     }
 
     function logout() {
