@@ -128,6 +128,7 @@ class ExchangesController extends AppController {
         $this->data['Exchange']['username'] = $this->Auth->user('username');
         if ($this->Exchange->save($this->data)) {
             $this->Session->setFlash($message, 'flash_success');
+	    $this->Session->write('Facebook.share_exchange', true);
             $this->redirect(array('controller' => 'exchanges', 'action' => 'edit_photos', $this->Exchange->id));
         }
     }
@@ -194,7 +195,10 @@ class ExchangesController extends AppController {
 
         $rates = $this->Exchange->getTotalRates($exchange);
 
-        $this->set(compact('owner', 'exchange','rates','title_for_layout'));
+	$share_exchange_on_facebook = $this->Session->read('Facebook.share_exchange');
+	$this->Session->delete('Facebook.share_exchange');
+
+        $this->set(compact('owner', 'exchange','rates','title_for_layout', 'share_exchange_on_facebook'));
     }
 
     function edit($eid) {

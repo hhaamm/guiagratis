@@ -17,7 +17,53 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * 
  */    
+?>
+<?php if ($share_exchange_on_facebook == true) { ?>
+<div id="fb-root"></div>
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '<?php echo Configure::read('Facebook.app_id'); ?>', // App ID
+	//TODO: cambiar esto
+      channelUrl : '//www.guia-gratis.com.ar/channel.html', // Channel File
+      status     : true, // check login status
+      cookie     : true, // enable cookies to allow the server to access the session
+      xfbml      : true  // parse XFBML
+    });
 
+    // Additional initialization code here
+    shareExchange();
+  };
+
+  // Load the SDK Asynchronously
+  (function(d){
+     var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement('script'); js.id = id; js.async = true;
+     js.src = "//connect.facebook.net/en_US/all.js";
+     ref.parentNode.insertBefore(js, ref);
+   }(document));
+
+function shareExchange() {
+	FB.ui({
+	      method: 'feed',
+	      name: '<?php echo $exchange['Exchange']['title']; ?>',
+	      description: '<?php echo strip_tags($exchange['Exchange']['detail']); ?>',
+	      //picture: 'http://fbrell.com/f8.jpg',
+	      link: '<?php echo Configure::read('Host.url') ?>/exchanges/views/<?php echo $exchange['Exchange']['_id']; ?>'
+	      },    
+		function (response) {
+			if (response && response.post_id) {
+
+			} else {
+
+			}    
+		}  
+	);
+}    
+</script>
+<?php } ?>
+<?php
     echo $this->element('social_buttons');
     $this->Javascript->link('agile_carousel.alpha', false);
     $this->Html->css('agile_carousel.css', null, array('inline'=>false));
