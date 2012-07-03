@@ -73,7 +73,7 @@ class User extends AppModel {
                                 ),
                         'alphaNumeric'=>array(
                                 'rule'=>'alphaNumericDashUnderscore',
-                                'message'=>'Sólo letras y números están permitidos'
+                                'message'=>'Sólo letras, números y guión bajo están permitidos'
                                 ),
                         'minLenght' => array(
                                 'rule' => array('minLength', 6),

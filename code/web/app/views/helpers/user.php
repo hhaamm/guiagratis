@@ -17,9 +17,23 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 class UserHelper extends AppHelper {
-	var $helpers = array('Html');
- 
-    function link($user) {
-        return $this->Html->link($user['User']['username'], '/users/profile/'.$user['User']['_id']);
-    }
+        var $helpers = array('Html');
+
+        function link($user) {
+                return $this->Html->link($user['User']['username'], '/users/profile/'.$user['User']['_id']);
+        }
+
+        // corta el nombre de usuario si este es demasiado largo
+	// mostra sólo el nombre o si todo es demasiado largo
+        function short_user_name($user , $max_length = 30) {
+		if (strlen($user['User']['username']) <= $max_length) {
+			return $user['User']['username'];
+		}
+
+		if (strlen($user['User']['firstname'].' '.$user['User']['lastname']) <= $max_length) {
+			return $user['User']['firstname'].' '.$user['User']['lastname'];
+		}
+
+		return $user['User']['firstname'];
+        }
 }

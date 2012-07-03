@@ -54,12 +54,13 @@ class UsersController extends AppController {
 	  if (!$user) {
 	    //creamos el usuario
 	    $data = $facebook->api('/me');
+	    $username = str_replace(' ', '_', 'fb'.$facebook->getUser().'_'.strtolower($data['first_name']).'_'.strtolower($data['last_name']));
 	    $user_data = array(
 		       'firstname'=>$data['first_name'],
 		       'lastname'=>$data['last_name'],
 		       'facebook_id'=>$data['id'],
 		       // construimos un nombre de usuario con el id de Facebook, el nombre y el apellido
-		       'username'=>'fb'.$facebook->getUser().'_'.strtolower($data['first_name']).'_'.strtolower($data['last_name']),
+		       'username'=>$username,
 		       //crearle una password cualquiera
 		       'password'=>$this->Auth->password('dummy'),
 		       'mail'=>empty($data['email']) ? 'no_email_from_facebook' : $data['email'],
@@ -67,7 +68,6 @@ class UsersController extends AppController {
       	     );
 	    $this->User->create();
 	    $user = $this->User->save($user_data);
-	    
 	  }
 
 	  //logueamos al usuario "a mano"
