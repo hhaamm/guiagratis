@@ -45,6 +45,11 @@ class UsersController extends AppController {
 	));
 
 	if ($facebook->getUser() && !$this->Auth->user()) {
+	    // TODO: implementar dentro del if inferior...
+	    // bajamos la foto de perfil de Facebook
+	    // $photo = file_get_contents('http://graph.facebook.com/'.$facebook->getUser().'/picture');
+	    // var_dump($photo);die();
+
 	  $user = $this->User->find('first', array('conditions'=>array('facebook_id'=>$facebook->getUser())));
 	  if (!$user) {
 	    //creamos el usuario
@@ -53,8 +58,8 @@ class UsersController extends AppController {
 		       'firstname'=>$data['first_name'],
 		       'lastname'=>$data['last_name'],
 		       'facebook_id'=>$data['id'],
-		       //TODO: construír el nombre con espacios y un unique id, para que tenga nombre de usuario
-		       'username'=>'fbuid'.$facebook->getUser(),
+		       // construimos un nombre de usuario con el id de Facebook, el nombre y el apellido
+		       'username'=>'fb'.$facebook->getUser().'_'.strtolower($data['first_name']).'_'.strtolower($data['last_name']),
 		       //crearle una password cualquiera
 		       'password'=>$this->Auth->password('dummy'),
 		       'mail'=>empty($data['email']) ? 'no_email_from_facebook' : $data['email'],
@@ -62,6 +67,7 @@ class UsersController extends AppController {
       	     );
 	    $this->User->create();
 	    $user = $this->User->save($user_data);
+	    
 	  }
 
 	  //logueamos al usuario "a mano"
