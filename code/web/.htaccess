@@ -1,5 +1,10 @@
 <IfModule mod_rewrite.c>
+   # CakePHP rewrite rules
    RewriteEngine on
    RewriteRule    ^$ app/webroot/    [L]
    RewriteRule    (.*) app/webroot/$1 [L]
+
+   # Add www to url for Facebook App domain compatibility
+   RewriteCond %{HTTP_HOST} ^guia-gratis\.com\ar$ [NC]
+   RewriteRule ^(.*)$ http://www.guia-gratis.com.ar/$1 [L,R=301]
 </IfModule>
