@@ -532,3 +532,60 @@ dt {
 dd {
 	
 }
+
+ul#exchanges {
+    
+}
+
+ul#exchanges li {
+    width: 372px;
+    height: 150px;
+    border: 1px solid gray;
+    margin: 5px;
+    padding: 5px;
+    float:left;
+    border-radius: 5px; 
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    background: white;
+    position: relative;
+}
+
+ul#exchanges li img {
+    float:right;
+    position:relative;    
+}
+
+ul#exchanges h3 a {
+    color:inherit;
+    font-weight: inherit;
+    font-size: inherit;
+}
+
+ul#exchanges a {
+    text-decoration: none;
+}
+
+ul#exchanges div.links {
+    position:absolute;
+    left: 5px;
+    bottom: 5px;
+}
+
+ul#exchanges div.links a {
+    margin: 0 10px 0 0;
+}
+
+ul#exchanges li p.datos-adicionales {
+    margin: 0 0 10px 0;
+    padding: 0;
+    color: #8A8A8A;
+}
+
+ul#exchanges li p {
+    color: black;
+}
+
+div#exchanges-list-page {
+
+}

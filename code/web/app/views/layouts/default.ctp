@@ -54,7 +54,8 @@
 	<body>
 		<div id="content">
 			<ul class="topnav top-menu">
-				<li><a href="/">Home</a></li>
+                      		<li><a href="/exchanges/lista">Lista</a></li>
+				<li><a href="/exchanges/map">Mapa</a></li>
 				<?php if ($current_user) { ?>
 				<li>
 					<a href="#" onclick="$(this).next().next().click();return false;">Acciones</a>

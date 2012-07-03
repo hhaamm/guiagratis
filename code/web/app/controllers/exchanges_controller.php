@@ -27,11 +27,15 @@ class ExchangesController extends AppController {
 
     function beforeFilter() {
         parent::beforeFilter();
-        $this->Auth->allow('index', 'get', 'view', 'search', 'view_photo','rate');
+        $this->Auth->allow('index', 'get', 'view', 'search', 'view_photo','rate', 'lista', 'map', 'listar_ajax');
     }
 
     function index() {
-        
+	    // redirige a la acción por default
+	    $this->redirect(array('action'=>'lista'));
+    }
+
+    function map() {
         if( $this->RequestHandler->isRss() ){
             $exchanges = $this->Exchange->find('all', array(
                 'order'=>array('created'=>-1),
@@ -81,6 +85,22 @@ class ExchangesController extends AppController {
           }
         }
         $this->set(compact('mode'));
+    }
+
+    function lista() {
+        //TODO: poner un órden copado, por "popularidad" o algo así.
+        $options = array(
+            'limit' => 40,
+            'order' => array('created' => -1),
+            'page' => 1,
+            'conditions' => array(
+                'state' => EXCHANGE_PUBLISHED
+            )
+        );
+
+        $this->Exchange->catchFinalizedEvents = true;
+        $exchanges = $this->Exchange->find('all', $options);
+	$this->set(compact('exchanges'));
     }
 
     function add_request() {
