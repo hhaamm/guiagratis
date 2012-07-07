@@ -47,6 +47,8 @@ class Exchange extends AppModel {
         'end_date'=>array('type'=>'timestamp'),
         'rates' => array('type'=>'array')
 	);
+
+    
     
     var $validate = array(
         'title'=>array(

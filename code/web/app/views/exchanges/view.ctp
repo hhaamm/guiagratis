@@ -319,6 +319,7 @@ function shareExchange() {
                 
                 ?></legend>
 
+<a name="comment"></a>
 		<?php
 		if ($current_user) {
 

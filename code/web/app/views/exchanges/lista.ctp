@@ -53,11 +53,13 @@ Busqueda: <br/>
 		 echo $this->Exchange->defaultPhoto($e); 
 	 }
          ?>
-<p class="datos-adicionales"><span class="tipo ">Oferta</span> Publicado <?php echo $this->Time->timeAgoInWords($e['Exchange']['created'])?> por <a href="#">pachamama</a></p>
+<p class="datos-adicionales">
+		 <span class="tipo "><strong><?php echo Configure::read('ExchangeType.Names.'.$e['Exchange']['exchange_type_id']); ?></strong></span> 
+		 Publicado <?php echo $this->Time->timeAgoInWords($e['Exchange']['created'])?> por <?= $this->Html->link($e['Exchange']['username'], array('controller'=>'users', 'action'=>'view', $e['Exchange']['user_id'])) ?></p>
 	 <?php echo $e['Exchange']['detail']; ?>
 <div class="links">
-<?php echo $this->Html->link('+enviar mensaje', ''); ?>
-<?php echo $this->Html->link('+comentar', ''); ?>
+		 <?php echo $this->Html->link('+enviar mensaje', array('controller'=>'conversations', 'action'=>'add', $e['Exchange']['user_id'])); ?>
+		 <?php echo $this->Html->link('+comentar', array('controller'=>'exchanges', 'action'=>'view', $e['Exchange']['_id'].'#comment')); ?>
 </div>
 	</li>
  <?php } ?>
