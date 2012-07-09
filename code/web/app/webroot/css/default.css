@@ -589,3 +589,34 @@ ul#exchanges li p {
 div#exchanges-list-page {
 
 }
+
+div#filters {
+    background: gray;
+    padding:5px 5px 5px 5px;
+    margin: 5px;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    color: #fff;
+}
+
+form#filters_form {
+    display:none;
+}
+
+
+div#filters .input {
+    color:#fff;
+}
+
+div#filters p {
+    color: #fff;
+    padding:0 0 10px 0;
+}
+
+div#filters a#toggle_filtros {
+    float:right;
+}
+
+div#filters a {
+    color: #fff;
+}

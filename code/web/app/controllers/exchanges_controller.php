@@ -88,7 +88,6 @@ class ExchangesController extends AppController {
     }
 
     function lista() {
-        //TODO: poner un órden copado, por "popularidad" o algo así.
         $options = array(
             'limit' => 40,
             'order' => array('created' => -1),
@@ -99,7 +98,27 @@ class ExchangesController extends AppController {
         );
 
         $this->Exchange->catchFinalizedEvents = true;
+
+	if (!$this->data) { 
+		// no nos pasaron filtros
+		$this->data = array(
+			'Filter'=>array(
+				'exchange_type'=>array(1,2,3,4)
+				)
+			);
+	} else {
+		// nos pasaron filtros, filtramos
+		if ($this->data['Filter']['exchange_type']) {
+			$types = array();
+			foreach($this->data['Filter']['exchange_type'] as $type) {
+				$types[] = (int)$type;
+			}
+			$options['conditions']['exchange_type_id'] = array('$in'=>$types);
+		}
+	}
+	
         $exchanges = $this->Exchange->find('all', $options);
+
 	$this->set(compact('exchanges'));
     }
 

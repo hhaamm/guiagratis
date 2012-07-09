@@ -1,48 +1,16 @@
 <div id="exchanges-list-page">
+
+<div id="filters">
 <?php
-//TODO pasar los estilos al css
-$types =   Configure::read('ExchangeType.Names');
-$types[EXCHANGE_ALL] = "Todos";
+echo $this->Html->link('mostrar filtros', '#', array('id'=>'toggle_filtros'));
+echo $this->Form->create('Filter', array('id'=>'filters_form', 'url'=>$this->Html->url($this->here)));
+
+echo $this->Form->input('exchange_type', array('multiple'=>'checkbox', 'options'=>Configure::read('ExchangeType.Names'), 'label'=>'Publicaciones'));
+
+echo $this->Form->end('Filtrar');
 ?>
-
-<!--
-Busqueda: <br/>
-
-
-<form id="search-form" method="GET" action="<?php echo $this->Html->url($this->here);?>">
-    <div >
-
-         <div style="float: left;float: left; padding-top: 0px;">
-            <label for="type" >Tipo</label>
-            <select id="type" name="type" style=" width: 88px; height: 40px; text-align: center; padding-top: 7px;">
-                <?
-                 foreach($types as $tid => $label){
-                    $options= array('value'=>$tid,);
-                    if(isSet($_GET['type']) && $tid == $_GET['type']){
-                        $options['selected'] = "selected";
-                    }
-                    echo $this->Html->tag('option',$label,$options);
-                 }
-                ?>
-            </select>
-        </div>
-
-
-
-         <label for="mode-tags" style="float: left;margin-bottom: 0px;"><input id="mode-tags" type="radio" name="mode" value="0" <?php echo $mode!=1 ? 'checked="checked"' :'' ?> style="width: 14px;" /> Tags separados por comas</label>
-         <label for="mode-title" style="float: left; margin-bottom: 0px; margin-left: 10px;;"><input id="mode-title" type="radio"  <?php echo $mode!=0 ? 'checked="checked"' :'' ?> name="mode" value="1" style="width: 14px;" />  Titulo</label>
-
-
-        <input id="query" name="query" value="<?php echo isSet($_GET['query']) ? $_GET['query'] : ''?>" style="width: 510px;"/>
-        <a href="#" class="link-button" onclick="$('#search-form').submit();return false;" style="float: right; height: 30px; margin-top: 0px;">
-            <?php echo $this->Html->image('icons/search.png')?>
-            Buscar
-        </a>
-        <div class="clear"></div>
-    </div>
-
-</form>
--->
+<div class="clear"></div>
+</div>
 
 <ul id="exchanges">
 <?php foreach ($exchanges as $e) { ?>
@@ -90,3 +58,18 @@ if(isSet($_GET['query'])){
   }
 ?>
 </div>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+			$('a#toggle_filtros').click(function(e) {
+					if ($(e.currentTarget).text() == 'mostrar filtros') {
+						$(e.currentTarget).text('ocultar filtros');
+						$('form#filters_form').show();
+					} else {
+						$(e.currentTarget).text('mostrar filtros');
+						$('form#filters_form').hide();
+					};
+				}).trigger('click');
+			
+		});
+</script>

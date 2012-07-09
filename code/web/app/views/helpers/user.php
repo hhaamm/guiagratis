@@ -36,4 +36,9 @@ class UserHelper extends AppHelper {
 
 		return $user['User']['firstname'];
         }
+
+	// es el nombre de usuario
+	function short_user_link($user) {
+
+	}
 }
