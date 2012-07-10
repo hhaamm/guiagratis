@@ -113,13 +113,25 @@ class ExchangesController extends AppController {
                                         $types[] = (int)$type;
                                 }
                                 $conditions['exchange_type_id'] = array('$in'=>$types);
-                        }
-                        $this->Session->write('SearchFilter', array('types'=>$types, 'conditions'=>$conditions));
+                        }		
+			$query = $this->data['Filter']['query'];
+			$location = $this->data['Filter']['location'];
+			if (!empty($query)) {
+				$conditions['$or'] = array(
+					array('tags'=>array('$regex'=> new MongoRegex('/'.$query.'/i'))),
+					array('title'=>array('$regex'=> new MongoRegex('/'.$query.'/i'))),		
+					array('detail'=>array('$regex'=> new MongoRegex('/'.$query.'/i')))
+				);
+			}
+
+                        $this->Session->write('SearchFilter', array('types'=>$types, 'conditions'=>$conditions, 'query'=>$query, 'location'=>$location));
                 } else {
 
                         if ($this->Session->check('SearchFilter')) {
                                 $conditions = $this->Session->read('SearchFilter.conditions');
                                 $types = $this->Session->read('SearchFilter.types');
+				$query = $this->Session->read('SearchFilter.query');
+				$location = $this->Session->read('SearchFilter.location');
                         } else {
                                 // valores por default para los filtros
                                 $types = array(1,2,3,4);
@@ -129,7 +141,9 @@ class ExchangesController extends AppController {
 
                         $this->data = array(
                                 'Filter'=>array(
-					'exchange_type'=>$types
+					'exchange_type'=>$types,
+					'query'=>$query,
+					'location'=>$location
                                  )
                          );
                 }

@@ -5,6 +5,10 @@
 echo $this->Html->link('mostrar filtros', '#', array('id'=>'toggle_filtros'));
 echo $this->Form->create('Filter', array('id'=>'filters_form', 'url'=>$this->Html->url($this->here)));
 
+echo $this->Form->input('query', array('label'=>'Búsqueda'));
+
+echo $this->Form->input('location', array('label'=>'Ubicación'));
+
 echo $this->Form->input('exchange_type', array('multiple'=>'checkbox', 'options'=>Configure::read('ExchangeType.Names'), 'label'=>'Publicaciones'));
 
 echo $this->Form->end('Filtrar');
