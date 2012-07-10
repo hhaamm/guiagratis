@@ -64,7 +64,7 @@ class ExchangesController extends AppController {
                         'conditions' => array('state' => EXCHANGE_PUBLISHED)
                         );
                 $mode = 0;
-                if (isSet($this->params['url']['query'])) {
+                if (isset($this->params['url']['query'])) {
                         if ($this->params['url']['query'] == "") {
                                 $this->Session->setFlash('Ingrese una consulta en el cuadro de texto', 'flash_warning');
                                 $this->set('mode', 0);
@@ -124,7 +124,7 @@ class ExchangesController extends AppController {
                                 // valores por default para los filtros
                                 $types = array(1,2,3,4);
                                 // no tenemos parámetros que filtrar
-                                $conditions = array('exchange_type'=>$types);
+				$conditions = array();
                         }
 
                         $this->data = array(
