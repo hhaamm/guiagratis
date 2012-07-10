@@ -106,6 +106,27 @@ class ExchangeHelper extends AppHelper {
     function date() {
         
     }
+
+    function ubicacion($exchange) {
+	    if (empty($exchange['Exchange']['country']))
+		    return "Ubicación desconocida";
+
+	    $ubicacion = $exchange['Exchange']['country'];
+
+	    if (empty($exchange['Exchange']['province'])) {
+		    return $ubicacion;
+	    }
+
+	    $ubicacion .= ', '.$exchange['Exchange']['province'];
+
+	    if (empty($exchange['Exchange']['locality'])) {
+		    return $ubicacion;
+	    }
+
+	    $ubicacion .= ', '.$exchange['Exchange']['locality'];
+	    
+	    return $ubicacion;
+    }
 }
 
 ?>

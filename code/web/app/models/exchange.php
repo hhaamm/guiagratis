@@ -45,7 +45,10 @@ class Exchange extends AppModel {
         'hours_of_opening'=>'string',
         'start_date'=>array('type'=>'timestamp'),
         'end_date'=>array('type'=>'timestamp'),
-        'rates' => array('type'=>'array')
+		'rates' => array('type'=>'array'),
+		'country'=>array('type'=>'string'),
+		'province'=>array('type'=>'string'),
+		'locality'=>array('type'=>'string')
 	);
 
     

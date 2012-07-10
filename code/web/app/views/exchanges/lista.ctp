@@ -7,8 +7,6 @@ echo $this->Form->create('Filter', array('id'=>'filters_form', 'url'=>$this->Htm
 
 echo $this->Form->input('query', array('label'=>'Búsqueda'));
 
-echo $this->Form->input('location', array('label'=>'Ubicación'));
-
 echo $this->Form->input('exchange_type', array('multiple'=>'checkbox', 'options'=>Configure::read('ExchangeType.Names'), 'label'=>'Publicaciones'));
 
 echo $this->Form->end('Filtrar');
@@ -26,8 +24,10 @@ echo $this->Form->end('Filtrar');
 	 }
          ?>
 <p class="datos-adicionales">
-		 <span class="tipo "><strong><?php echo Configure::read('ExchangeType.Names.'.$e['Exchange']['exchange_type_id']); ?></strong></span> 
-		 Publicado <?php echo $this->Time->timeAgoInWords($e['Exchange']['created'])?> por <?= $this->Html->link($e['Exchange']['username'], array('controller'=>'users', 'action'=>'view', $e['Exchange']['user_id'])) ?></p>
+		  <span class="tipo "><strong><?php echo Configure::read('ExchangeType.Names.'.$e['Exchange']['exchange_type_id']); ?></strong></span> 
+		  <span class=""><?= $this->Exchange->ubicacion($e); ?></span>
+		  </p>
+<p class="datos-adicionales">Publicado <?php echo $this->Time->timeAgoInWords($e['Exchange']['created'])?> por <?= $this->Html->link($e['Exchange']['username'], array('controller'=>'users', 'action'=>'view', $e['Exchange']['user_id'])) ?></p>
 	 <?php echo $e['Exchange']['detail']; ?>
 <div class="links">
 		 <?php echo $this->Html->link('+enviar mensaje', array('controller'=>'conversations', 'action'=>'add', $e['Exchange']['user_id'])); ?>
@@ -47,30 +47,7 @@ echo $paginator->next('Siguiente');
 ?>
 </div>
 
-<?php
-if(isSet($_GET['query'])){
- if(!empty($exchanges))
-    foreach($exchanges as $e) { ?>
-        <div  style="margin: 10px 0px;">
-            <?php echo   $this->Html->link($this->Exchange->defaultPhoto($e),array('action'=>'view','controller'=>'exchanges',$e['Exchange']['_id']),array('escape'=>false , 'style' => 'float:left;margin-right: 10px;')) ?>
-            <div style="float: left;">
-             <p><?php echo Configure::read('ExchangeType.Names.'.$e['Exchange']['exchange_type_id']); ?>  - publicado  <?php echo $this->Time->timeAgoInWords($e['Exchange']['created'])?></p>
-             <?php echo $this->Html->link($e['Exchange']['title'],array('action'=>'view','controller'=>'exchanges',$e['Exchange']['_id']),array('class'=>'exchange-view-link'))?>
-            </div>
-            <div class="clear"></div>
-        </div>
-<?php
-    }else{
-?>
-      <div style="text-align: center;">
-       <h2>La busqueda no produjo ningun resultado</h2>
-      </div>
-<?php
-    }
-  }
-?>
 </div>
-
 <script type="text/javascript">
 	$(document).ready(function() {
 			$('a#toggle_filtros').click(function(e) {
@@ -81,7 +58,8 @@ if(isSet($_GET['query'])){
 						$(e.currentTarget).text('mostrar filtros');
 						$('form#filters_form').hide();
 					};
-				}).trigger('click');
+				})
+				//.trigger('click');
 			
 		});
 </script>

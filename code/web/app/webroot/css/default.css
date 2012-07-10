@@ -458,6 +458,11 @@ ul.exchanges li {
 	float:right;
 }
 
+p.exchange-location {
+    text-weight:700;
+    
+}
+
 .exchange-description {
 	margin-bottom:5px;
 }

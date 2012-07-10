@@ -50,12 +50,16 @@
 <?php
     echo $form->label('Ubicación: ');
     echo $form->text('address-field', array('id' => 'location'));
-    echo $form->button('Go', array('type' => 'button', 'id' => 'go_button'));
+    echo $form->button('Cambiar ubicación', array('type' => 'button', 'id' => 'go_button'));
 ?>
+
 <div id="map"></div>
 <?php
     echo $form->hidden('lat');
     echo $form->hidden('lng');
+    echo $form->hidden('locality');
+    echo $form->hidden('province');
+    echo $form->hidden('country');
     echo $this->Html->div("clear");
     echo $this->Html->div("error-message","Mueve el marcador en el mapa para indicar un punto de encuentro",array("style"=>"display:none","id"=>"pleace-move-marker"));
 ?>

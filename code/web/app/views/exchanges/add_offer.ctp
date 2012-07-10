@@ -19,8 +19,8 @@
  */
 ?>
 <?php
-	$this->Javascript->link("http://maps.google.com/maps?file=api&v=2&key=".Configure::read('GoogleMaps.ApiKey'), false);
-    $this->Javascript->link('tinymce/tiny_mce.js', false);
+$this->Javascript->link("http://maps.google.com/maps?file=api&v=2&language=es&key=".Configure::read('GoogleMaps.ApiKey'), false);
+$this->Javascript->link('tinymce/tiny_mce.js', false);
 ?>
 <!-- TinyMCE -->
 <script type="text/javascript">

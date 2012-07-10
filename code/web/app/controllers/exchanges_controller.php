@@ -115,35 +115,36 @@ class ExchangesController extends AppController {
                                 $conditions['exchange_type_id'] = array('$in'=>$types);
                         }		
 			$query = $this->data['Filter']['query'];
-			$location = $this->data['Filter']['location'];
 			if (!empty($query)) {
 				$conditions['$or'] = array(
 					array('tags'=>array('$regex'=> new MongoRegex('/'.$query.'/i'))),
 					array('title'=>array('$regex'=> new MongoRegex('/'.$query.'/i'))),		
-					array('detail'=>array('$regex'=> new MongoRegex('/'.$query.'/i')))
+					array('detail'=>array('$regex'=> new MongoRegex('/'.$query.'/i'))),
+					array('country'=>array('$regex'=> new MongoRegex('/'.$query.'/i'))),
+					array('province'=>array('$regex'=> new MongoRegex('/'.$query.'/i'))),
+					array('locality'=>array('$regex'=> new MongoRegex('/'.$query.'/i'))),
 				);
 			}
 
-                        $this->Session->write('SearchFilter', array('types'=>$types, 'conditions'=>$conditions, 'query'=>$query, 'location'=>$location));
+                        $this->Session->write('SearchFilter', array('types'=>$types, 'conditions'=>$conditions, 'query'=>$query));
                 } else {
 
                         if ($this->Session->check('SearchFilter')) {
                                 $conditions = $this->Session->read('SearchFilter.conditions');
                                 $types = $this->Session->read('SearchFilter.types');
 				$query = $this->Session->read('SearchFilter.query');
-				$location = $this->Session->read('SearchFilter.location');
                         } else {
                                 // valores por default para los filtros
                                 $types = array(1,2,3,4);
                                 // no tenemos parámetros que filtrar
-				$conditions = array();
+				$conditions = array(); 
+				$query = '';
                         }
 
                         $this->data = array(
                                 'Filter'=>array(
 					'exchange_type'=>$types,
-					'query'=>$query,
-					'location'=>$location
+					'query'=>$query
                                  )
                          );
                 }
@@ -152,6 +153,41 @@ class ExchangesController extends AppController {
 
                 $this->set(compact('exchanges'));
         }
+
+	// devuelve los datos de las coordenadas que se pasan como parámetro
+	function reverse_geocoding() {
+		$this->autoRender = false;
+		$lat = $this->params['url']['lat'];
+		$lng = $this->params['url']['lng'];
+		$file = file_get_contents("http://maps.googleapis.com/maps/api/geocode/json?latlng=$lat,$lng&sensor=false");
+
+		$obj = json_decode($file);
+		$level = -1;
+		foreach($obj->results as $result) {
+			// tratamos de obtener el resultado mas preciso
+			if (in_array('administrative_area_level_2', $result->types) && $level < 2) {
+				$address = explode(',', $result->formatted_address);
+				$locality = $address[0];
+				$province = $address[1];
+				$country = $address[2];
+				$level = 2;
+			}
+			if (in_array('administrative_area_level_1', $result->types) && $level < 1) {
+				$address = explode(',', $result->formatted_address);
+				$province = $address[0];
+				$country = $address[1];
+				$level = 1;
+			}
+			if (in_array('administrative_area_level_1', $result->types) && $level < 1) {
+				$address = explode(',', $result->formatted_address);
+				$country = $address[0];
+				$level = 0;
+			}			
+
+		}
+
+		echo json_encode(compact('country', 'province', 'locality'));
+	}
 
         function add_request() {
                 if ($this->data) {

@@ -89,6 +89,7 @@ function shareExchange() {
     </div>
 	<h2><?php echo $exchange['Exchange']['title']?></h2>
         <p>Creado por <?php echo $this->Html->link($owner['User']['username'] ,'/users/view/'.$owner['User']['_id'], array('style'=> 'text-decoration: none;' ));  ?> <?php echo $this->Time->timeAgoInWords($exchange['Exchange']['created']) ;?> </p>
+	<p></p>
     <!-- SHOW ONLY WHEN IS OWNER -->
     <?php if( !empty($current_user) && ($current_user['User']['_id'] == $owner['User']['_id'] || $current_user['User']['admin']) ){ ?>
 	<div class="admin edit-exchange-menu" style="float: right;">
@@ -138,9 +139,12 @@ function shareExchange() {
 
     <div class="clear"></div>
     <?php echo $this->element("minimap",array('exchange'=>$exchange))?>
-    <div class="exchange-description" style="margin-left:200px;"><?php echo $exchange['Exchange']['detail']?></div>
+    
+    <div class="exchange-description" style="margin-left:200px;">
+	    <?php echo $exchange['Exchange']['detail'] ?>
+    </div>
 
-
+	    <p class="exchange-location" style="margin-left:200px;margin-top:5px;">Ubicación: <strong><?= $this->Exchange->ubicacion($exchange); ?></strong></p>
     <p class="exchange-comment-tags" style="margin-left:200px;margin-top:5px;" >
         <?php echo $this->Html->image('/img/icons/blue_tag.png') ?>
         Tags:

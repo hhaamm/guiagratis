@@ -39,6 +39,10 @@ var youMarkerConfig = {title:'You'}
 //Use this when you want to have a custom dragend function.
 var youMarkerDragendCallback = null;
 
+//Reverse geocoding
+var reverseGeocoding = true;
+var location_status_field_id = 'location-status';
+
 //Init functions
 function init_gmap(latitude, longitude) {
     map = new GMap(document.getElementById("map"));
@@ -81,7 +85,22 @@ function refreshCenter() {
 			debug('dragend');
 			newPoint = marker.getLatLng();
 			set_user_location(newPoint);
-            marker_has_been_moved = true;
+                        marker_has_been_moved = true;
+
+		        //If reverse geocoding is enabled, we use it
+		        if (reverseGeocoding == true) {
+			    $('#'+location_status_field_id).text('Se ha cambiado la ubicación');
+			    // evitamos que el usuario
+			    marker_has_been_moved = false;
+			    $.getJSON('/exchanges/reverse_geocoding', {lat: newPoint.lat(), lng:newPoint.lng()}, function(result) {
+				$('#ExchangeCountry').val(result.country);
+				$('#ExchangeProvince').val(result.province);
+				$('#ExchangeLocality').val(result.locality);
+
+				// hasta que no obtenemos los datos de la geolocalización no dejamos al usuario continuar
+				marker_has_been_moved = true;
+			    });
+			}
 		});
 		if (youMarkerDragendCallback) {
 			GEvent.addListener(marker, 'dragend', youMarkerDragendCallback);
