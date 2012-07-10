@@ -36,6 +36,7 @@ echo $this->Form->end('Filtrar');
 
 <div class="paginator">
 <?php
+
 echo $paginator->prev('Anterior');
 echo $paginator->numbers();
 echo $paginator->next('Siguiente');
