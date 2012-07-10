@@ -107,8 +107,8 @@ class ExchangesController extends AppController {
                 if ($this->data) {
                         // nos pasaron filtros, filtramos
                         $conditions = array();
+                        $types = array();
                         if ($this->data['Filter']['exchange_type']) {
-                                $types = array();
                                 foreach($this->data['Filter']['exchange_type'] as $type) {
                                         $types[] = (int)$type;
                                 }
