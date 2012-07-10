@@ -206,6 +206,11 @@ class Exchange extends AppModel {
     }
     
     function afterFind($results, $primary) {
+	    if (count($results) == 1 && isset($results[0]['Exchange']['count'])) {
+		    // la consulta es un count
+		    return $results;
+	    }
+
        if($results!=null){
         foreach($results as $key => &$result) {
             $result['Exchange']['tags'] = implode(', ', $result['Exchange']['tags']);

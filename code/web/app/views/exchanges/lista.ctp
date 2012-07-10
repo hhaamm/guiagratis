@@ -34,6 +34,13 @@ echo $this->Form->end('Filtrar');
 </ul>
 <div class="clear"></div>
 
+<div class="paginator">
+<?php
+echo $paginator->prev('Anterior');
+echo $paginator->numbers();
+echo $paginator->next('Siguiente');
+?>
+</div>
 
 <?php
 if(isSet($_GET['query'])){

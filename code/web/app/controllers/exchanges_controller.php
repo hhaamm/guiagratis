@@ -20,10 +20,15 @@
  */
 
 class ExchangesController extends AppController {
-
     var $uses = array('Exchange', 'User');
     var $components = array('Geo', 'Email', 'Upload','RequestHandler');
     var $helpers = array('Exchange', 'User', 'Html', 'Text');
+    var $paginate = array(
+	    'Exchange'=>array(
+		    'order'=>array('created'=>-1),
+		    'limit'=>26
+	    )
+    );
 
     function beforeFilter() {
         parent::beforeFilter();
@@ -100,6 +105,7 @@ class ExchangesController extends AppController {
         $this->Exchange->catchFinalizedEvents = true;
 
 	if (!$this->data) { 
+		$conditions = array();
 		// no nos pasaron filtros
 		$this->data = array(
 			'Filter'=>array(
@@ -113,11 +119,11 @@ class ExchangesController extends AppController {
 			foreach($this->data['Filter']['exchange_type'] as $type) {
 				$types[] = (int)$type;
 			}
-			$options['conditions']['exchange_type_id'] = array('$in'=>$types);
+			$conditions['exchange_type_id'] = array('$in'=>$types);
 		}
 	}
 	
-        $exchanges = $this->Exchange->find('all', $options);
+	$exchanges = $this->paginate('Exchange', $conditions);
 
 	$this->set(compact('exchanges'));
     }

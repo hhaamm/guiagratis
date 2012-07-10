@@ -620,3 +620,15 @@ div#filters a#toggle_filtros {
 div#filters a {
     color: #fff;
 }
+
+div.paginator {
+    text-align:center;
+}
+
+div.paginator span:first-child {
+    margin: 0 10px 0 0;
+}
+
+div.paginator span:last-child {
+    margin: 0 0 0 10px;
+}
