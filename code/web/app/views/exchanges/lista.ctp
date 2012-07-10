@@ -29,7 +29,9 @@ echo $this->Form->end('Filtrar');
 		  </p>
 <p class="datos-adicionales">Publicado <?php echo $this->Time->timeAgoInWords($e['Exchange']['created'])?> por <?= $this->Html->link($e['Exchange']['username'], array('controller'=>'users', 'action'=>'view', $e['Exchange']['user_id'])) ?></p>
 		 <?php // mejorar para no cortar palabras, y agregar ... ?>
-		 <?php echo substr($e['Exchange']['detail'], 0, 170); ?>
+		 <p class="exchange-detail">
+		 <?php echo strip_tags($e['Exchange']['detail']); ?>
+		 </p>
 <div class="links">
 		 <?php echo $this->Html->link('+enviar mensaje', array('controller'=>'conversations', 'action'=>'add', $e['Exchange']['user_id'])); ?>
 		 <?php echo $this->Html->link('+comentar', array('controller'=>'exchanges', 'action'=>'view', $e['Exchange']['_id'].'#comment')); ?>

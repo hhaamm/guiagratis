@@ -637,3 +637,9 @@ div.paginator span:first-child {
 div.paginator span:last-child {
     margin: 0 0 0 10px;
 }
+
+p.exchange-detail {
+    max-width:350px;
+    max-height:42px;
+    overflow:hidden;
+}
