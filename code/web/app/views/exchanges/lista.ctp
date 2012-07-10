@@ -28,7 +28,8 @@ echo $this->Form->end('Filtrar');
 		  <span class=""><?= $this->Exchange->ubicacion($e); ?></span>
 		  </p>
 <p class="datos-adicionales">Publicado <?php echo $this->Time->timeAgoInWords($e['Exchange']['created'])?> por <?= $this->Html->link($e['Exchange']['username'], array('controller'=>'users', 'action'=>'view', $e['Exchange']['user_id'])) ?></p>
-	 <?php echo $e['Exchange']['detail']; ?>
+		 <?php // mejorar para no cortar palabras, y agregar ... ?>
+		 <?php echo substr($e['Exchange']['detail'], 0, 170); ?>
 <div class="links">
 		 <?php echo $this->Html->link('+enviar mensaje', array('controller'=>'conversations', 'action'=>'add', $e['Exchange']['user_id'])); ?>
 		 <?php echo $this->Html->link('+comentar', array('controller'=>'exchanges', 'action'=>'view', $e['Exchange']['_id'].'#comment')); ?>
