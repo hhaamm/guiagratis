@@ -106,7 +106,7 @@ class ExchangesController extends AppController {
 
                 if ($this->data) {
                         // nos pasaron filtros, filtramos
-                        $conditions = array();
+                        $conditions = array('state'=>EXCHANGE_PUBLISHED);
                         $types = array();
                         if ($this->data['Filter']['exchange_type']) {
                                 foreach($this->data['Filter']['exchange_type'] as $type) {
@@ -137,7 +137,7 @@ class ExchangesController extends AppController {
                                 // valores por default para los filtros
                                 $types = array(1,2,3,4);
                                 // no tenemos parámetros que filtrar
-				$conditions = array(); 
+				$conditions = array('state'=>EXCHANGE_PUBLISHED); 
 				$query = '';
                         }
 
