@@ -77,7 +77,7 @@
        <tr>
          <td>
           <!-- Twitter -->
-          <a href="https://twitter.com/share" class="twitter-share-button" data-lang="es" url="<?= Configure::read('Host.clean_url'); ?>">Tweet</a>
+          <a href="https://twitter.com/share" class="twitter-share-button" data-lang="es" data-url="<?= Configure::read('Host.clean_url'); ?>">Tweet</a>
          </td>
          <td>
           <!-- Taringa -->
