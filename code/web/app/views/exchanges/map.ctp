@@ -67,21 +67,21 @@
        <tr>
          <td>
           <!-- Google  -->
-          <g:plusone size="medium"></g:plusone>
+          <g:plusone size="medium" data-href="<?= Configure::read('Host.clean_url'); ?>"></g:plusone>
          </td>
          <td>
           <!-- Facebook -->
-          <div class="fb-like" data-href="<?php echo Router::url($this->here, true); ?>" data-send="false" data-layout="button_count" data-width="130" data-show-faces="true" data-font="lucida grande"></div>
+          <div class="fb-like" data-href="<?= Configure::read('Host.clean_url'); ?>" data-send="false" data-layout="button_count" data-width="130" data-show-faces="true" data-font="lucida grande"></div>
          </td>
        </tr>
        <tr>
          <td>
           <!-- Twitter -->
-          <a href="https://twitter.com/share" class="twitter-share-button" data-lang="es">Tweet</a>
+          <a href="https://twitter.com/share" class="twitter-share-button" data-lang="es" url="<?= Configure::read('Host.clean_url'); ?>">Tweet</a>
          </td>
          <td>
           <!-- Taringa -->
-          <t:sharer data-layout="medium_counter"></t:sharer>
+          <t:sharer data-layout="medium_counter" data-url="<?= Configure::read('Host.clean_url'); ?>"></t:sharer>
          </td>
        </tr>
        <tr>

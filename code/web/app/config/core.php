@@ -323,7 +323,8 @@ Configure::write('Mail.from', 'updates@guia-gratis.com.ar');
 Configure::write('Mail.to', 'guiagratis@gmail.com');
 Configure::write('Mail.complaint', 'guiagratis+complaint@gmail.com');
 Configure::write('Host.siteName', 'http://www.guia-gratis.com.ar/');
-Configure::write('Host.url', 'http://www.guia-gratis.com.ar/');
+Configure::write('Host.clean_url', 'www.guia-gratis.com.ar');
+Configure::write('Host.url', 'http://'.Configure::read('Host.url').'/');
 Configure::write('GoogleMaps.ApiKey', 'ABQIAAAAPrtla-ndOoj6pz4-TGPBIBQHqtUwmOxIrQpfA9GcndCmxwRB-xQX138woM1g5KOzT7KiL4MVxIAOEQ');
 
 Configure::write('CookieName.LastPointSearched', 'dondepedimos_lastpointsearched');
