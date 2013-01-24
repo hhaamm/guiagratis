@@ -39,13 +39,13 @@ echo $form->submit(__('Cambiar contraseña',true));
 echo $form->end();
 echo $this->element('setting', array('footer' => true));*/
 
-/*echo $this->element('setting', array('id' => 'settings-delete-account', 'title' => __('Borrar cuenta',true)));
+echo $this->element('setting', array('id' => 'settings-delete-account', 'title' => __('Borrar cuenta',true)));
  __('¿Estás seguro de que querés borrar tu cuenta?');
  echo "<br>";
 __('Una vez que borres la cuenta, no podrás recuperarla.');
 echo "<br>";
 echo $form->create('User', array('action' => 'delete'));
-echo $form->input('password', array('type' => 'password'));
+echo $form->input('password', array('type' => 'password', 'autocomplete' => 'off', 'default' => ''));
 echo $form->submit( __('Borrar mi cuenta',true));
 echo $form->end();
-echo $this->element('setting', array('footer' => true));*/
+echo $this->element('setting', array('footer' => true));

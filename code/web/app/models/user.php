@@ -181,4 +181,9 @@ class User extends AppModel {
                 $this->notify($destiny['User']['_id'],"%s te envió un %s",$links);
 
         }
+
+        function getPassword($user_id) {
+            $user = $this->find('first', array('conditions' => array('_id' => $user_id)));
+            return $user['User']['password'];
+        }
 }

@@ -86,6 +86,13 @@ class UsersController extends AppController {
 
     function view($id) {
         $user = $this->User->findById($id);
+
+        if (!$user || $user['User']['active'] != 1) {
+            $this->cakeError('error404');
+            // TODO: ver si se puede dar un mensaje custom:
+            // 'El perfil que estás buscando no existe o fue borrado'
+        }
+
         $exchanges = $this->Exchange->find('all', array(
                     'conditions' => array('user_id' => $user['User']['_id']),
                     'limit' => 35
@@ -230,13 +237,16 @@ class UsersController extends AppController {
     function delete() {
         $p = $this->Auth->password($this->data['User']['password']);
         $db_password = $this->User->getPassword($this->uid);
+
         if ($p == $db_password) {
             $this->User->id = $this->uid;
-            $this->User->saveField('state', Configure::read('UserState.Deleted'));
-            $this->Session->setFlash('Your account has been deleted');
+            // -1 is when a user has been deleted
+            // TODO: move that number to config
+            $this->User->saveField('active', -1); 
+            $this->Session->setFlash('Tu cuenta ha sido borrada');
             $this->redirect($this->Auth->logout());
         } else {
-            $this->Session->setFlash('Wrong password');
+            $this->Session->setFlash('Password equivocada');
             $this->redirect('account');
         }
     }
@@ -411,13 +421,5 @@ class UsersController extends AppController {
         }
         $notifications = array_reverse($notifications);
         $this->set(compact('notifications'));
-    }
-
-    function delete_account() {
-        
-    }
-
-    function admin_delete($id) {
-
     }
 }
