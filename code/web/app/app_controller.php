@@ -18,7 +18,7 @@
  */
 class AppController extends Controller {
 	var $components = array('Session','Auth','Email');
-	var $helpers = array('Javascript','Html','Session','Form','Time', 'User');
+	var $helpers = array('Javascript','Html','Session','Form','Time', 'User', 'UserWorkaround');
     var $models = array('User');
 	var $uid;
 

@@ -64,7 +64,8 @@ class UsersController extends AppController {
 		       //crearle una password cualquiera
 		       'password'=>$this->Auth->password('dummy'),
 		       'mail'=>empty($data['email']) ? 'no_email_from_facebook' : $data['email'],
-		       'active'=>1
+		       'active'=>1,
+               'admin' => 0
       	     );
 	    $this->User->create();
 	    $user = $this->User->save($user_data);
@@ -410,5 +411,13 @@ class UsersController extends AppController {
         }
         $notifications = array_reverse($notifications);
         $this->set(compact('notifications'));
+    }
+
+    function delete_account() {
+        
+    }
+
+    function admin_delete($id) {
+
     }
 }
