@@ -164,7 +164,7 @@ class MongodbSource extends DboSource {
 			}
 			$host .= $this->config['host'] . ':' . $this->config['port'];
 
-			if (false && $this->_driverVersion >= '1.0.2') {
+			if ($this->_driverVersion >= '1.0.2') {
 				$this->connection = new Mongo($host, array("persist" => $this->config['persistent']));
 			} else {
 				$this->connection = new Mongo($host, true, $this->config['persistent']);
