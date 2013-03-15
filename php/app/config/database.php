@@ -85,10 +85,13 @@ class DATABASE_CONFIG {
     );
     public $default = array(
         'driver' => 'mongodb.mongodbSource',
-        'database' => 'guiagratis',
-        'host' => $_ENV['OPENSHIFT_DB_HOST'],
-        'port' => $_ENV['OPENSHIFT_DB_PORT'],
-        'login' => $_ENV['OPENSHIFT_DB_USERNAME'],
-        'password' => $_ENV['OPENSHIFT_DB_PASSWORD']
+        'database' => 'guiagratis',        
     );
+
+    function __construct() {        
+        $this->default['host'] = $_ENV['OPENSHIFT_DB_HOST'];
+        $this->default['port'] = $_ENV['OPENSHIFT_DB_PORT'];
+        $this->default['login'] = $_ENV['OPENSHIFT_DB_USERNAME'];
+        $this->default['password'] = $_ENV['OPENSHIFT_DB_PASSWORD'];
+    }
 }
