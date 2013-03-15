@@ -48,7 +48,7 @@
 	?>
 	<div id="login-message"></div>
 	<?php
-	echo $form->input('mail',array('label'=>'Email'));
+	echo $form->input('email',array('label'=>'Email'));
 	echo $form->input('password',array('label'=>'Contraseña'));
 	echo $form->end('Ingresar');
 	?>

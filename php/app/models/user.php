@@ -18,7 +18,7 @@
  *
  */
 class User extends AppModel {
-        var $primaryKey = '_id';
+        var $primaryKey = 'id';
 
         var $mongoSchema = array(
                 'mail' => array('type'=>'string'),
@@ -54,7 +54,7 @@ class User extends AppModel {
                 );
 
         var $validate = array(
-                'mail'=>array(
+                'email'=>array(
                         'notEmpty'=>array(
                                 'rule'=>'notEmpty',
                                 'required'=>true,
@@ -95,8 +95,8 @@ class User extends AppModel {
 		return preg_match('|^[0-9a-zA-Z_-]*$|', $value);    
 	}
 
-        function mail_already_registered($mail) {
-                $user = $this->find('first',array('conditions'=>compact('mail')));
+        function email_already_registered($email) {
+                $user = $this->find('first',array('conditions'=>array('email' => $email)));
                 return !empty($user);
         }
 
@@ -183,7 +183,7 @@ class User extends AppModel {
         }
 
         function getPassword($user_id) {
-            $user = $this->find('first', array('conditions' => array('_id' => $user_id)));
+            $user = $this->find('first', array('conditions' => array('id' => $user_id)));
             return $user['User']['password'];
         }
 }

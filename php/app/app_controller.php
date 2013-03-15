@@ -26,21 +26,21 @@ class AppController extends Controller {
 	        $this->Auth->logoutRedirect = array('controller' => 'users', 'action' => 'login');
 	        $this->Auth->loginError = "El usuario o la contraseña son incorrectos";
         	$this->Auth->autoRedirect = true;
-		$this->Auth->fields = array('username' => 'mail', 'password' => 'password');
+		$this->Auth->fields = array('username' => 'email', 'password' => 'password');
 
 		//el usuario debe ser activo y no debe ser del tipo facebook (para evitar ataques al 'facebook_password')
 		//para loguearse por vías "normales"
 		$this->Auth->userScope = array('User.active'=>1, 'User.facebook_id'=>null);
 
 		$user_refresh = $this->Session->read('Auth.User.refresh_time');
-		if( $this->Auth->user('_id') && ( !$user_refresh ||   time() - $user_refresh  > 60)){
+		if( $this->Auth->user('id') && ( !$user_refresh ||   time() - $user_refresh  > 60)){
           //refresca el usuario cada 1 minuto para que se vean las actualizaciones.
           //TODO hacer que el tiempo sea configurable
           $this->refreshCurrentUser();
           $this->Session->write('Auth.User.refresh_time',time());
         }
         
-        $this->uid = $this->Auth->user('_id');
+        $this->uid = $this->Auth->user('id');
         
         //check if the user is an admin and an admin route was requested 
         if(isset($this->params['admin']) && $this->params['admin']) {  
@@ -87,8 +87,8 @@ class AppController extends Controller {
 	}
 
     function refreshCurrentUser(){
-      if($this->Auth->user('_id')){
-        $user = $this->User->read(null, $this->Auth->user('_id'));
+      if($this->Auth->user('id')){
+        $user = $this->User->read(null, $this->Auth->user('id'));
         $this->Session->write('Auth.User',$user['User']);
       }
     }

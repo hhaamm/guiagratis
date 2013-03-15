@@ -72,7 +72,7 @@
                         <li><a href="/exchanges/own">Mis Gratiposts</a></li>
 						<li><a href="/conversations">Mis conversaciones</a></li>
                         <li><a href="/users/account">Configuración</a></li>
-                        <li><a href="/users/view/<?php echo $current_user['User']['_id'] ?>">Mi perfil</a></li>
+                        <li><a href="/users/view/<?php echo $current_user['User']['id'] ?>">Mi perfil</a></li>
 						<li><a href="/users/logout">Salir</a></li>
 					</ul>
 				</li>
@@ -104,7 +104,7 @@
                 <li style="float: right;array">
                 <?php
                      
-                     echo $this->Html->link($this->UserWorkaround->short_user_name($current_user), array('controller'=>'users','action'=>'view', $current_user['User']['_id']), array('class'=>'my-profile'));
+                     echo $this->Html->link($this->UserWorkaround->short_user_name($current_user), array('controller'=>'users','action'=>'view', $current_user['User']['id']), array('class'=>'my-profile'));
                        $notification_counter = 0;
                        if(isSet($current_user['User']['notifications'])){
                            foreach($current_user['User']['notifications'] as $notification){

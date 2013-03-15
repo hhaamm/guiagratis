@@ -209,7 +209,7 @@ class Exchange extends AppModel {
     }
     
     function afterFind($results, $primary) {
-	    if (count($results) == 1 && isset($results[0]['Exchange']['count'])) {
+	    if (count($results) == 1 && isset($results[0][0]['count'])) {
 		    // la consulta es un count
 		    return $results;
 	    }
