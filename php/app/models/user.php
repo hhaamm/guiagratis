@@ -151,7 +151,7 @@ class User extends AppModel {
 
         function notifyComment($user,$exchange){
                 $links = array(
-                        $user['User']['username'] => array( 'controller'=>'users','action'=>'view',$user['User']['_id']),
+                        $user['User']['username'] => array( 'controller'=>'users','action'=>'view',$user['User']['id']),
                         );
 
                 switch($exchange['Exchange']['exchange_type_id']){
@@ -169,16 +169,16 @@ class User extends AppModel {
                         $exchange_label = "publicacion";
                 }
 
-                $links[$exchange_label] = array('controller'=>'exchanges','action'=>'view',$exchange['Exchange']['_id']);
+                $links[$exchange_label] = array('controller'=>'exchanges','action'=>'view',$exchange['Exchange']['id']);
                 $this->notify($exchange['Exchange']['user_id'],"%s  ha comentado tu %s",$links);
         }
 
         function notifyMessage($user,$destiny,$cid){
                 $links = array(
-                        $user['User']['username'] => array( 'controller'=>'users','action'=>'view',$user['User']['_id']),
+                        $user['User']['username'] => array( 'controller'=>'users','action'=>'view',$user['User']['id']),
                         "mensaje privado" => array( 'controller'=>'conversations','action'=>'view',$cid)
                         );
-                $this->notify($destiny['User']['_id'],"%s te envió un %s",$links);
+                $this->notify($destiny['User']['id'],"%s te envió un %s",$links);
 
         }
 

@@ -51,7 +51,7 @@ class Exchange extends AppModel {
 		'locality'=>array('type'=>'string')
 	);
 
-    
+    var $belongsTo = array('User');
     
     var $validate = array(
         'title'=>array(
@@ -179,30 +179,34 @@ class Exchange extends AppModel {
 	}
     
     function beforeSave() {
+        // TODO: pasar a tabla intermedia
+        /*
         $this->data['Exchange']['tags'] = explode(',', $this->data['Exchange']['tags']);
         foreach ($this->data['Exchange']['tags'] as &$tag) {
             $tag = trim($tag);  
         }
+        */
+
         //guardamos la fecha en un formato entendible
         if (isset($this->data['Exchange']['start_date']) && is_array($this->data['Exchange']['start_date'])) {
-            $this->data['Exchange']['start_date'] = new MongoDate(mktime(
+            $this->data['Exchange']['start_date'] = mktime(
                     $this->data['Exchange']['start_date']['hour'],
                     $this->data['Exchange']['start_date']['min'],
                     $this->data['Exchange']['start_date']['sec'],
                     $this->data['Exchange']['start_date']['month'],
                     $this->data['Exchange']['start_date']['day'],
                     $this->data['Exchange']['start_date']['year']
-            ));
+            );
         }
         if (isset($this->data['Exchange']['end_date']) && is_array($this->data['Exchange']['end_date'])) {
-            $this->data['Exchange']['end_date'] = new MongoDate(mktime(
+            $this->data['Exchange']['end_date'] = mktime(
                 $this->data['Exchange']['end_date']['hour'],
                 $this->data['Exchange']['end_date']['min'],
                 $this->data['Exchange']['end_date']['sec'],
                 $this->data['Exchange']['end_date']['month'],
                 $this->data['Exchange']['end_date']['day'],
                 $this->data['Exchange']['end_date']['year']
-            ));
+            );
         }
         
         return true;
@@ -216,7 +220,7 @@ class Exchange extends AppModel {
 
        if($results!=null){
         foreach($results as $key => &$result) {
-            $result['Exchange']['tags'] = implode(', ', $result['Exchange']['tags']);
+//            $result['Exchange']['tags'] = implode(', ', $result['Exchange']['tags']);
             
             if ($this->catchFinalizedEvents && $result['Exchange']['exchange_type_id'] == EXCHANGE_EVENT
                     && $result['Exchange']['end_date']->sec < time() && $result['Exchange']['state'] != EXCHANGE_FINALIZED) {

@@ -19,9 +19,9 @@
  */
 
 /*
- * Conversation are groups of private messages
+ * Private message
  */
-class Conversation extends AppModel {
+class Message extends AppModel {
 	var $belongsTo = array('User');
 
 	var $mongoSchema = array(
@@ -67,6 +67,8 @@ class Conversation extends AppModel {
 	 * Returns current user's conversations
 	 */
 	function byUser($uid) {
+        return $this->findAllByFrom($uid);
+        
 		$toConversations = $this->find('all',array('limit'=>35,'conditions'=>array('to'=>$uid)));
 		$fromConversations = $this->find('all',array('limit'=>35,'conditions'=>array('from'=>$uid)));
 

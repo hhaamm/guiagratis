@@ -28,7 +28,7 @@
         <div style="float: right;" class="own-buttons-containter">
             <?php
              $icon = $this->Html->image('/img/icons/eye.png');
-             echo $this->Html->link($icon.' Ver','/exchanges/view/'.$e['Exchange']['_id'],array('class'=>"link-button", 'escape' => false))?>
+             echo $this->Html->link($icon.' Ver','/exchanges/view/'.$e['Exchange']['id'],array('class'=>"link-button", 'escape' => false))?>
             <?php if ($e['Exchange']['state'] == EXCHANGE_FINALIZED) {
                 echo $this->Html->div('link-button',
                         $this->Html->image('/img/icons/abort.png').
@@ -36,9 +36,9 @@
                         array('style'=>'background-color:#DDDDDD'));
             } else {
                 $icon = $this->Html->image('/img/icons/modify.png');
-                echo $this->Html->link($icon.' Editar','/exchanges/edit/'.$e['Exchange']['_id'],array('class'=>"link-button", 'escape' => false));
+                echo $this->Html->link($icon.' Editar','/exchanges/edit/'.$e['Exchange']['id'],array('class'=>"link-button", 'escape' => false));
                 $icon = $this->Html->image('/img/icons/terminate.png');
-                echo $this->Html->link($icon.' Finalizar','/exchanges/finalize/'.$e['Exchange']['_id'], array('class'=>"link-button", 'escape' => false), "Una vez que finalizes el intercambio dejará de estar publicado. ¿Estás seguro?");
+                echo $this->Html->link($icon.' Finalizar','/exchanges/finalize/'.$e['Exchange']['id'], array('class'=>"link-button", 'escape' => false), "Una vez que finalizes el intercambio dejará de estar publicado. ¿Estás seguro?");
             } ?>
 		</div>
 		<p><?php echo Configure::read('ExchangeType.Names.'.$e['Exchange']['exchange_type_id']);?></p>

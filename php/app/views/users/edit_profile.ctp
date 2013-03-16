@@ -33,7 +33,7 @@
     ?>
 </div>
 <div style="float: left;margin-top: 15px;">
-  <?php  echo $this->element('image_uploader',array('prefix'=>'user_avatar','id'=>$current_user['User']['_id'],'url'=>'/users/change_avatar','image_id'=>"avatar")) ?>
+  <?php  echo $this->element('image_uploader',array('prefix'=>'user_avatar','id'=>$current_user['User']['id'],'url'=>'/users/change_avatar','image_id'=>"avatar")) ?>
 </div>
 
 <?php

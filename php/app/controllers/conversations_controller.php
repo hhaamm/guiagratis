@@ -21,7 +21,7 @@
 
 class ConversationsController extends AppController {
 
-    var $uses = array('Conversation', 'User');
+    var $uses = array('Message', 'User');
 
     function add($to = null) {
         if ($this->data) {
@@ -54,7 +54,9 @@ class ConversationsController extends AppController {
     }
 
     function index() {
-        $conversations = $this->Conversation->byUser($this->uid);
+        $messages = $this->Message->byUser($this->uid);
+        // create conversations from messages
+        $conversations = $messages;
 
         $this->set(compact('conversations'));
     }

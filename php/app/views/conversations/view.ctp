@@ -25,7 +25,7 @@
 	<?php foreach ($conversation['Conversation']['messages'] as $message) { ?>
 
 		<li>
-            <div><?php echo $this->Html->link($message['from_data']['username'],array('controller'=>'users','action'=>'view',$message['from_data']['_id']),array('style'=>'text-decoration:none'))." (".$this->Time->timeAgoInWords($message['created']).")" ?></div>
+            <div><?php echo $this->Html->link($message['from_data']['username'],array('controller'=>'users','action'=>'view',$message['from_data']['id']),array('style'=>'text-decoration:none'))." (".$this->Time->timeAgoInWords($message['created']).")" ?></div>
 			<p><?php echo $message['text']?></p>
 		</li>
 
@@ -36,7 +36,7 @@
 		<legend>Responder</legend>
 		<?php
 			echo $this->Form->create('Conversation',array('action'=>'answer'));
-			echo $this->Form->hidden('_id',array('default'=>$conversation['Conversation']['_id']));
+			echo $this->Form->hidden('id',array('default'=>$conversation['Conversation']['id']));
 			echo $this->Form->input('text',array('label'=>'Mensaje','type'=>'textarea'));
 			echo $this->Form->end('Responder');
 		?>

@@ -44,7 +44,7 @@
  * In production mode, flash messages redirect after a time interval.
  * In development mode, you need to click the flash message to continue.
  */
-Configure::write('debug', 2);
+Configure::write('debug', 1);
 
 /**
  * CakePHP Log Level:
@@ -325,7 +325,9 @@ Configure::write('Mail.complaint', 'guiagratis+complaint@gmail.com');
 Configure::write('Host.siteName', 'http://www.guia-gratis.com.ar/');
 Configure::write('Host.clean_url', 'www.guia-gratis.com.ar');
 Configure::write('Host.url', 'http://'.Configure::read('Host.url').'/');
-Configure::write('GoogleMaps.ApiKey', 'ABQIAAAAPrtla-ndOoj6pz4-TGPBIBQHqtUwmOxIrQpfA9GcndCmxwRB-xQX138woM1g5KOzT7KiL4MVxIAOEQ');
+//Configure::write('GoogleMaps.ApiKey', 'ABQIAAAAPrtla-ndOoj6pz4-TGPBIBQHqtUwmOxIrQpfA9GcndCmxwRB-xQX138woM1g5KOzT7KiL4MVxIAOEQ');
+
+Configure::write('GoogleMaps.ApiKey', 'AIzaSyDFCgWPT4l68EqESosrBj6BPxPF-m6ApGc');
 
 Configure::write('CookieName.LastPointSearched', 'dondepedimos_lastpointsearched');
 //Point used when all geolocalization, cookie system and user preferences fails.

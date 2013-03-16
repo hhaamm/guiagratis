@@ -1,7 +1,7 @@
 
 <div style="">
 <?php
-  if(isset($current_user) && $user['User']['_id']==$current_user['User']['_id']){
+  if(isset($current_user) && $user['User']['id']==$current_user['User']['id']){
     $icon =  $this->Html->image('/img/icons/modify.png');
     echo $this->Html->div(null,
        $this->Html->link($icon.' Editar perfil',array('controller'=>'users','action'=>'edit_profile',),array('class'=>"link-button", 'escape' => false)),
@@ -50,7 +50,7 @@
     <?php
      if(isset($current_user)){
           echo $this->Html->image('/img/icons/mail.png',array('style'=>'margin-bottom: -8px;'));
-          echo $this->Html->link(" Enviar mensaje privado",'/conversations/add/'.$user['User']['_id'],array('style'=>'text-decoration:none;','title'=>"Enviar mensaje personal"));
+          echo $this->Html->link(" Enviar mensaje privado",'/conversations/add/'.$user['User']['id'],array('style'=>'text-decoration:none;','title'=>"Enviar mensaje personal"));
           echo "<br/>";
           if(isset($user['User']['telephone']) && !empty($user['User']['telephone'])){
                   echo $this->Html->tag('b',"Telefono").": ".$user['User']['telephone'];
@@ -89,10 +89,10 @@
   if(!empty($exchanges)){
     foreach($exchanges as $e) { ?>
         <div  style="margin: 10px 0px;">
-            <?php echo   $this->Html->link($this->Exchange->defaultPhoto($e),array('action'=>'view','controller'=>'exchanges',$e['Exchange']['_id']),array('escape'=>false , 'style' => 'float:left;margin-right: 10px;')) ?>
+            <?php echo   $this->Html->link($this->Exchange->defaultPhoto($e),array('action'=>'view','controller'=>'exchanges',$e['Exchange']['id']),array('escape'=>false , 'style' => 'float:left;margin-right: 10px;')) ?>
             <div style="float: left;">
              <p><?php echo Configure::read('ExchangeType.Names.'.$e['Exchange']['exchange_type_id']); ?>  - publicado  <?php echo $this->Time->timeAgoInWords($e['Exchange']['created'])?></p>
-             <?php echo $this->Html->link($e['Exchange']['title'],array('action'=>'view','controller'=>'exchanges',$e['Exchange']['_id']),array('class'=>'exchange-view-link'))?>
+             <?php echo $this->Html->link($e['Exchange']['title'],array('action'=>'view','controller'=>'exchanges',$e['Exchange']['id']),array('class'=>'exchange-view-link'))?>
             </div>
             <div class="clear"></div>
         </div>

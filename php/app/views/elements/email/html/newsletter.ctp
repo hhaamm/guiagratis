@@ -28,7 +28,7 @@
 <?php foreach ($exchanges as $exchange) { ?>
 <div class="exchange">
     <h4>
-        <a href="<?php echo Configure::read('Host.url').'exchanges/view/'.$exchange['Exchange']['_id'] ?>">
+        <a href="<?php echo Configure::read('Host.url').'exchanges/view/'.$exchange['Exchange']['id'] ?>">
             <?php echo $exchange['Exchange']['title'] ?>
         </a>
     </h4>

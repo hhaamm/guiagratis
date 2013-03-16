@@ -50,7 +50,7 @@ function shareExchange() {
 	      name: '<?php echo $exchange['Exchange']['title']; ?>',
 	      description: '<?php echo strip_tags($exchange['Exchange']['detail']); ?>',
 	      //picture: 'http://fbrell.com/f8.jpg',
-	      link: '<?php echo Configure::read('Host.url') ?>/exchanges/views/<?php echo $exchange['Exchange']['_id']; ?>'
+	      link: '<?php echo Configure::read('Host.url') ?>/exchanges/views/<?php echo $exchange['Exchange']['id']; ?>'
 	      },    
 		function (response) {
 			if (response && response.post_id) {
@@ -82,27 +82,27 @@ function shareExchange() {
             $avatar_url = $owner['User']['avatar']['small']['url'];
         }
         $avatar =  $this->Html->image($avatar_url,array('style'=>"width: 50px; height: 50px;"));
-        echo $this->Html->link($avatar,array('controller'=>'users','action'=>'view',$owner['User']['_id']),array('escape'=>false,"style"=>"float:left;50px; margin-right: 5px;"))
+        echo $this->Html->link($avatar,array('controller'=>'users','action'=>'view',$owner['User']['id']),array('escape'=>false,"style"=>"float:left;50px; margin-right: 5px;"))
     ?>
     <div class="exchange-type <?php echo $this->Exchange->cssClass($exchange); ?>">
     <?php echo $this->Exchange->type($exchange); ?>
     </div>
 	<h2><?php echo $exchange['Exchange']['title']?></h2>
-        <p>Creado por <?php echo $this->Html->link($owner['User']['username'] ,'/users/view/'.$owner['User']['_id'], array('style'=> 'text-decoration: none;' ));  ?> <?php echo $this->Time->timeAgoInWords($exchange['Exchange']['created']) ;?> </p>
+        <p>Creado por <?php echo $this->Html->link($owner['User']['username'] ,'/users/view/'.$owner['User']['id'], array('style'=> 'text-decoration: none;' ));  ?> <?php echo $this->Time->timeAgoInWords($exchange['Exchange']['created']) ;?> </p>
 	<p></p>
     <!-- SHOW ONLY WHEN IS OWNER -->
-    <?php if( !empty($current_user) && ($current_user['User']['_id'] == $owner['User']['_id'] || $current_user['User']['admin']) ){ ?>
+    <?php if( !empty($current_user) && ($current_user['User']['id'] == $owner['User']['id'] || $current_user['User']['admin']) ){ ?>
 	<div class="admin edit-exchange-menu" style="float: right;">
     <?php
         if ($exchange['Exchange']['state'] != EXCHANGE_FINALIZED) {
             $icon =  $this->Html->image('/img/icons/modify.png');
-            echo $this->Html->link($icon.' Editar',array('controller'=>'exchanges','action'=>'edit',$exchange['Exchange']['_id']),array('class'=>"link-button", 'escape' => false));
+            echo $this->Html->link($icon.' Editar',array('controller'=>'exchanges','action'=>'edit',$exchange['Exchange']['id']),array('class'=>"link-button", 'escape' => false));
 
             $icon =  $this->Html->image('/img/icons/photo.png');
-            echo $this->Html->link($icon.' Editar fotos',array('controller'=>'exchanges','action'=>'edit_photos',$exchange['Exchange']['_id']),array('class'=>"link-button", 'escape' => false));
+            echo $this->Html->link($icon.' Editar fotos',array('controller'=>'exchanges','action'=>'edit_photos',$exchange['Exchange']['id']),array('class'=>"link-button", 'escape' => false));
 
             $icon =  $this->Html->image('/img/icons/terminate.png');
-            echo $this->Html->link($icon.' Finalizar','/exchanges/finalize/'.$exchange['Exchange']['_id'], array('class'=>"link-button", 'escape' => false) , "Una vez que finalizes el intercambio dejará de estar publicado. ¿Estás seguro?");
+            echo $this->Html->link($icon.' Finalizar','/exchanges/finalize/'.$exchange['Exchange']['id'], array('class'=>"link-button", 'escape' => false) , "Una vez que finalizes el intercambio dejará de estar publicado. ¿Estás seguro?");
         }else{
             echo $this->Html->div('link-button',
                 $this->Html->image('/img/icons/abort.png').
@@ -111,7 +111,7 @@ function shareExchange() {
         }
         if($current_user['User']['admin']){
             $icon =  $this->Html->image('/img/icons/erase.png');
-            echo $this->Html->link($icon.' Borrar',array('controller'=>'exchanges','action'=>'delete',$exchange['Exchange']['_id']),array('class'=>"link-button", 'escape' => false),"Esta acción es irreversible. Usar solo para contenido basura(CRAP) \\n ¿Seguro que deseas continuar?");
+            echo $this->Html->link($icon.' Borrar',array('controller'=>'exchanges','action'=>'delete',$exchange['Exchange']['id']),array('class'=>"link-button", 'escape' => false),"Esta acción es irreversible. Usar solo para contenido basura(CRAP) \\n ¿Seguro que deseas continuar?");
         }
 	?>
 	</div>
@@ -172,7 +172,7 @@ function shareExchange() {
           changeRatingBar(<?php echo $rates['positives']?>,<?php echo $rates['negatives']?>);
 
           function rate(valoration,icon){
-            eid = "<?php echo $exchange['Exchange']['_id']?>";
+            eid = "<?php echo $exchange['Exchange']['id']?>";
             toggleLoader(icon);
             $.ajax({
                 type: "GET",
@@ -329,7 +329,7 @@ function shareExchange() {
 
 			echo $this->Form->create('Exchange',array('action'=>'add_comment'));
 			echo $this->Form->input('comment',array('type'=>'textarea','label'=>'Contanos'));
-			echo $this->Form->hidden('_id',array('default'=>$exchange['Exchange']['_id']));
+			echo $this->Form->hidden('id',array('default'=>$exchange['Exchange']['id']));
 			echo $this->Form->end('Comentá');
 		} else {
 			echo "Tenés que ".$this->Html->link('loguearte','/users/login')." para poder responder. ";
