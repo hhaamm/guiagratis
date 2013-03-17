@@ -131,7 +131,7 @@ class UsersController extends AppController {
                     if ($this->User->save($this->data)) {
                         //Sending mail
                         $this->sendMail($this->data['User']['email'], "Confirmá tu registración", 'activate_account');
-                        $this->Session->setFlash('Enviamos un mail a tu casilla de correo para terminar el registro. Si no te llegó, es posible que haya quedado en la carpeta de SPAM / CORREO NO DESEADO.');
+                        $this->Session->setFlash('Enviamos un mail a tu casilla de correo para terminar el registro. Si no te llegó, es posible que haya quedado en la carpeta de SPAM / CORREO NO DESEADO.', 'flash_success');
                         $this->redirect('/');
                     } else {
                         foreach ($this->User->validationErrors as $field => $error) {

@@ -47,11 +47,11 @@ class ConversationsController extends AppController {
                     }
                     $this->User->notifyMessage($this->Auth->user(), $destiny, $this->Conversation->id);
                 */
-                $this->Session->setFlash('Mensaje enviado');
+                $this->Session->setFlash('Mensaje enviado', 'flash_success');
                 $this->redirect('/conversations/view/' . $this->Message->id);
             } else {
                 foreach($this->Message->validationErrors as $field => $error) {
-                    $this->Session->setFlash($field.': '.$error,'flash_failure');
+                    $this->Session->setFlash($field.': '.$error, 'flash_failure');
                 }
             }
         } else {

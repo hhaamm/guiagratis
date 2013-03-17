@@ -23,7 +23,7 @@
 	<li>
 		<div>De <?php echo $m['Sender']['username']?> para <?php echo $m['Receiver']['username']?></div>
 		<div><?php echo $m['Message']['title']?></div>
-		<div><?php echo $this->Html->link('View','/conversations/view/'.$m['Message']['id']); ?></div>
+		<div><?php echo $this->Html->link('Ver', '/conversations/view/'.$m['Message']['id']); ?></div>
 	</li>
 	<?php } ?>
 </ul>

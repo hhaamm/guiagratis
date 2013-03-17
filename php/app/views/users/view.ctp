@@ -57,7 +57,7 @@
           }
           echo "<br/>";
           if(isset($user['User']['show_email']) && !empty($user['User']['show_email'])){
-                  echo $this->Html->tag('b',"Email").": ".$user['User']['mail'];
+                  echo $this->Html->tag('b',"Email").": ".$user['User']['email'];
           }
       }else{
         echo "<p>".$this->Html->link(" Logueate",'/users/login/'). " o ". $this->Html->link("Registrate",'/users/register/')." para <br/> contactar a este usuario</p>" ;
