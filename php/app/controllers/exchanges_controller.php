@@ -229,8 +229,6 @@ class ExchangesController extends AppController {
         $this->data['Exchange']['lng'] = (float) $this->data['Exchange']['lng'];
         $this->data['Exchange']['lat'] = (float) $this->data['Exchange']['lat'];
         $this->data['Exchange']['user_id'] = $this->Auth->user('id');
-        $this->data['Exchange']['created'] = time();
-        $this->data['Exchange']['modified'] = time();
         $this->data['Exchange']['state'] = EXCHANGE_PUBLISHED;
         $this->data['Exchange']['photos'] = array();
         $this->data['Exchange']['username'] = $this->Auth->user('username');
