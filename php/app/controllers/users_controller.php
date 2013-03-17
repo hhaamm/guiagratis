@@ -94,7 +94,7 @@ class UsersController extends AppController {
         }
 
         $exchanges = $this->Exchange->find('all', array(
-                    'conditions' => array('user_id' => $user['User']['_id']),
+                    'conditions' => array('user_id' => $user['User']['id']),
                     'limit' => 35
                 ));
         $this->set(compact('user', 'exchanges'));

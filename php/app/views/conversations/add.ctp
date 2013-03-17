@@ -21,10 +21,10 @@
 <fieldset>
 	<legend>Enviar mensaje privado</legend>
 	<?php
-		echo $this->Form->create('Conversation');
-		echo $this->Form->hidden('to');
-		echo $this->Form->input('title',array('label'=>'Título','name'=>'data[Conversation][title]'));
-		echo $this->Form->input('Conversation.messages.0.text',array('label'=>'Mensaje','type'=>'textarea'));
-		echo $this->Form->end('Enviar mensaje');
+      echo $this->Form->create('Message', array('url' => '/conversations/add'));
+      echo $this->Form->hidden('receiver_id');
+      echo $this->Form->input('title', array('label'=>'Título'));
+      echo $this->Form->input('detail', array('label'=>'Mensaje','type'=>'textarea'));
+      echo $this->Form->end('Enviar mensaje');
 	?>
 </fieldset>

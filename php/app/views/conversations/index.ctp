@@ -19,11 +19,11 @@
  */
 ?>
 <ul class="conversations">
-	<?php foreach ($conversations as $c) { ?>
+	<?php foreach ($conversations as $m) { ?>
 	<li>
-		<div>De <?php echo $c['Conversation']['from_data']['User']['username']?> para <?php echo $c['Conversation']['to_data']['User']['username']?></div>
-		<div><?php echo $c['Conversation']['title']?></div>
-		<div><?php echo $this->Html->link('View','/conversations/view/'.$c['Conversation']['id']); ?></div>
+		<div>De <?php echo $m['Sender']['username']?> para <?php echo $m['Receiver']['username']?></div>
+		<div><?php echo $m['Message']['title']?></div>
+		<div><?php echo $this->Html->link('View','/conversations/view/'.$m['Message']['id']); ?></div>
 	</li>
 	<?php } ?>
 </ul>

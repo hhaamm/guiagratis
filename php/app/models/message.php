@@ -22,7 +22,16 @@
  * Private message
  */
 class Message extends AppModel {
-	var $belongsTo = array('User');
+	var $belongsTo = array(
+        'Sender' => array(
+            'className' => 'User',
+            'foreignKey' => 'sender_id'
+        ),
+        'Receiver' => array(
+            'className' => 'User',
+            'foreignKey' => 'receiver_id'
+        )
+    );
 
 	var $mongoSchema = array(
 		'from'=>'string',
@@ -34,25 +43,9 @@ class Message extends AppModel {
 	);
     
     var $validate = array(
-        'title'=>array(
-            'notEmpty'=>array(
-                'rule'=>'notEmpty',
-                'message'=>'Campo requerido',
-                'required'=>true
-            ),
-            'between' => array(
-                'rule' => array('between', 8, 50),
-                'message' => 'Entre 8 y 50 caracteres'
-            )
-        ),
         'to'=>'notEmpty',
         'from'=>'notEmpty',
-        'messages'=>array(
-            'rule'=>'validateMessage',
-            'message'=>'No se puede mandar un mensaje vacío',
-            'on'=>'create',
-            'required'=>true
-        )
+        'detail' => 'notEmpty'
     );
 
     //valida, al crear una conversación, que el mensaje no esté vacío
@@ -67,6 +60,7 @@ class Message extends AppModel {
 	 * Returns current user's conversations
 	 */
 	function byUser($uid) {
+        $this->contain(array('Sender', 'Receiver'));
         return $this->findAllByFrom($uid);
         
 		$toConversations = $this->find('all',array('limit'=>35,'conditions'=>array('to'=>$uid)));
@@ -86,16 +80,16 @@ class Message extends AppModel {
 		foreach ($conversations as &$c) {
 			if (isset($c['Conversation']['from'])) {
 				$c['Conversation']['from_data'] = $this->User->find('first',array(
-					'conditions'=>array('_id'=>$c['Conversation']['from']),
+					'conditions'=>array('id'=>$c['Conversation']['from']),
 					'cache'=>'user_'.$c['Conversation']['from'],
-					'fields'=>array('_id','username')
+					'fields'=>array('id','username')
 				));
 			}
 			if (isset($c['Conversation']['to'])) {
 				$c['Conversation']['to_data'] = $this->User->find('first',array(
-					'conditions'=>array('_id'=>$c['Conversation']['to']),
+					'conditions'=>array('id'=>$c['Conversation']['to']),
 					'cache'=>'user_'.$c['Conversation']['to'],
-					'fields'=>array('_id','username')
+					'fields'=>array('id','username')
 				));
 			}
 		}
@@ -128,7 +122,7 @@ class Message extends AppModel {
 			$from = $message['from'];
 
 			$from_data = $this->User->find('first',array(
-				'conditions'=>array('_id'=>$from),
+				'conditions'=>array('id'=>$from),
 				'cache'=>'user_'.$from
 			));
 			$message['from_data']=$from_data['User'];

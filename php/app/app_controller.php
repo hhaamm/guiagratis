@@ -23,9 +23,9 @@ class AppController extends Controller {
 	var $uid;
 
 	function beforeFilter() {
-	        $this->Auth->logoutRedirect = array('controller' => 'users', 'action' => 'login');
-	        $this->Auth->loginError = "El usuario o la contraseña son incorrectos";
-        	$this->Auth->autoRedirect = true;
+        $this->Auth->logoutRedirect = array('controller' => 'users', 'action' => 'login');
+        $this->Auth->loginError = "El usuario o la contraseña son incorrectos";
+        $this->Auth->autoRedirect = true;
 		$this->Auth->fields = array('username' => 'email', 'password' => 'password');
 
 		//el usuario debe ser activo y no debe ser del tipo facebook (para evitar ataques al 'facebook_password')
