@@ -320,14 +320,14 @@ Cache::config('short', array(
 ));
 
 Configure::write('Mail.from', 'updates@guia-gratis.com.ar');
-Configure::write('Mail.to', 'guiagratis@gmail.com');
-Configure::write('Mail.complaint', 'guiagratis+complaint@gmail.com');
+Configure::write('Mail.to', 'guiagratis@yahoo.com.ar');
+Configure::write('Mail.complaint', 'guiagratis@yahoo.com.ar');
 Configure::write('Host.siteName', 'http://www.guia-gratis.com.ar/');
 Configure::write('Host.clean_url', 'www.guia-gratis.com.ar');
 Configure::write('Host.url', 'http://'.Configure::read('Host.url').'/');
-//Configure::write('GoogleMaps.ApiKey', 'ABQIAAAAPrtla-ndOoj6pz4-TGPBIBQHqtUwmOxIrQpfA9GcndCmxwRB-xQX138woM1g5KOzT7KiL4MVxIAOEQ');
+Configure::write('GoogleMaps.ApiKey', 'ABQIAAAAPrtla-ndOoj6pz4-TGPBIBQHqtUwmOxIrQpfA9GcndCmxwRB-xQX138woM1g5KOzT7KiL4MVxIAOEQ');
 
-Configure::write('GoogleMaps.ApiKey', 'AIzaSyDFCgWPT4l68EqESosrBj6BPxPF-m6ApGc');
+//Configure::write('GoogleMaps.ApiKey', 'AIzaSyDFCgWPT4l68EqESosrBj6BPxPF-m6ApGc');
 
 Configure::write('CookieName.LastPointSearched', 'dondepedimos_lastpointsearched');
 //Point used when all geolocalization, cookie system and user preferences fails.
