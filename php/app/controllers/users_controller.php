@@ -22,7 +22,7 @@
 class UsersController extends AppController {
     var $uses = array('Exchange', 'User');
     var $helpers = array('Exchange');
-    var $components = array('Upload');
+    var $components = array('Upload', 'Image');
 
     function beforeFilter() {
         parent::beforeFilter();
@@ -93,10 +93,11 @@ class UsersController extends AppController {
             // 'El perfil que estás buscando no existe o fue borrado'
         }
 
+        $this->Exchange->contain('Photo');
         $exchanges = $this->Exchange->find('all', array(
-                    'conditions' => array('user_id' => $user['User']['id']),
-                    'limit' => 35
-                ));
+            'conditions' => array('user_id' => $user['User']['id']),
+            'limit' => 35
+        ));
         $this->set(compact('user', 'exchanges'));
     }
 
@@ -170,20 +171,35 @@ class UsersController extends AppController {
         if ($this->data['Photo']['id'] != $this->Auth->user('id')) {
             return;
         }
-        $uid = $this->data['Photo']['id'];
-        $result = $this->Upload->images(array('images' => array(
-                        'small' => array('width' => 50, 'height' => 50, 'keep_aspect_ratio' => true),
-                        'medium' => array('width' => 100, 'height' => 100, 'keep_aspect_ratio' => true),
-                        'large' => array('width' => 150, 'height' => 150, 'keep_aspect_ratio' => true)
-                    ),
-                    'dest_path' => WWW_ROOT . 'uploads',
-                    'file_field' => 'photo'));
-        $image = array('id' => uniqid(null, true), 'small' => $result['small'], 'medium' => $result['medium'], 'large' => $result['large']);
-        $this->User->setAvatar($image, $uid);
-        $img_url = $result['medium']['url'];
+        $uid = $this->data['Photo']['id'];       
+        
+        //move_uploaded_file
+        $img_id = uniqid(null, true);
+        $ext = pathinfo($_FILES['photo']['name'], PATHINFO_EXTENSION);
+        // TODO: check they are not uploading .exe, .sh, etc. files
+        $filename = $img_id.'.'.$ext;
+        $filepath = WWW_ROOT.'uploads/'.$filename;
+        if (!move_uploaded_file($_FILES['photo']['tmp_name'], $filepath)) {
+            die("Error al subir la imágen");
+        }
+
+        // TODO: move all this code to model
+        // TODO: put all this config in core.php
+        $square_filepath = WWW_ROOT.'uploads/'.$img_id.'_square.'.$ext;
+        $medium_square_filepath = WWW_ROOT.'uploads/'.$img_id.'_medium_square.'.$ext;
+        $large_square_filepath = WWW_ROOT.'uploads/'.$img_id.'_large_square.'.$ext;
+        copy($filepath, $square_filepath);
+        copy($filepath, $medium_square_filepath);
+        copy($filepath, $large_square_filepath);
+        // TODO: keep aspect ratio but make widht and hegiht the same
+        $this->Image->resizeImg($square_filepath, 50); // TODO: keep aspect ratio
+        $this->Image->resizeImg($medium_square_filepath, 100); // TODO: keep aspect ratio
+        $this->Image->resizeImg($large_square_filepath, 150); // TODO: keep aspect ratio
+
+        $this->User->setAvatar($this->Auth->user('id'), $filename);
         $user = $this->User->read(null, $this->Auth->user('id'));
-        $_SESSION['Auth']['User'] = $user['User']; //actualizar la url del avatar en la secio
-        $this->set(compact('img_url'));
+        $_SESSION['Auth']['User'] = $user['User']; //actualizar la url del avatar en la sección
+        $this->set('img_url', '/uploads/'.$img_id.'_medium_square.'.$ext);
     }
 
     function activate($token) {

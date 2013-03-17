@@ -56,6 +56,10 @@ class Exchange extends AppModel {
         'Comment' => array(
             'className' => 'ExchangeComment',
             'foreignKey' => 'exchange_id'
+        ),
+        'Photo' => array(
+            'className' => 'ExchangePhoto',
+            'foreignKey' => 'exchange_id'
         )
     );
     
@@ -99,24 +103,6 @@ class Exchange extends AppModel {
         return true;
 	}
 
-	function addPhoto($eid, $data, $current_user) {
-		$e = $this->findById($eid);
-
-		if ($e['Exchange']['user_id'] != $current_user) {
-			$this->log("User ${$current_user} trying to add photos to exchange with id = ${$eid}. Denied");
-			return false;
-		}
-
-		if (!$e['Exchange']['photos'] || count($e['Exchange']['photos']) == 0) {
-			$data['default_photo'] = 1;
-		}
-
-		$data = json_encode($data);
-		return $this->execute(new MongoCode(
-				"db.exchanges.update({_id:ObjectId('$eid')},{\$push:{photos:$data}},true,false)"
-		));
-	}
-
 	function setDefaultPhoto($eid, $pid, $current_user) {
 		$e = $this->findById($eid);
 
@@ -125,14 +111,9 @@ class Exchange extends AppModel {
 			return false;
 		}
 
-		foreach ($e['Exchange']['photos'] as &$photo) {
-			if ($photo['id'] == $pid) {
-				$photo['default'] = 1;
-			} else {
-				$photo['default'] = 0;
-			}
-		}
-		return $this->save($e);
+        $this->Photo->updateAll(array('is_default' => 0), array('exchange_id' => $eid));
+        $this->Photo->id = $pid;
+        $this->Photo->save(array('is_default' => 1));
 	}
 
 	function deletePhoto($eid, $pid, $current_user) {

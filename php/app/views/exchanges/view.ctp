@@ -79,7 +79,7 @@ function shareExchange() {
     <?php
         $avatar_url = '/img/default_avatar.png';
         if(isset($owner['User']['avatar'])){
-            $avatar_url = $owner['User']['avatar']['small']['url'];
+            $avatar_url = $this->Exchange->imageUrl($owner['User']['avatar'], 'medium_square');
         }
         $avatar =  $this->Html->image($avatar_url,array('style'=>"width: 50px; height: 50px;"));
         echo $this->Html->link($avatar,array('controller'=>'users','action'=>'view',$owner['User']['id']),array('escape'=>false,"style"=>"float:left;50px; margin-right: 5px;"))
@@ -215,26 +215,27 @@ function shareExchange() {
 
     <div class="clear"> </div>
 
-    <?php if(!empty($exchange['Exchange']['photos'])){ ?>
+    <?php if(!empty($exchange['Photo'])){ ?>
+       <!-- Solo para testear -->
      <script type="text/javascript">
          $(document).ready(function(){
             var data = [
                 // Creamos un div exterior para poder extraerle el HTML. Por eso hay dos divs, pero el resultado devuelve sólo uno!
                 // Generé el HTML con JQuery porque me pareció mas prolijo que poner texto todo escapado.
                 <?php $i = 1;  
-                foreach ($exchange['Exchange']['photos'] as $photo) { ?>
+                foreach ($exchange['Photo'] as $photo) { ?>
                     {
                         content: $('<div>').append(
                             $('<div>').attr('class', 'slide_inner').append(
-                                $('<a>').attr('class','photo_link').attr('href','javascript:viewPhoto("<?php echo $photo['small']['url'] ?>", "<?php echo "carouselImage$i" ?>");').append(
-                                    $('<img>').attr('src', '<?php echo $photo['small']['url'] ?>').attr('class','photo').attr('id', '<?php echo "carouselImage$i" ?>')
+                                $('<a>').attr('class','photo_link').attr('href','javascript:viewPhoto("<?php echo $this->Exchange->imageUrl($photo['file_name'], 'small'); ?>", "<?php echo "carouselImage$i" ?>");').append(
+                                    $('<img>').attr('src', '<?php echo $this->Exchange->imageUrl($photo['file_name'], 'small') ?>').attr('class','photo').attr('id', '<?php echo "carouselImage$i" ?>')
                             )).append(
                                 $('<a>').attr('href', '#').attr('class', 'caption').text('descripcion')
                             )
                         ).html(),
                         content_button: $('<div>').append(
                             $('<div>').attr('class', 'thumb').append(
-                                $('<img>').attr('src', '<?php echo $photo['square']['url'] ?>').attr('alt', 'thumb'))
+                                $('<img>').attr('src', '<?php echo $this->Exchange->imageUrl($photo['file_name'], 'square'); ?>').attr('alt', 'thumb'))
                             .append(
                                 $('<p>').text('Foto <?php echo $i ?>')
                             )
@@ -277,9 +278,9 @@ function shareExchange() {
                     <?php
                         $avatar_url = '/img/default_avatar.png';
                         if(isset($comment['User']['avatar'])){
-                            $avatar_url = $comment['User']['avatar']['small']['url'];
+                            $avatar_url = $this->Exchange->imageUrl($comment['User']['avatar'], 'square');
                         }
-                        $avatar =  $this->Html->image($avatar_url,array('style'=>"width: 50px; height: 50px;"));
+                        $avatar =  $this->Html->image($avatar_url, array('style'=>"width: 50px; height: 50px;"));
                         echo $this->Html->link($avatar,array('controller'=>'users','action'=>'view',$comment['user_id']),array('escape'=>false))
                     ?>
                 </div>

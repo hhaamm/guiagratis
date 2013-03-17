@@ -105,17 +105,23 @@ class User extends AppModel {
                 return !empty($user);
         }
 
-        function setAvatar($image,$uid){
-                $user = $this->findById($uid);
-                if(isset($user['User']['avatar']) && !empty($user['User']['avatar']) ){
-                        foreach(array('small','medium','large') as $size ){
-                                unlink($user['User']['avatar'][$size]['file_path']);
-                        }
+        function setAvatar($uid, $originalImage){            
+            $user = $this->findById($uid);
+            if(!empty($user['User']['avatar']) ){
+                $pathinfo = pathinfo($user['User']['avatar']);
+                // TODO: obtener configuración de imágenes del core.php
+                // TODO: obtener un código genérico del core.php
+                $sizes = array('square', 'medium_square', 'large_square');
+                foreach($sizes as $size) {
+                    $filename = WWW_ROOT.'uploads/'.$pathinfo['filename'].'_'.$size.'.'.$pathinfo['extension'];
+                    if (file_exists($filename)) {
+                        unlink($filename);
+                    }
                 }
-                $image = json_encode($image);
-                return $this->execute(new MongoCode(
-                                              "db.users.update({_id:ObjectId('$uid')},{\$set:{avatar:$image}},true,false)"
-                                              ));
+            }
+            
+            $this->id = $uid;
+            return $this->saveField('avatar', $originalImage);
         }
 
         function updateNotifications($uid,$notifications){

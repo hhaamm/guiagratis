@@ -20,7 +20,7 @@
      <?php
      $avatar_url = '/img/default_avatar.png';
      if(isset($user['User']['avatar']) && !empty($user['User']['avatar']) ){
-      $avatar_url =  $user['User']['avatar']['large']['url'];
+         $avatar_url =  $this->Exchange->imageUrl($user['User']['avatar'], 'large_square');
      }
      echo $this->Html->image($avatar_url) ?> <br/>
      <?php echo $user['User']['username'] ?>
@@ -89,7 +89,7 @@
   if(!empty($exchanges)){
     foreach($exchanges as $e) { ?>
         <div  style="margin: 10px 0px;">
-            <?php echo   $this->Html->link($this->Exchange->defaultPhoto($e),array('action'=>'view','controller'=>'exchanges',$e['Exchange']['id']),array('escape'=>false , 'style' => 'float:left;margin-right: 10px;')) ?>
+            <?php echo $this->Html->link($this->Exchange->defaultPhoto($e), array('action'=>'view','controller'=>'exchanges', $e['Exchange']['id']), array('escape'=>false , 'style' => 'float:left;margin-right: 10px;')) ?>
             <div style="float: left;">
              <p><?php echo Configure::read('ExchangeType.Names.'.$e['Exchange']['exchange_type_id']); ?>  - publicado  <?php echo $this->Time->timeAgoInWords($e['Exchange']['created'])?></p>
              <?php echo $this->Html->link($e['Exchange']['title'],array('action'=>'view','controller'=>'exchanges',$e['Exchange']['id']),array('class'=>'exchange-view-link'))?>
@@ -103,6 +103,4 @@
 ?>
 
 <br/>
-<br/>
-    
-<?php #Debugger::dump($user['User']); ?>
+<br/>   

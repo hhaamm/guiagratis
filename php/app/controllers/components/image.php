@@ -74,10 +74,10 @@ class ImageComponent extends Object {
     }
 
     function resizeImg($imgname, $size) {
-	$thumb=new thumbnail($imgname);
-	$thumb->size_height($size);
-	$thumb->jpeg_quality(100);
-	$thumb->save($imgname);
+        $thumb=new thumbnail($imgname);
+        $thumb->size_height($size);
+        $thumb->jpeg_quality(100);
+        $thumb->save($imgname);
     }
 }
 

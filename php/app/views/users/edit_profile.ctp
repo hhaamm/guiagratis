@@ -26,14 +26,15 @@
 <div style="float: left;margin-left: 130px;">
     <?php
       $avatar_url = '/img/default_avatar.png';
-      if(isset($current_user['User']['avatar']['medium']['url']) && !empty($current_user['User']['avatar']['medium']['url']) ){
-        $avatar_url = $current_user['User']['avatar']['medium']['url'];
+      if(!empty($current_user['User']['avatar'])){
+          $avatar_url = $this->Exchange->imageUrl($current_user['User']['avatar'], 'medium_square');
       }
-      echo $this->Html->image($avatar_url,array('style'=>"width: 100px; height: 100px;","id"=>"avatar"));
+      // TODO: move this to CSS
+      echo $this->Html->image($avatar_url, array('style'=>"width: 100px; height: 100px;", "id"=>"avatar"));
     ?>
 </div>
 <div style="float: left;margin-top: 15px;">
-  <?php  echo $this->element('image_uploader',array('prefix'=>'user_avatar','id'=>$current_user['User']['id'],'url'=>'/users/change_avatar','image_id'=>"avatar")) ?>
+    <?php  echo $this->element('image_uploader',array('prefix'=>'user_avatar','id'=>$current_user['User']['id'], 'url'=>'/users/change_avatar','image_id'=>"avatar")) ?>
 </div>
 
 <?php

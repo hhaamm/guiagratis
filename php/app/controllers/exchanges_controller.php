@@ -21,12 +21,13 @@
 
 class ExchangesController extends AppController {
     var $uses = array('Exchange', 'User', 'ExchangeComment');
-    var $components = array('Geo', 'Email', 'Upload','RequestHandler');
+    var $components = array('Geo', 'Email', 'Upload','RequestHandler', 'Image');
     var $helpers = array('Exchange', 'User', 'Html', 'Text');
     var $paginate = array(
         'Exchange'=>array(
             'order'=>array('created'=>-1),
-            'limit'=>26
+            'limit'=>26,
+            'contain' => array('User', 'Photo')
         )
     );
 
@@ -112,18 +113,18 @@ class ExchangesController extends AppController {
                 foreach($this->data['Filter']['exchange_type'] as $type) {
                     $types[] = (int)$type;
                 }
-                $conditions['exchange_type_id'] = array('$in'=>$types);
+                $conditions['exchange_type_id'] = $types;
             }
             $query = $this->data['Filter']['query'];
             
             if (!empty($query)) {
-                $conditions['$or'] = array(
-                    array('tags'=>array('$regex'=> new MongoRegex('/'.$query.'/i'))),
-                    array('title'=>array('$regex'=> new MongoRegex('/'.$query.'/i'))),
-                    array('detail'=>array('$regex'=> new MongoRegex('/'.$query.'/i'))),
-                    array('country'=>array('$regex'=> new MongoRegex('/'.$query.'/i'))),
-                    array('province'=>array('$regex'=> new MongoRegex('/'.$query.'/i'))),
-                    array('locality'=>array('$regex'=> new MongoRegex('/'.$query.'/i'))),
+                $conditions['or'] = array(
+                    array('Exchange.tags LIKE' =>'%'.$query.'%'),
+                    array('Exchange.title LIKE'=> '%'.$query.'%'),
+                    array('Exchange.detail LIKE' => '%'.$query.'%'),
+                    array('Exchange.country LIKE' =>'%'.$query.'%'),
+                    array('Exchange.province LIKE' =>'%'.$query.'%'),
+                    array('Exchange.locality LIKE' =>'%'.$query.'%'),
                 );
             }
 
@@ -133,7 +134,7 @@ class ExchangesController extends AppController {
             if ($this->Session->check('SearchFilter')) {
                 $conditions = $this->Session->read('SearchFilter.conditions');
                 $types = $this->Session->read('SearchFilter.types');
-                $query = $this->Session->read('SearchFilter.query');
+                $query = $this->Session->read('SearchFilter.query');                
             } else {
                 // valores por default para los filtros
                 $types = array(1,2,3,4);
@@ -150,7 +151,7 @@ class ExchangesController extends AppController {
             );
         }
 
-        $this->Exchange->recursive = 1;
+//        $this->Exchange->recursive = 1;
         $exchanges = $this->paginate('Exchange', $conditions);
 
         $this->set(compact('exchanges'));
@@ -185,7 +186,6 @@ class ExchangesController extends AppController {
                 $country = $address[0];
                 $level = 0;
             }
-
         }
 
         echo json_encode(compact('country', 'province', 'locality'));
@@ -292,7 +292,7 @@ class ExchangesController extends AppController {
     }
 
     function view($id) {
-        $this->Exchange->contain(array('Comment' => array('User')));
+        $this->Exchange->contain(array('Comment' => array('User'), 'Photo'));
         $exchange = $this->Exchange->read(null, $id);        
         $owner = $this->User->findById($exchange['Exchange']['user_id']);
 
@@ -338,16 +338,6 @@ class ExchangesController extends AppController {
                 'year' => date('Y', $this->data['Exchange']['start_date']->sec),
                 'month' => date('m', $this->data['Exchange']['start_date']->sec),
                 'day' => date('d', $this->data['Exchange']['start_date']->sec)
-            );
-        }
-        if(isset($this->data['Exchange']['end_date'])){
-            $this->data['Exchange']['end_date'] = array(
-                'hour' => date('H', $this->data['Exchange']['end_date']->sec),
-                'min' => date('i', $this->data['Exchange']['end_date']->sec),
-                'sec' => date('s', $this->data['Exchange']['end_date']->sec),
-                'year' => date('Y', $this->data['Exchange']['end_date']->sec),
-                'month' => date('m', $this->data['Exchange']['end_date']->sec),
-                'day' => date('d', $this->data['Exchange']['end_date']->sec)
             );
         }
         $this->set('start_point', array('latitude' => $this->data['Exchange']['lat'], 'longitude' => $this->data['Exchange']['lng']));
@@ -412,6 +402,7 @@ class ExchangesController extends AppController {
         if (!$exchange_id) {
             $this->getBack("URL inválida");
         }
+        $this->Exchange->contain('Photo');
         $e = $this->Exchange->read(null, $exchange_id);
 
         if ($this->_cantEditExchange($e)) {
@@ -424,17 +415,56 @@ class ExchangesController extends AppController {
     }
 
     function add_photo() {
-        $this->autoLayout = false;
-        $result = $this->Upload->images(array('images' => array(
-            'square' => array('width' => 50, 'height' => 50, 'keep_aspect_ratio' => true),
-            'small' => array('width' => 500, 'keep_aspect_ratio' => true)
-        ),
-                                              'dest_path' => WWW_ROOT . 'uploads',
-                                              'file_field' => 'photo'));
+        $this->autoLayout = false;        
+
+        $this->Exchange->contain('Photo');
+        $e = $this->Exchange->findById($this->data['Photo']['exchange_id']);
+
+		if ($e['Exchange']['user_id'] != $this->uid) {
+			$this->log("User {$this->uid} trying to add photos to exchange with id = ${$eid}. Denied");
+			return false;
+		}
+
+        if (!$_FILES) {
+            die("No files uploaded");
+        }
+
+        //move_uploaded_file
         $img_id = uniqid(null, true);
-        $this->Exchange->addPhoto($this->data['Photo']['eid'], array('id' => $img_id, 'square' => $result['square'], 'small' => $result['small']), $this->uid);
-        $img_url = $result['square']['url'];
-        $this->set(compact('img_url', 'img_id'));
+        $ext = pathinfo($_FILES['photo']['name'], PATHINFO_EXTENSION);
+        // TODO: check they are not uploading .exe, .sh, etc. files
+        $file_name = $img_id.'.'.$ext;
+        $filepath = WWW_ROOT.'uploads/'.$file_name;
+        if (!move_uploaded_file($_FILES['photo']['tmp_name'], $filepath)) {
+            die("Hubo un error al subir la imágen");
+        }
+
+        // TODO: put all this config in core.php
+        $square_filepath = WWW_ROOT.'uploads/'.$img_id.'_square.'.$ext;
+        $small_filepath = WWW_ROOT.'uploads/'.$img_id.'_small.'.$ext;
+        copy($filepath, $square_filepath);
+        copy($filepath, $small_filepath);
+        $this->Image->resizeImg($square_filepath, 50); // TODO: keep aspect ratio
+        $this->Image->resizeImg($small_filepath, 500); // TODO: keep aspect ratio
+
+        // TODO: make a helper for photos
+
+		if (empty($e['Photo'])) {
+			$this->data['Photo']['is_default'] = 1;
+		}
+        $this->data['Photo']['file_name'] = $file_name;
+
+        if ($this->Exchange->Photo->save($this->data)) {
+            $img_url = '/uploads/'.$file_name;
+            $img_id = $file_name;
+            $this->set(compact('img_url', 'img_id'));
+        } else {
+            // move to view?
+            foreach($this->Exchange->Photo->validationErrors as $field => $error) {
+                echo $field.': '.$error.'<br/>';
+            }
+            die();
+        }
     }
 
     function set_default_photo($eid, $pid) {
@@ -446,7 +476,10 @@ class ExchangesController extends AppController {
     function delete_photo($eid, $pid) {
         $this->autoRender = false;
 
-        $result = $this->Exchange->deletePhoto($eid, $pid, $this->uid);
+        // TODO: delete original, small and square, if they exists
+        $this->Exchange->Photo->delete($pid);
+
+        // TODO: handle default photo (set another default photo)
         $this->redirect('/exchanges/edit_photos/' . $eid);
     }
 
