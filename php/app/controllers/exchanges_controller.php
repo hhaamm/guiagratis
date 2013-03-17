@@ -20,7 +20,7 @@
  */
 
 class ExchangesController extends AppController {
-    var $uses = array('Exchange', 'User');
+    var $uses = array('Exchange', 'User', 'ExchangeComment');
     var $components = array('Geo', 'Email', 'Upload','RequestHandler');
     var $helpers = array('Exchange', 'User', 'Html', 'Text');
     var $paginate = array(
@@ -292,15 +292,9 @@ class ExchangesController extends AppController {
     }
 
     function view($id) {
-        $exchange = $this->Exchange->read(null, $id);
+        $this->Exchange->contain(array('Comment' => array('User')));
+        $exchange = $this->Exchange->read(null, $id);        
         $owner = $this->User->findById($exchange['Exchange']['user_id']);
-
-        if (isset($exchange['Exchange']['comments'])) {
-            foreach ($exchange['Exchange']['comments'] as $i => $comment) {
-                $comment_owner = $this->User->findById($comment['user_id']);
-                $exchange['Exchange']['comments'][$i]['user'] = $comment_owner['User'];
-            }
-        }
 
         $title_for_layout = $exchange['Exchange']['title'];
 
@@ -360,15 +354,11 @@ class ExchangesController extends AppController {
     }
 
     function add_comment() {
-        $eid = $this->data['Exchange']['id'];
-        $comment = array(
-            'text' => $this->data['Exchange']['comment'],
-            'user_id' => $this->Auth->user('id'),
-            'username' => $this->Auth->user('username'),
-            'created' => time()
-        );
-        if ($this->Exchange->addComment($eid, $comment)) {
-            $exchange = $this->Exchange->findById($eid);
+        $this->data['ExchangeComment']['user_id'] = $this->Auth->user('id');        
+        
+        if ($this->ExchangeComment->save($this->data)) {
+            /*
+            $exchange = $this->Exchange->findById($this->data['ExchangeComment']['exchange_id']);
             $creator = $this->User->findById($exchange['Exchange']['user_id']);
             //checkeamos que no sea el mismo usuario el que se auto-responde y que quiera notificaciones.
             if ($creator['User']['id'] != $this->Auth->user('id')) {
@@ -377,12 +367,17 @@ class ExchangesController extends AppController {
                     $this->set(compact('eid'));
                     $this->sendMail($creator['User']['mail'], 'Alguien comentó tu artículo en Guia Gratis', 'comment_notification');
                 }
-                $this->User->notifyComment($this->Auth->user(),$exchange);
+                
             }
+            $this->User->notifyComment($this->Auth->user(),$exchange);
+            */
             $this->getBack("Tu comentario ha sido añadido", 'flash_success');
         } else {
-            $this->getBack("Hubo un error al agregar el comentario", 'flash_failure');
-        }
+            foreach ($this->ExchangeComment->validationErrors as $field => $error) {
+                $this->Session->setFlash($field.': '.$error, 'flash_failure');
+            }
+            $this->getBack();
+        }       
     }
 
     function remove_comment($eid, $i) {

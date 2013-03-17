@@ -52,6 +52,12 @@ class Exchange extends AppModel {
 	);
 
     var $belongsTo = array('User');
+    var $hasMany = array(
+        'Comment' => array(
+            'className' => 'ExchangeComment',
+            'foreignKey' => 'exchange_id'
+        )
+    );
     
     var $validate = array(
         'title'=>array(
