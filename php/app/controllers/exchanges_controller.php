@@ -25,7 +25,7 @@ class ExchangesController extends AppController {
     var $helpers = array('Exchange', 'User', 'Html', 'Text');
     var $paginate = array(
         'Exchange'=>array(
-            'order'=>array('created'=>-1),
+            'order'=> 'created DESC',
             'limit'=>26,
             'contain' => array('User', 'Photo')
         )
@@ -96,7 +96,7 @@ class ExchangesController extends AppController {
     function lista() {
         $options = array(
             'limit' => 40,
-            'order' => array('created' => -1),
+            'order' => 'created DESC',
             'page' => 1,
             'conditions' => array(
                 'state' => EXCHANGE_PUBLISHED
@@ -151,7 +151,6 @@ class ExchangesController extends AppController {
             );
         }
 
-//        $this->Exchange->recursive = 1;
         $exchanges = $this->paginate('Exchange', $conditions);
 
         $this->set(compact('exchanges'));

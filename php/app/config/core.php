@@ -375,3 +375,5 @@ Configure::write('Facebook', array(
 	'app_id'=>'454179081260638',
 	'app_secret'=>'0e51f421866154358f1f915ca3875208'
 ));
+
+Configure::write('Migration.enabled', true);
