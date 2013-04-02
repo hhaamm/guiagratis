@@ -39,11 +39,12 @@
 	function add_photo(img_src, photo_id) {
 		var html = "<li id=''>";
 		html += "<input type='hidden' name='photo[]' value='"+img_src+"'>";
-		html += "<img src='"+img_src+"'>";
+        // TODO: no hardcodear esto, hacerlo fixed con el resize de imágenes
+		html += "<img src='"+img_src+"' width='50'>";
 		html += "";
-		html += "<a href='/exchanges/set_default_photo/<?= $eid?>/"+photo_id+"'>Marcar como predeterminada</a>"
+		html += "<a href='/exchanges/set_default_photo/<?= $exchange_id?>/"+photo_id+"'>Marcar como predeterminada</a>"
 		html += " | ";
-		html += "<a href='/exchanges/delete_photo/<?= $eid?>/"+photo_id+"'>Borrar foto</a>"
+		html += "<a href='/exchanges/delete_photo/<?= $exchange_id?>/"+photo_id+"'>Borrar foto</a>"
 		html += "</li>";
 
 		$('#exchange-photo-list').append(html);
@@ -60,7 +61,7 @@ echo $this->Form->input('photo',array(
 	'name'=>'photo'
 ));
 echo $this->Form->hidden('prefix',array('default'=>$prefix));
-echo $this->Form->hidden('eid',array('default'=>$eid));
+echo $this->Form->hidden('exchange_id',array('default'=>$exchange_id));
 echo $this->Form->end();
 
 ?>
@@ -71,16 +72,17 @@ echo $this->Form->end();
 ?>
 <ul id="exchange-photo-list" class="exchange-photo-list">
 	<?php
-	if (isset($e['Exchange']['photos'])) {
-	foreach ($e['Exchange']['photos'] as $photo) { ?>
+	if (isset($e['Photo'])) {
+	foreach ($e['Photo'] as $photo) { ?>
 	<li>
-		<img alt="exchange_photo" src='<?= $photo['square']['url']?>'>
-		<?php if (@!$photo['default']) { ?>
-			<a href="/exchanges/set_default_photo/<?= $eid?>/<?=$photo['id']?>">Marcar como predeterminada</a> |
+        <!-- TODO: no hardcodear el width -->
+		<img alt="exchange_photo" src='/uploads/<?= $photo['file_name']?>' width="50">
+		<?php if (@!$photo['is_default']) { ?>
+			<a href="/exchanges/set_default_photo/<?= $exchange_id?>/<?=$photo['id']?>">Marcar como predeterminada</a> |
 		<?php } else {
 			echo "Foto predeterminada";
 		} ?>
-		<a href="/exchanges/delete_photo/<?= $eid?>/<?=$photo['id']?>">Borrar foto</a>
+		<a href="/exchanges/delete_photo/<?= $exchange_id?>/<?=$photo['id']?>">Borrar foto</a>
 	</li>
 	<?php }} ?>
 </ul>

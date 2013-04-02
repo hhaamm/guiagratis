@@ -19,14 +19,14 @@
  */
 ?>
 <div>
-	<h3><?php echo $conversation['Conversation']['title']?></h3>
+	<h3><?php echo $conversation[0]['Message']['title']?></h3>
 
 	<ul>
-	<?php foreach ($conversation['Conversation']['messages'] as $message) { ?>
+	<?php foreach ($conversation as $message) { ?>
 
 		<li>
-            <div><?php echo $this->Html->link($message['from_data']['username'],array('controller'=>'users','action'=>'view',$message['from_data']['_id']),array('style'=>'text-decoration:none'))." (".$this->Time->timeAgoInWords($message['created']).")" ?></div>
-			<p><?php echo $message['text']?></p>
+            <div><?php echo $this->Html->link($message['Sender']['username'],array('controller'=>'users','action'=>'view', $message['Sender']['id']),array('style'=>'text-decoration:none'))." (".$this->Time->timeAgoInWords($message['Message']['created']).")" ?></div>
+			<p><?php echo $message['Message']['detail']?></p>
 		</li>
 
 	<?php }	?>
@@ -35,9 +35,10 @@
 	<fieldset>
 		<legend>Responder</legend>
 		<?php
-			echo $this->Form->create('Conversation',array('action'=>'answer'));
-			echo $this->Form->hidden('_id',array('default'=>$conversation['Conversation']['_id']));
-			echo $this->Form->input('text',array('label'=>'Mensaje','type'=>'textarea'));
+			echo $this->Form->create('Message',array('action'=>'answer', 'url' => '/conversations/answer'));
+			echo $this->Form->input('detail', array('label'=>'Mensaje','type'=>'textarea'));
+            echo $this->Form->hidden('receiver_id');
+            echo $this->Form->hidden('thread_id');
 			echo $this->Form->end('Responder');
 		?>
 	</fieldset>

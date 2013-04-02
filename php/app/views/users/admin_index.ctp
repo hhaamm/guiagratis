@@ -24,7 +24,7 @@
                 <td><?php echo $user['User']['active'] ? "Si" : "No" ?></td>
                 <td><?php echo $user['User']['admin'] ? "Si" : "No" ?></td>
                 <td>
-                    <?php echo $this->Html->link('Detalle', array('action'=>'view', $user['User']['_id'])) ?>
+                    <?php echo $this->Html->link('Detalle', array('action'=>'view', $user['User']['id'])) ?>
                 </td>
             </tr>
         <?php } ?>

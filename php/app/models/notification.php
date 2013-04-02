@@ -17,14 +17,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * 
  */
-?>
-<fieldset>
-	<legend>Enviar mensaje privado</legend>
-	<?php
-      echo $this->Form->create('Message', array('url' => '/conversations/add'));
-      echo $this->Form->hidden('receiver_id');
-      echo $this->Form->input('title', array('label'=>'Título'));
-      echo $this->Form->input('detail', array('label'=>'Mensaje','type'=>'textarea'));
-      echo $this->Form->end('Enviar mensaje');
-	?>
-</fieldset>
+class Notification extends AppModel {
+    var $belongsTo = array('User');
+    var $hasMany = array(
+        'Link' => array(
+            'className' => 'NotificationLink',
+            'foreignKey' => 'notification_id',
+        )
+    );
+}

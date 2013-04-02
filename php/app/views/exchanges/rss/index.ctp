@@ -15,7 +15,7 @@ foreach ($exchanges as $entry) {
     $entryLink = array(
         'controller' => 'exchanges',
         'action' => 'view',
-        $entry['Exchange']['_id']);
+        $entry['Exchange']['id']);
     // deberías importar Sanitize
     App::import('Sanitize');
     // Acá es donde se limpia el cuerpo del texto para la salida como la descripción

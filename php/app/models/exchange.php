@@ -51,7 +51,17 @@ class Exchange extends AppModel {
 		'locality'=>array('type'=>'string')
 	);
 
-    
+    var $belongsTo = array('User');
+    var $hasMany = array(
+        'Comment' => array(
+            'className' => 'ExchangeComment',
+            'foreignKey' => 'exchange_id'
+        ),
+        'Photo' => array(
+            'className' => 'ExchangePhoto',
+            'foreignKey' => 'exchange_id'
+        )
+    );
     
     var $validate = array(
         'title'=>array(
@@ -93,24 +103,6 @@ class Exchange extends AppModel {
         return true;
 	}
 
-	function addPhoto($eid, $data, $current_user) {
-		$e = $this->findById($eid);
-
-		if ($e['Exchange']['user_id'] != $current_user) {
-			$this->log("User ${$current_user} trying to add photos to exchange with id = ${$eid}. Denied");
-			return false;
-		}
-
-		if (!$e['Exchange']['photos'] || count($e['Exchange']['photos']) == 0) {
-			$data['default_photo'] = 1;
-		}
-
-		$data = json_encode($data);
-		return $this->execute(new MongoCode(
-				"db.exchanges.update({_id:ObjectId('$eid')},{\$push:{photos:$data}},true,false)"
-		));
-	}
-
 	function setDefaultPhoto($eid, $pid, $current_user) {
 		$e = $this->findById($eid);
 
@@ -119,14 +111,9 @@ class Exchange extends AppModel {
 			return false;
 		}
 
-		foreach ($e['Exchange']['photos'] as &$photo) {
-			if ($photo['id'] == $pid) {
-				$photo['default'] = 1;
-			} else {
-				$photo['default'] = 0;
-			}
-		}
-		return $this->save($e);
+        $this->Photo->updateAll(array('is_default' => 0), array('exchange_id' => $eid));
+        $this->Photo->id = $pid;
+        $this->Photo->save(array('is_default' => 1));
 	}
 
 	function deletePhoto($eid, $pid, $current_user) {
@@ -179,44 +166,48 @@ class Exchange extends AppModel {
 	}
     
     function beforeSave() {
+        // TODO: pasar a tabla intermedia
+        /*
         $this->data['Exchange']['tags'] = explode(',', $this->data['Exchange']['tags']);
         foreach ($this->data['Exchange']['tags'] as &$tag) {
             $tag = trim($tag);  
         }
+        */
+
         //guardamos la fecha en un formato entendible
         if (isset($this->data['Exchange']['start_date']) && is_array($this->data['Exchange']['start_date'])) {
-            $this->data['Exchange']['start_date'] = new MongoDate(mktime(
+            $this->data['Exchange']['start_date'] = mktime(
                     $this->data['Exchange']['start_date']['hour'],
                     $this->data['Exchange']['start_date']['min'],
                     $this->data['Exchange']['start_date']['sec'],
                     $this->data['Exchange']['start_date']['month'],
                     $this->data['Exchange']['start_date']['day'],
                     $this->data['Exchange']['start_date']['year']
-            ));
+            );
         }
         if (isset($this->data['Exchange']['end_date']) && is_array($this->data['Exchange']['end_date'])) {
-            $this->data['Exchange']['end_date'] = new MongoDate(mktime(
+            $this->data['Exchange']['end_date'] = mktime(
                 $this->data['Exchange']['end_date']['hour'],
                 $this->data['Exchange']['end_date']['min'],
                 $this->data['Exchange']['end_date']['sec'],
                 $this->data['Exchange']['end_date']['month'],
                 $this->data['Exchange']['end_date']['day'],
                 $this->data['Exchange']['end_date']['year']
-            ));
+            );
         }
         
         return true;
     }
     
     function afterFind($results, $primary) {
-	    if (count($results) == 1 && isset($results[0]['Exchange']['count'])) {
+	    if (count($results) == 1 && isset($results[0][0]['count'])) {
 		    // la consulta es un count
 		    return $results;
 	    }
 
        if($results!=null){
         foreach($results as $key => &$result) {
-            $result['Exchange']['tags'] = implode(', ', $result['Exchange']['tags']);
+//            $result['Exchange']['tags'] = implode(', ', $result['Exchange']['tags']);
             
             if ($this->catchFinalizedEvents && $result['Exchange']['exchange_type_id'] == EXCHANGE_EVENT
                     && $result['Exchange']['end_date']->sec < time() && $result['Exchange']['state'] != EXCHANGE_FINALIZED) {

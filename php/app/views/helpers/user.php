@@ -20,7 +20,7 @@ class UserHelper extends AppHelper {
     var $helpers = array('Html');
 
     function link($user) {
-        return $this->Html->link($user['User']['username'], '/users/profile/'.$user['User']['_id']);
+        return $this->Html->link($user['User']['username'], '/users/profile/'.$user['User']['id']);
     }
 
     // corta el nombre de usuario si este es demasiado largo

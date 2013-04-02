@@ -74,7 +74,7 @@ class GeoComponent extends Object {
     //If cache is enabled, this function is really fast
     function localizeFromIpTwo() {
         //TODO: revisar este método
-        //return Configure::read('GoogleMaps.DefaultPoint');
+        return Configure::read('GoogleMaps.DefaultPoint');
         $ip = $this->findIp();
 
         if (Cache::read($this->ipCacheKey($ip))) {
@@ -95,8 +95,9 @@ class GeoComponent extends Object {
             $url .= "&output=json";
             $url .= "&key=".Configure::read('GoogleMap.ApiKey');
             $obj = $this->getJSON($url);
+            var_dump($obj);
             Cache::write($this->locationCacheKey($gmap_query), $obj);
-        } 
+        }
 
         $lat= $obj->Placemark[0]->Point->coordinates[1];
         $lng= $obj->Placemark[0]->Point->coordinates[0];

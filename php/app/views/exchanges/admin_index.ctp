@@ -29,7 +29,7 @@
                 <td><?php echo $exchange['Exchange']['state'] ?></td>
                 <td><?php echo isset($exchange['Exchange']['comments']) ? count($exchange['Exchange']['comments']) : 0 ?></td>
                 <td><?php echo date('Y-m-d', $exchange['Exchange']['created']); ?></td>
-                <td><?php echo $this->Html->link('Ver', array('controller'=>'exchanges', 'action'=>'view', 'admin'=>false, $exchange['Exchange']['_id'])); ?></td>
+                <td><?php echo $this->Html->link('Ver', array('controller'=>'exchanges', 'action'=>'view', 'admin'=>false, $exchange['Exchange']['id'])); ?></td>
             </tr>
         <?php } ?>
     </tbody>

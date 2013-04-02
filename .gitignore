@@ -1,3 +1,2 @@
-code/web/nbproject/*
-code/web/app/webroot/uploads/*
-code/web/app/config/override/*.php
+php/app/webroot/uploads/*
+php/app/config/override/*.php

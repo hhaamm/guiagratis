@@ -17,7 +17,7 @@ echo $this->Form->end('Filtrar');
 <ul id="exchanges">
 <?php foreach ($exchanges as $e) { ?>
         <li>
-	<h3><?php echo $this->Html->link($e['Exchange']['title'], '/exchanges/view/'.$e['Exchange']['_id']); ?></h3>
+	<h3><?php echo $this->Html->link($e['Exchange']['title'], '/exchanges/view/'.$e['Exchange']['id']); ?></h3>
 	 <?php 
 	 if ($this->Exchange->defaultPhotoUrl($e)) {
 		 echo $this->Exchange->defaultPhoto($e); 
@@ -27,14 +27,14 @@ echo $this->Form->end('Filtrar');
 		  <span class="tipo "><strong><?php echo Configure::read('ExchangeType.Names.'.$e['Exchange']['exchange_type_id']); ?></strong></span> 
 		  <span class=""><?= $this->Exchange->ubicacion($e); ?></span>
 		  </p>
-<p class="datos-adicionales">Publicado <?php echo $this->Time->timeAgoInWords($e['Exchange']['created'])?> por <?= $this->Html->link($e['Exchange']['username'], array('controller'=>'users', 'action'=>'view', $e['Exchange']['user_id'])) ?></p>
+<p class="datos-adicionales">Publicado <?php echo $this->Time->timeAgoInWords($e['Exchange']['created'])?> por <?= $this->Html->link($e['User']['username'], array('controller'=>'users', 'action'=>'view', $e['Exchange']['user_id'])) ?></p>
 		 <?php // mejorar para no cortar palabras, y agregar ... ?>
 		 <p class="exchange-detail">
 		 <?php echo strip_tags($e['Exchange']['detail']); ?>
 		 </p>
 <div class="links">
 		 <?php echo $this->Html->link('+enviar mensaje', array('controller'=>'conversations', 'action'=>'add', $e['Exchange']['user_id'])); ?>
-		 <?php echo $this->Html->link('+comentar', array('controller'=>'exchanges', 'action'=>'view', $e['Exchange']['_id'].'#comment')); ?>
+		 <?php echo $this->Html->link('+comentar', array('controller'=>'exchanges', 'action'=>'view', $e['Exchange']['id'].'#comment')); ?>
 </div>
 	</li>
  <?php } ?>

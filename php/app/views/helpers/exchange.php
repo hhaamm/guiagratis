@@ -19,23 +19,23 @@
 class ExchangeHelper extends AppHelper {
 	var $helpers = array('Html');
 
-	function defaultPhoto($e,$size='square') {
-		$url = $this->defaultPhotoUrl($e,$size);
+	function defaultPhoto($e, $size='square') {
+		$url = $this->defaultPhotoUrl($e, $size);
 		if ($url) {
-			return $this->Html->image($url);
+			return $this->Html->image($url, array('width' => 50, 'height' => 50));
 		} else {
 			return $this->Html->image(DEFAULT_EXCHANGE_PHOTO, array('width'=>50, 'height'=>50));
 		}
 	}
 
 	function defaultPhotoUrl($e, $size = 'square') {
-		if (!isset($e['Exchange']['photos'])) {
+		if (!isset($e['Photo'])) {
 			return false;
 		}
 
-		foreach ($e['Exchange']['photos'] as $photo) {
-			if (@$photo['default']) {
-				return $photo[$size]['url'];
+		foreach ($e['Photo'] as $photo) {
+			if ($photo['is_default']) {
+				return $this->imageUrl($photo['file_name'], $size);
 			}
 		}
 	}
@@ -100,12 +100,7 @@ class ExchangeHelper extends AppHelper {
     
     function is($exchange, $exchange_type_id) {
         return $exchange['Exchange']['exchange_type_id'] == $exchange_type_id;
-    }
-    
-    //formatea una fecha como se guarda en MongoDB en un formato razonable.
-    function date() {
-        
-    }
+    }   
 
     function ubicacion($exchange) {
 	    if (empty($exchange['Exchange']['country']))
@@ -126,6 +121,19 @@ class ExchangeHelper extends AppHelper {
 	    $ubicacion .= ', '.$exchange['Exchange']['locality'];
 	    
 	    return $ubicacion;
+    }
+
+    /**
+     * Toma el nombre de una foto o imágen y la formatea según uno de los formatos.
+     *
+     * @param imgFile Nombre de la imágen original.
+     * @param imgSize Size de la imágen (square, small, etc.) 
+     *
+     * @return String
+     */
+    function imageUrl($imgFile, $imgSize) {
+        $pathinfo = pathinfo($imgFile);
+        return '/uploads/'.$pathinfo['filename'].'_'.$imgSize.'.'.$pathinfo['extension'];
     }
 }
 
