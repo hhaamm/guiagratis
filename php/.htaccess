@@ -1,4 +1,7 @@
 <IfModule mod_rewrite.c>
+    # 000webhost hack
+    RewriteBase /
+
    # Add www to url for Facebook App domain compatibility
    RewriteCond %{HTTP_HOST} ^guia-gratis\.com\.ar$ [NC]
    RewriteRule ^(.*)$ http://www.guia-gratis.com.ar/$1 [L,R=301]

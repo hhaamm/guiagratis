@@ -60,9 +60,9 @@ function file_extension($filename)
 }
 
 //include all php files from app/config/override
-foreach(glob(APP."config/override/*.php") as $configFile) {
+/*foreach(glob(APP."config/override/*.php") as $configFile) {
     include($configFile);
-}
+    }*/
 
 function debudie($var) {
     Configure::write('debug',1);

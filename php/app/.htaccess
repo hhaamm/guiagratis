@@ -1,4 +1,7 @@
 <IfModule mod_rewrite.c>
+    # 000webhost hack
+    RewriteBase /
+
     RewriteEngine on
     RewriteRule    ^$    webroot/    [L]
     RewriteRule    (.*) webroot/$1    [L]
