@@ -12,27 +12,16 @@ Cualquier tipo de basura industrializada generada por el hombre, independienteme
 
 # Instalación
 
-Esta guía de instalación está hecha sobre un sistema Debian GNU/Linux 6.0, sobre el servidor Apache2.
+Esta guía de instalación está hecha sobre un sistema Ubuntu 12.04 y el servidor Apache2.
 
 ## Prerequisitos
 
-Guia Gratis usa curl, MongoDB como base de datos y la extensión de MongoDB para PHP.
+Guia Gratis usa curl, MySQL como base de datos y la extensión de MySQL para PHP.
 
-* sudo apt-get install mongodb php5 php5-dev php5-curl git-core
-* sudo apt-get make
-* sudo apt-get install php-pear
-* sudo pecl install mongo
-* sudo vim /etc/php5/apache2/php.ini
-
-Agregar al final del archivo 'extension=mongo.so'
+* sudo apt-get install mysql-server-5.5 mysql-client-5.5 php5 php5-dev php5-curl git-core php5-mysql
 
 ## Instalación
 
 1. Crear un virtualhost para Apache y habilitarlo.
 2. cd my_install_dir && git clone git@github.com:hhaamm/guiagratis.git .
 3. sudo /etc/init.d/apache2 restart
-4. Es posible que la base de datos no esté funcionando, en ese caso:
-
-	sudo mongod
-
-	Si se reinicia el server el proceso debería iniciarse automáticamente, en background.
