@@ -87,7 +87,7 @@
        <tr>
            <td><?php echo $this->Html->image('rss.png', array('url'=>array(
                'controller'=>'exchanges',
-               'action'=>'index.rss'),
+               'action'=>'lista.rss'),
                'alt'=>'Feed con los últmos posts',
                'width'=>32,
                'height'=>32
