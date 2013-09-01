@@ -26,7 +26,7 @@ class UsersController extends AppController {
 
     function beforeFilter() {
         parent::beforeFilter();
-        $this->Auth->allow('register', 'login', 'logout', 'create', 'modal_login', 'modal_register', 'validate_mail', 'validate_username', 'verify', 'forgot_password', 'reset', 'activate', 'view', 'facebook_login');
+        $this->Auth->allow('register', 'login', 'logout', 'create', 'modal_login', 'modal_register', 'validate_mail', 'validate_username', 'verify', 'forgot_password', 'reset', 'activate', 'view', 'facebook_login', 'contact');
     }
 
     function login() {
@@ -441,5 +441,12 @@ class UsersController extends AppController {
         }
         $notifications = array_reverse($notifications);
         $this->set(compact('notifications'));
+    }
+
+    function contact() {
+        if ($this->data) {
+            $this->sendMail('Mail.complaint', 'Contacto de usuario', 'user_contact', array('user_email' => $this->data['Contact']['email'], 'user_message' => $this->data['Contact']['message']));
+            $this->Session->setFlash('Gracias por tu consulta. Responderemos en breve.', 'flash_success');
+        }        
     }
 }

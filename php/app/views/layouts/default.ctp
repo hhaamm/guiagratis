@@ -98,6 +98,9 @@
                         <li><a href="/pages/help">Guía principiantes</a></li>
                         <li><a href="/pages/about_us">Quiénes somos</a></li>
                         <li><a href="/pages/development">Desarrollo</a></li>
+                     <!-- Comentado ya que en 000webhost.com no funciona la función mail()
+                        <li><a href="/users/contact">Contacto</a></li>
+                     -->
                     </ul>
                 </li>
                 <?php if($current_user){ ?>
