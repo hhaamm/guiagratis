@@ -26,10 +26,16 @@
  * its action called 'display', and we pass a param to select the view file
  * to use (in this case, /app/views/pages/home.ctp)...
  */
-	Router::connect('/', array('controller' => 'exchanges', 'action' => 'index'));
+Router::connect('/', array('controller' => 'exchanges', 'action' => 'index'));
+
+Router::connect(
+    "/exchanges/api_create",
+    array("controller" => "exchanges", "action" => "api_create", "[method]" => "POST")
+);
+
 /**
  * ...and connect the rest of 'Pages' controller's urls.
  */
-	Router::connect('/pages/*', array('controller' => 'pages', 'action' => 'display'));
+Router::connect('/pages/*', array('controller' => 'pages', 'action' => 'display'));
 
-    Router::parseExtensions('rss');
+Router::parseExtensions('rss');

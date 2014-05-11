@@ -33,7 +33,7 @@ class ExchangesController extends AppController {
 
     function beforeFilter() {
         parent::beforeFilter();
-        $this->Auth->allow('index', 'get', 'view', 'search', 'view_photo','rate', 'lista', 'map', 'listar_ajax');
+        $this->Auth->allow('index', 'get', 'view', 'search', 'view_photo','rate', 'lista', 'map', 'listar_ajax', 'api_create');
     }
 
     function index() {
@@ -222,17 +222,25 @@ class ExchangesController extends AppController {
         $this->set_start_point();
     }
 
-    private function add_exchange($exchange_type_id, $message) {
+    private function add_exchange($exchange_type_id, $message, $ajax = false) {
         $this->data['Exchange']['exchange_type_id'] = $exchange_type_id;
         $this->data['Exchange']['exchange_state_id'] = Configure::read('ExchangeState.Published');
         $this->data['Exchange']['lng'] = (float) $this->data['Exchange']['lng'];
         $this->data['Exchange']['lat'] = (float) $this->data['Exchange']['lat'];
-        $this->data['Exchange']['user_id'] = $this->Auth->user('id');
+        if (!$ajax) {  // TODO: advertencia de seguridad: acordarse de remover esto antes de salir a PROD
+            $this->data['Exchange']['user_id'] = $this->Auth->user('id');
+        }
         $this->data['Exchange']['state'] = EXCHANGE_PUBLISHED;
         $this->data['Exchange']['photos'] = array();
-        $this->data['Exchange']['username'] = $this->Auth->user('username');
+        if (!$ajax) {    // TODO: remover esto antes de salir a PROD
+            $this->data['Exchange']['username'] = $this->Auth->user('username');
+        }
 
-        if ($this->Exchange->save($this->data)) {
+    if ($ajax) {
+      return $this->Exchange->save($this->data);
+    }
+
+    if ($this->Exchange->save($this->data)) {
             $this->Session->setFlash($message, 'flash_success');
             $this->Session->write('Facebook.share_exchange', true);
             $this->redirect(array('controller' => 'exchanges', 'action' => 'edit_photos', $this->Exchange->id));
@@ -583,5 +591,24 @@ class ExchangesController extends AppController {
 
         $data = $this->Exchange->getTotalRates($exchange);
         $this->result(true, '', compact('data'));
+      }
+
+    // TODO: chequear si hay una mejor forma de implementar el API
+    // probablemente usando los métodos ya existentes, para unificar
+    // ambas cosas
+    function api_index() {
+      // TODO: listar posts paginados desde el cliente
+    }
+
+    // TODO: solo aceptar POST
+    function api_create() {
+      $this->autoRender = false;
+      $result = $this->add_exchange(EXCHANGE_OFFER, '¡La oferta fue publicada!', 1);
+
+      $response = array("success" => !!$result);
+      if (Configure::read("debug")) {
+        $response["errors"] = $this->Exchange->validationErrors;
+      }
+      echo json_encode($response);
     }
 }
