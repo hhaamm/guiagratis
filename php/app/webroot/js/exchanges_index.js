@@ -74,6 +74,7 @@ function blocks_changed_callback(event) {
 
 function get_exchanges() {
 	var bounds = map.getBounds();
+    console.log(bounds);
 	debug(map.getCenter());
 	var sw = bounds.getSouthWest();
 	var ne = bounds.getNorthEast();
@@ -113,27 +114,35 @@ function get_exchanges_callback(data) {
         //por ahora está deshabilitado su uso.
         var destacado = false;
         //según el tipo de exchange, generamos diferentes íconos.
+        var textcolor, bgcolor, letter;
+        textcolor = 'FFFFFF';
         switch(exchange.exchange_type_id) {
-            case exchange_type_id['offer']:
-                icon = get_custom_icon('O', 'FF9305', 'FFFFFF', destacado);
-                break;
-            case exchange_type_id['request']:
-                icon = get_custom_icon('P', 'CD05FF', 'FFFFFF', destacado);
-                break;
-            case exchange_type_id['event']:
-                icon = get_custom_icon('E', 'FFFFFF', '000000', destacado);
-                break;
-            case exchange_type_id['service']:
-                icon = get_custom_icon('S', '5658F5', 'FFFFFF', destacado);
-                break;
+        case exchange_type_id['offer']:
+            letter = 'O';            
+            bgcolor = 'FF9305';
+            break;
+        case exchange_type_id['request']:
+            letter = 'P';            
+            bgcolor = 'FF9305';
+            break;
+        case exchange_type_id['event']:
+            letter = 'E';
+            textcolor = '000000';
+            bgcolor = 'FF9305';
+            break;
+        case exchange_type_id['service']:
+            bgcolor = 'FF9305';
+            letter = 'S';
+            break;
         }
+
+        var marker = new google.maps.Marker({
+            position: point,
+            map: map,
+            icon: 'https://chart.googleapis.com/chart?chst=d_map_xpin_letter&chld='+letter+'|'+bgcolor+'|'+textcolor,
+            title: exchange.title            
+        });
         
-		var markerOptions = {
-            title:exchange.title,
-            icon:icon
-        };
-            
-		var marker = new GMarker(point, markerOptions);
 		GEvent.addListener(marker, "click", function() {
 			window.open('/exchanges/view/'+exchange._id);
 		});

@@ -35,7 +35,7 @@ var latitude_field_id;
 var longitude_field_id;
 
 //Defauot config
-var youMarkerConfig = {title:'You'}
+var youMarkerConfig = {title:'You'};
 //Use this when you want to have a custom dragend function.
 var youMarkerDragendCallback = null;
 
@@ -45,18 +45,20 @@ var location_status_field_id = 'location-status';
 
 //Init functions
 function init_gmap(latitude, longitude) {
-    map = new GMap(document.getElementById("map"));
-    map.addControl(new GLargeMapControl());
-    map.addControl(new GMapTypeControl());
     $('#'+get_latitude_field_id()).val(longitude);
     $('#'+get_longitude_field_id()).val(latitude);
-    var point = new GLatLng(latitude, longitude);
-    //map.centerAndZoom(point, 3);
-    set_user_location(point);
+    
+    var mapOptions = {
+        center: new google.maps.LatLng(latitude, longitude),
+        zoom: 8,
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+    map = new google.maps.Map(document.getElementById("map"),
+                              mapOptions);
 }
 
 function init_geocoder() {
-    geocoder = new GClientGeocoder();
+    geocoder = new google.maps.Geocoder(); 
 }
 
 function get_location(address) {
@@ -117,7 +119,8 @@ function set_user_location(point) {
     //Setting global user location
     glocation = point;
 
-    map.centerAndZoom(point, 3);
+    //map.centerAndZoom(point, 3);
+    map.setCenter(point);
     //Showing marker and circle
     refreshCenter();
 
@@ -151,16 +154,12 @@ function get_longitude_field_id() {
     return latitude_field_id == undefined ? 'longitude' : longitude_field_id;
 }
 
-function get_custom_icon(letter, bgcolor, textcolor, star) {
-    var icon = new GIcon();
-    if (star) {
-        icon.image = 'https://chart.googleapis.com/chart?chst=d_map_xpin_letter&chld='+letter+'|'+bgcolor+'|'+textcolor;
-    } else {
-        icon.image = 'https://chart.googleapis.com/chart?chst=d_map_pin_letter&chld='+letter+'|'+bgcolor+'|'+textcolor;
-    }
-    icon.shadow = 'https://chart.googleapis.com/chart?chst=d_map_pin_shadow&chld=pin';
-    icon.iconAnchor = new GPoint(10, 34);
-    icon.shadowSize = new GSize(40,37);
-    icon.iconSize = new GSize(21, 34);
-    return icon;
+function get_custom_marker(letter, bgcolor, textcolor, star, title, point) {
+    console.log(point);
+    var marker = new google.maps.Marker({
+        position: point,
+        map: map,
+        icon: 'https://chart.googleapis.com/chart?chst=d_map_pin_letter&chld='+letter+'|'+bgcolor+'|'+textcolor,
+        title: title            
+    });
 }

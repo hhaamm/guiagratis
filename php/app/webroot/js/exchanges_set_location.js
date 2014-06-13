@@ -21,7 +21,8 @@ $(document).ready(function() {
     debug('start_point: '+start_point.latitude+' '+start_point.longitude);
     latitude_field_id = 'ExchangeLat';
     longitude_field_id = 'ExchangeLng';
-    youMarkerConfig = {title: 'Punto de encuentro', draggable: true}
+
+    youMarkerConfig = {title: 'Punto de encuentro', draggable: true};
     //si definimos una variable setLocationIcon
     //esta se setea para el ícono.
     if(typeof(setLocationIcon) !== 'undefined') {

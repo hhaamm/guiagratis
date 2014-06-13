@@ -19,18 +19,19 @@
  */
 ?>
 <?php
-$this->Javascript->link("http://maps.google.com/maps?file=api&v=3&language=es&key=".Configure::read('GoogleMaps.ApiKey'), false);
+$this->Javascript->link("http://maps.googleapis.com/maps/api/js?key=&key=".Configure::read('GoogleMaps.ApiKey')."&sensor=false", false);
 $this->Javascript->link('tinymce/tiny_mce.js', false);
 ?>
 <!-- TinyMCE -->
 <script type="text/javascript">
-    $(function() {
-        tinyMCE.init({
-            mode : "textareas",
-            theme : "simple"
-        });
-    });
-    setLocationIcon = get_custom_icon('O', 'FF9305', 'FFFFFF', false);
+ $(function() {
+     tinyMCE.init({
+         mode : "textareas",
+         theme : "simple"
+     });
+     var pt = new google.maps.LatLng(start_point.latitude, start_point.longitude)
+     locationMarker = get_custom_marker('O', 'FF9305', 'FFFFFF', false, "sdf", pt);
+ });
 </script>
 <!-- /TinyMCE -->
 <fieldset>

@@ -19,7 +19,10 @@
 
     echo $this->element('social_buttons');
 
-	$javascript->link("http://maps.google.com/maps?file=api&v=2&key=".Configure::read('GoogleMaps.ApiKey'), false);
+// $javascript->link("http://maps.google.com/maps?file=api&v=2&key=".Configure::read('GoogleMaps.ApiKey'), false);
+
+$this->Javascript->link("http://maps.googleapis.com/maps/api/js?key=&key=".Configure::read('GoogleMaps.ApiKey')."&sensor=false", false);
+
 	echo $this->element('gmap_default_values', array('start_point' => $start_point));
 	$javascript->link('jquery.jec-1.2.5', false);
 	$javascript->link('maps.google.polygon.containsLatLng', false);
