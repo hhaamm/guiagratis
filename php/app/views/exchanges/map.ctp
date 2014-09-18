@@ -19,16 +19,14 @@
 
     echo $this->element('social_buttons');
 
-// $javascript->link("http://maps.google.com/maps?file=api&v=2&key=".Configure::read('GoogleMaps.ApiKey'), false);
-
-$this->Javascript->link("http://maps.googleapis.com/maps/api/js?key=&key=".Configure::read('GoogleMaps.ApiKey')."&sensor=false", false);
+$this->Javascript->link("http://maps.googleapis.com/maps/api/js?key=".Configure::read('GoogleMaps.ApiKey')."&sensor=false", false);
 
 	echo $this->element('gmap_default_values', array('start_point' => $start_point));
 	$javascript->link('jquery.jec-1.2.5', false);
-	$javascript->link('maps.google.polygon.containsLatLng', false);
+	// $javascript->link('maps.google.polygon.containsLatLng', false);
 	$javascript->link('gmap', false);
 	$javascript->link('exchanges_index', false);
-	$javascript->link('google_maps_circle_overlay', false);
+	// $javascript->link('google_maps_circle_overlay', false);
 ?>
 <div class="left-menu">
 	<p>

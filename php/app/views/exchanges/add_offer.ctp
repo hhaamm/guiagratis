@@ -28,10 +28,9 @@ $this->Javascript->link('tinymce/tiny_mce.js', false);
      tinyMCE.init({
          mode : "textareas",
          theme : "simple"
-     });
-     var pt = new google.maps.LatLng(start_point.latitude, start_point.longitude)
-     locationMarker = get_custom_marker('O', 'FF9305', 'FFFFFF', false, "sdf", pt);
+     });    
  });
+
 </script>
 <!-- /TinyMCE -->
 <fieldset>

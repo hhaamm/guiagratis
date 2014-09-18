@@ -41,16 +41,18 @@ $(document).ready(function() {
     });
 
 	//Adding map events
-	GEvent.addListener(map, 'zoomend', function() {
+    google.maps.event.addListener(map, 'idle', function() {
+        get_exchanges();
+    });
+    /*
+    google.maps.event.addListener(map, 'zoomend', function() {
 		get_exchanges();
-	});
-
-	GEvent.addListener(map, 'dragend', function() {
+    });
+    google.maps.event.addListener(map, 'dragend', function() {
 		get_exchanges();
-	});
+    });*/
 
-
-    get_exchanges();
+    // get_exchanges();
 });
 
 function change_location() {
@@ -72,22 +74,27 @@ function blocks_changed_callback(event) {
     show_circle();
 }
 
-function get_exchanges() {
+function get_exchanges() {    
 	var bounds = map.getBounds();
-    console.log(bounds);
-	debug(map.getCenter());
+
 	var sw = bounds.getSouthWest();
 	var ne = bounds.getNorthEast();
+    // console.log("Bounds");
+    // console.log(bounds.isEmpty());
+    // console.log(bounds.getCenter());
+    // console.log(bounds.getNorthEast());
+    // console.log(sw.x);
+    // console.log(ne.y);
     searchOnEvents = true;
     refreshCenter();
     debug('get exchanges');
     var exchange_type_id = $('#exchange_type_id').val();
     var text_tags = $('#text_tags').val();
     $.getJSON('/exchanges/get', {
-			south:sw.y,
-			west:sw.x,
-			east:ne.x,
-			north:ne.y,
+			south:sw.lat(),
+			west:sw.lng(),
+			east:ne.lng(),
+			north:ne.lat(),
 			exchange_type_id:exchange_type_id,
             query:text_tags
 	}, get_exchanges_callback);
@@ -100,7 +107,7 @@ function get_exchanges_callback(data) {
 	
 	debug('exchanges_got: '+data.exchanges.length);
 
-	map.clearOverlays();
+	// map.clearOverlays();
     
     $.each(data.exchanges, function() {
 

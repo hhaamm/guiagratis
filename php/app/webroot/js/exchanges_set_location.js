@@ -28,11 +28,21 @@ $(document).ready(function() {
     if(typeof(setLocationIcon) !== 'undefined') {
         youMarkerConfig.icon = setLocationIcon;
     }
+
     init_gmap(start_point.latitude, start_point.longitude);
     init_geocoder();
 
     //Editable combos
     $("#go_button").click(function() {
         get_location($('#location').val());
+    });
+
+    var pt = new google.maps.LatLng(start_point.latitude, start_point.longitude);
+    var locationMarker = get_custom_marker('O', 'FF9305', 'FFFFFF', false, "sdf", pt, true);
+
+    google.maps.event.addListener(locationMarker, 'dragend', function(e, a) {
+        $("[name='data[Exchange][lat]']").val(e.latLng.lat());
+        $("[name='data[Exchange][lng]']").val(e.latLng.lng());
+        marker_has_been_moved = true;
     });
 });

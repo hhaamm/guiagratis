@@ -78,8 +78,9 @@ function get_location_callback(answer, callback) {
 
 var marker_has_been_moved = false;
 function refreshCenter() {
-    map.clearOverlays();
+    // map.clearOverlays();
     debug(glocation);
+
 	if (youMarkerConfig != null) {
 		var marker = new GMarker(glocation, youMarkerConfig);
 		//Adding dragable listener
@@ -154,12 +155,15 @@ function get_longitude_field_id() {
     return latitude_field_id == undefined ? 'longitude' : longitude_field_id;
 }
 
-function get_custom_marker(letter, bgcolor, textcolor, star, title, point) {
+function get_custom_marker(letter, bgcolor, textcolor, star, title, point, draggable) {    
     console.log(point);
     var marker = new google.maps.Marker({
         position: point,
         map: map,
         icon: 'https://chart.googleapis.com/chart?chst=d_map_pin_letter&chld='+letter+'|'+bgcolor+'|'+textcolor,
-        title: title            
+        title: title,
+        draggable: draggable
     });
+
+    return marker;
 }
