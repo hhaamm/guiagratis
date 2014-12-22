@@ -602,13 +602,22 @@ class ExchangesController extends AppController {
 
     // TODO: solo aceptar POST
     function api_create() {
-      $this->autoRender = false;
-      $result = $this->add_exchange(EXCHANGE_OFFER, '¡La oferta fue publicada!', 1);
+        $this->autoRender = false;
+        $result = $this->add_exchange(EXCHANGE_OFFER, '¡La oferta fue publicada!', 1);
 
-      $response = array("success" => !!$result);
-      if (Configure::read("debug")) {
-        $response["errors"] = $this->Exchange->validationErrors;
-      }
-      echo json_encode($response);
+        if ($result && isset($_FILES["photo"])) {
+            // Subimos la foto
+            $this->data['Photo'] = array(
+                'exchange_id' => $this->Exchange->id
+            );
+            $this->uid = "1";
+            $this->add_photo();
+        }
+
+        $response = array("success" => !!$result);
+        if (Configure::read("debug")) {
+            $response["errors"] = $this->Exchange->validationErrors;
+        }
+        echo json_encode($response);
     }
 }
