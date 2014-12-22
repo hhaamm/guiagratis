@@ -1,3 +1,7 @@
 php/app/webroot/uploads/*
 php/app/config/override/*.php
 php/app/config/database.php
+/GPATH
+/GRTAGS
+/GSYMS
+/GTAGS
