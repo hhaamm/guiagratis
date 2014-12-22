@@ -129,7 +129,7 @@ class Configure extends Object {
 				if (is_integer($_this->log) && !$_this->debug) {
 					$reporting = $_this->log;
 				} else {
-					$reporting = E_ALL & ~E_DEPRECATED;
+					$reporting = E_ALL & ~E_DEPRECATED & ~E_STRICT;
 				}
 			}
 			error_reporting($reporting);
