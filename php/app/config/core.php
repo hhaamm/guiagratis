@@ -376,3 +376,5 @@ Configure::write('Facebook', array(
 ));
 
 Configure::write('Migration.enabled', true);
+
+Configure::write('Newsletter.key', 'xxxxxx');
