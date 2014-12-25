@@ -5,3 +5,6 @@ php/app/config/database.php
 /GRTAGS
 /GSYMS
 /GTAGS
+/php/GPATH
+/php/GRTAGS
+/php/GTAGS
