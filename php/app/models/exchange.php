@@ -146,17 +146,11 @@ class Exchange extends AppModel {
     function getLast($timestamp) {
         return $this->find('all', array(
             'conditions'=>array(
-                //TODO: ver cómo agregar esta condición
-                'created'=>array(
-                    '$gt'=>$timestamp
-                )    
+                'Exchange.created >' => date("Y-m-d H:i:s", $timestamp)
             ),
             'limit'=>10,
             'order'=>'created DESC'
         ));
-        /*$query = "db.exchanges.find({created: {gt: $timestamp}})";
-        $result = $this->execute(new MongoCode($query));
-        return $result;*/
     }
 
 	function finalize($exchange) {

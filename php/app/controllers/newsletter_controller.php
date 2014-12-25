@@ -51,7 +51,7 @@ class NewsletterController extends AppController {
             die("No hay exchanges nuevos esta semana\n");
         }
         
-        $this->Controller->set('exchanges', $exchanges);
+        $this->set('exchanges', $exchanges);
         
         //obtenemos todos los usuarios que quieren obtener su newsletter.
         //TODO: ver por qué hay que poner comillitas en el get_newsletter!
@@ -63,8 +63,6 @@ class NewsletterController extends AppController {
             'limit'=>1000000
         ));
         
-        debug($exchanges);
-        
         if (empty($users)) {
             die("Ningún usuario tiene activado el newsletter.\n");
         }
@@ -73,5 +71,32 @@ class NewsletterController extends AppController {
             $this->Email->to = $user['User']['mail'];
             $this->Email->send();
         }
+
+        die("Done");
+    }
+
+    public function test() {
+        if ($this->params["url"]["key"] != Configure::read("Newsletter.key")) {
+            die("Invalid key param");
+        }
+
+        $this->Email->from = Configure::read('Mail.from');
+        $this->Email->sendAs = 'html';
+        $this->Email->template = 'newsletter';
+        $this->Email->subject = 'Novedades en Guia Gratis';
+
+        //nos fijamos si hay algo para mandar
+        $exchanges = $this->Exchange->getLast(strtotime(NEWSLETTER_INTERVAL));
+        
+        if (empty($exchanges)) {
+            die("No hay exchanges nuevos esta semana\n");
+        }
+        
+        $this->set('exchanges', $exchanges);
+
+        $this->Email->to = "ham1988@gmail.com";
+        $this->Email->send();
+
+        die("Done");
     }
 }
