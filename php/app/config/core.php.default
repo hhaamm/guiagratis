@@ -326,7 +326,7 @@ Configure::write('Host.siteName', 'http://www.guia-gratis.com.ar/');
 Configure::write('Host.clean_url', 'www.guia-gratis.com.ar');
 Configure::write('Host.url', 'http://'.Configure::read('Host.clean_url').'/');
 
-Configure::write('GoogleMaps.ApiKey', 'AIzaSyDFCgWPT4l68EqESosrBj6BPxPF-m6ApGc');
+Configure::write('GoogleMaps.ApiKey', 'xxxxxx');
 
 Configure::write('CookieName.LastPointSearched', 'dondepedimos_lastpointsearched');
 //Point used when all geolocalization, cookie system and user preferences fails.
@@ -335,7 +335,7 @@ Configure::write('GoogleMaps.DefaultAddress', 'Buenos Aires Argentina');
 
 Configure::write('NoPhotoUrl', '/img/tmp/no_photo.jpg');
 Configure::write('GeoTestIpAddress', '190.55.85.66');
-Configure::write('IPInfoDB.ApiKey', 'bd682ca04a96bee3149b88bb35155884ef80d4dccf0ef230a962ac491c065d66');
+Configure::write('IPInfoDB.ApiKey', 'xxxxxx');
 
 Configure::write('ExchangeState.Published', 1);
 
@@ -371,8 +371,8 @@ Configure::write('Config.language', 'spa');
 Configure::write('Exchange.Photos', 6);
 
 Configure::write('Facebook', array(
-	'app_id'=>'454179081260638',
-	'app_secret'=>'0e51f421866154358f1f915ca3875208'
+	'app_id'=>'xxxxxx',
+	'app_secret'=>'xxxxxx'
 ));
 
 Configure::write('Migration.enabled', true);
